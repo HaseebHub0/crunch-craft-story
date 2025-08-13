@@ -29,15 +29,15 @@ export default function Header() {
             className="flex items-center gap-3"
           >
             <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-poppins font-bold text-xl">P</span>
+              <span className="text-white font-montserrat font-black text-xl">P</span>
             </div>
             <div>
-              <h1 className="font-poppins font-bold text-lg text-foreground">
-                Pakasain
-              </h1>
-              <p className="text-xs text-muted-foreground -mt-1">
-                Pak Asian Foods
-              </p>
+            <h1 className="font-montserrat font-black text-lg text-foreground">
+              PAKASAIN
+            </h1>
+            <p className="text-xs text-muted-foreground -mt-1 font-nunito">
+              Protein Power
+            </p>
             </div>
           </motion.div>
 
@@ -50,7 +50,7 @@ export default function Header() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="font-inter font-medium text-foreground hover:text-primary transition-colors relative group"
+                className="font-nunito font-semibold text-foreground hover:text-primary transition-colors relative group"
               >
                 {item.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
@@ -99,7 +99,7 @@ export default function Header() {
                   x: isMenuOpen ? 0 : -20
                 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="block font-inter font-medium text-foreground hover:text-primary transition-colors py-2"
+                className="block font-nunito font-semibold text-foreground hover:text-primary transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.name}

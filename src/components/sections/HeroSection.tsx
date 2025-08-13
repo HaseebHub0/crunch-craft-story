@@ -81,7 +81,7 @@ export default function HeroSection() {
           className="mb-6"
         >
           <motion.h1 
-            className="text-5xl md:text-7xl lg:text-8xl font-poppins font-bold text-white mb-6 leading-tight"
+            className="text-5xl md:text-7xl lg:text-8xl font-montserrat font-black text-white mb-6 leading-tight"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1, delay: 0.2 }}
@@ -93,7 +93,7 @@ export default function HeroSection() {
           </motion.h1>
           
           <motion.p 
-            className="text-2xl md:text-3xl lg:text-4xl font-poppins font-semibold text-white/95 mb-4"
+            className="text-2xl md:text-3xl lg:text-4xl font-montserrat font-bold text-white/95 mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -102,7 +102,7 @@ export default function HeroSection() {
           </motion.p>
           
           <motion.p 
-            className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto mb-8 font-inter"
+            className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto mb-8 font-nunito font-medium"
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -121,15 +121,15 @@ export default function HeroSection() {
         >
           <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 flex items-center gap-2 text-white">
             <Zap className="w-5 h-5 text-accent" />
-            <span className="font-poppins font-medium">22g Protein</span>
+            <span className="font-montserrat font-bold">22g Protein</span>
           </div>
           <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 flex items-center gap-2 text-white">
             <Heart className="w-5 h-5 text-success" />
-            <span className="font-poppins font-medium">Natural Ingredients</span>
+            <span className="font-montserrat font-bold">Natural Ingredients</span>
           </div>
           <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 flex items-center gap-2 text-white">
             <Sparkles className="w-5 h-5 text-accent" />
-            <span className="font-poppins font-medium">Authentic Taste</span>
+            <span className="font-montserrat font-bold">Authentic Taste</span>
           </div>
         </motion.div>
 
@@ -143,14 +143,14 @@ export default function HeroSection() {
           <Button 
             variant="hero" 
             size="xl"
-            className="px-12 py-6 text-xl font-poppins font-bold animate-pulse-glow"
+            className="px-12 py-6 text-xl font-montserrat font-black animate-pulse-glow"
           >
             Order Now
           </Button>
           <Button 
             variant="premium" 
             size="xl"
-            className="px-12 py-6 text-xl font-poppins font-bold"
+            className="px-12 py-6 text-xl font-montserrat font-black"
           >
             Learn More
           </Button>

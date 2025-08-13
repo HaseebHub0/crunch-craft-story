@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
@@ -6,11 +7,19 @@ import NutritionSection from "@/components/sections/NutritionSection";
 import UsageOccasionsSection from "@/components/sections/UsageOccasionsSection";
 import IngredientsShowcase from "@/components/sections/IngredientsShowcase";
 import CallToActionSection from "@/components/sections/CallToActionSection";
+import SplashScreen from "@/components/SplashScreen";
 
 const Index = () => {
+  const [showSplash, setShowSplash] = useState(true);
+
   return (
-    <div className="min-h-screen">
-      <Header />
+    <>
+      {showSplash && (
+        <SplashScreen onComplete={() => setShowSplash(false)} />
+      )}
+      
+      <div className="min-h-screen">
+        <Header />
       
       <main>
         <section id="home">
@@ -35,9 +44,10 @@ const Index = () => {
         
         <CallToActionSection />
       </main>
-      
-      <Footer />
-    </div>
+        
+        <Footer />
+      </div>
+    </>
   );
 };
 

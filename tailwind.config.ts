@@ -19,8 +19,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				poppins: ['Poppins', 'sans-serif'],
-				inter: ['Inter', 'sans-serif'],
+				montserrat: ['Montserrat', 'sans-serif'],
+				nunito: ['Nunito', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

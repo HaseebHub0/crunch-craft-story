@@ -67,6 +67,10 @@ All colors MUST be HSL.
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
+    /* Enhanced animations for protein focus */
+    --animate-protein-pulse: protein-pulse 2s ease-in-out infinite;
+    --animate-power-glow: power-glow 3s ease-in-out infinite alternate;
+
     --sidebar-background: 0 0% 98%;
 
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -132,7 +136,7 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground font-inter antialiased;
+    @apply bg-background text-foreground font-nunito antialiased;
   }
 
   html {
@@ -140,7 +144,11 @@ All colors MUST be HSL.
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-poppins;
+    @apply font-montserrat;
+  }
+
+  p, span, div {
+    @apply font-nunito;
   }
 }
 
@@ -213,11 +221,39 @@ All colors MUST be HSL.
     }
   }
 
+  @keyframes protein-pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 hsl(var(--success) / 0.7);
+    }
+    70% {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 10px hsl(var(--success) / 0);
+    }
+  }
+
+  @keyframes power-glow {
+    0% {
+      text-shadow: 0 0 20px hsl(var(--accent) / 0.5);
+    }
+    100% {
+      text-shadow: 0 0 30px hsl(var(--accent) / 0.8), 0 0 40px hsl(var(--primary) / 0.3);
+    }
+  }
+
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
   }
 
   .animate-slide-in-up {
     animation: slide-in-up 0.6s ease-out forwards;
+  }
+
+  .animate-protein-pulse {
+    animation: var(--animate-protein-pulse);
+  }
+
+  .animate-power-glow {
+    animation: var(--animate-power-glow);
   }
 }
