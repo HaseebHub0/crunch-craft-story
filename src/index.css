@@ -18,15 +18,15 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 20 14% 4%;
 
-    /* Brand colors - Pak Asian Foods palette */
-    --brand-red: 0 76% 49%;        /* #d62323 */
+    /* Brand colors */
+    --brand-red: 0 96% 31%;        /* #9c0303 */
     --brand-yellow: 44 94% 49%;    /* #f7b500 */
     --brand-green: 120 50% 31%;    /* #2b7a2b */
     
     /* Primary uses brand red */
-    --primary: 0 76% 49%;
+    --primary: 0 96% 31%;          /* #9c0303 */
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 0 76% 65%;
+    --primary-glow: 0 96% 45%;
 
     /* Secondary uses warm cream */
     --secondary: 35 25% 95%;
@@ -49,7 +49,7 @@ All colors MUST be HSL.
 
     --border: 35 15% 88%;
     --input: 35 15% 88%;
-    --ring: 0 76% 49%;
+    --ring: 0 96% 31%;
 
     --radius: 0.75rem;
 
@@ -98,7 +98,7 @@ All colors MUST be HSL.
     --popover: 20 14% 10%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 0 76% 55%;
+    --primary: 0 96% 31%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 20 10% 15%;
@@ -118,7 +118,7 @@ All colors MUST be HSL.
 
     --border: 20 10% 20%;
     --input: 20 10% 20%;
-    --ring: 0 76% 55%;
+    --ring: 0 96% 31%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
