@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import heroProduct from "@/assets/Protien Nimko.png";
+import heroProduct from "@/assets/Protien-Nimko.webp";
 import { Sparkles, Zap, Heart, Utensils, ChefHat, Package } from "lucide-react";
 
 export default function HeroSection() {
