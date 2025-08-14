@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ExternalLink, Package, Truck } from "lucide-react";
-import heroProduct from "@/assets/hero-product.jpg";
+import { Link } from "react-router-dom";
+import { ArrowRight, ExternalLink, Package, Truck, Star, Heart, Zap, Shield } from "lucide-react";
+import heroProduct from "@/assets/Products/product.png";
 
 export default function CallToActionSection() {
   const [ref, inView] = useInView({
@@ -10,21 +11,205 @@ export default function CallToActionSection() {
     threshold: 0.2,
   });
 
+  const features = [
+    {
+      icon: Zap,
+      title: "22g Protein",
+      description: "per 100g serving",
+      color: "#9d0803"
+    },
+    {
+      icon: Heart,
+      title: "100% Natural",
+      description: "no artificial ingredients",
+      color: "#55a743"
+    },
+    {
+      icon: Shield,
+      title: "Premium Quality",
+      description: "carefully sourced",
+      color: "#fbbf24"
+    }
+  ];
+
+  const benefits = [
+    "✓ 22g protein per 100g serving",
+    "✓ Premium nuts & legumes", 
+    "✓ Authentic Pakistani spices",
+    "✓ Perfect for any occasion",
+    "✓ Gluten-free & natural",
+    "✓ Traditional recipe"
+  ];
+
+  // const testimonials = [
+  //   {
+  //     text: "Amazing taste and great protein content!",
+  //     rating: 5,
+  //     author: "Fitness Enthusiast"
+  //   },
+  //   {
+  //     text: "Authentic Pakistani flavors with modern nutrition",
+  //     rating: 5,
+  //     author: "Food Lover"
+  //   },
+  //   {
+  //     text: "Perfect post-workout snack, highly recommend!",
+  //     rating: 5,
+  //     author: "Health Conscious"
+  //   }
+  // ];
+
   return (
     <section 
       ref={ref}
-      className="py-20 bg-gradient-hero relative overflow-hidden"
+      className="py-16 md:py-24 relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(135deg, #9d0803 0%, #55a743 100%)'
+      }}
     >
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 text-8xl opacity-10">🌟</div>
-        <div className="absolute bottom-20 right-10 text-8xl opacity-10">🥜</div>
-        <div className="absolute top-1/2 left-1/4 text-6xl opacity-5">✨</div>
-        <div className="absolute top-1/3 right-1/4 text-6xl opacity-5">🌶️</div>
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-20 left-20 w-32 h-32 border-2 border-white/20 rounded-full"></div>
+        <div className="absolute bottom-20 right-20 w-24 h-24 border-2 border-white/20 rounded-lg"></div>
+        <div className="absolute top-1/2 left-10 w-16 h-16 border border-white/20 rounded-full"></div>
       </div>
-
+      
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        {/* Mobile Layout: Stacked */}
+        <div className="lg:hidden mb-12">
+          {/* Mobile: Content First */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-white text-center mb-8"
+          >
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-3xl md:text-4xl font-bold mb-6 leading-tight" style={{
+                fontFamily: "'Playfair Display', serif"
+              }}
+            >
+              Ready to{" "}
+              <span className="text-yellow-300">Power Up</span>{" "}
+              Your Day?
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="text-lg md:text-xl text-white/90 mb-6 leading-relaxed" style={{
+                fontFamily: "'Lora', serif"
+              }}
+            >
+              Join thousands who've discovered the perfect balance of authentic Pakistani taste 
+              and modern nutrition.
+            </motion.p>
+
+            {/* Mobile: Features Grid */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.7 }}
+              className="grid grid-cols-3 gap-3 mb-6"
+            >
+              {features.map((feature, index) => (
+                <div key={feature.title} className="bg-white/20 backdrop-blur-sm rounded-xl p-3 text-center border border-white/30">
+                  <feature.icon className="w-6 h-6 mx-auto mb-2" style={{color: feature.color}} />
+                  <div className="text-sm font-bold text-white">{feature.title}</div>
+                  <div className="text-xs text-white/80">{feature.description}</div>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Mobile: CTA Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 1.0 }}
+              className="mb-8"
+            >
+              <Link to="/checkout">
+                <Button 
+                  size="lg"
+                  className="w-full max-w-xs px-8 py-4 text-lg font-bold bg-white hover:bg-gray-100 text-gray-800 border-2 border-white/50 shadow-2xl"
+                  style={{
+                    fontFamily: "'Playfair Display', serif"
+                  }}
+                >
+                  🍽️ Order Now
+                </Button>
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          {/* Mobile: Product Image */}
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.8 }}
+            animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="relative mb-8"
+          >
+            <div className="relative">
+              <motion.div
+                animate={{ 
+                  y: [0, -8, 0],
+                  rotate: [0, 0.5, -0.5, 0]
+                }}
+                transition={{ 
+                  duration: 6, 
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="bg-white rounded-2xl p-6 shadow-2xl"
+              >
+                <img 
+                  src={heroProduct} 
+                  alt="Pakasain Protein Nimko - Premium Pakistani Snack"
+                  className="w-full h-64 object-contain rounded-xl"
+                  loading="eager"
+                />
+              </motion.div>
+
+              {/* Mobile: Floating Elements */}
+              <motion.div
+                animate={{ 
+                  rotate: 360,
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{ 
+                  rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                  scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                }}
+                className="absolute -top-3 -right-3 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg"
+              >
+                <span className="text-xl">🏆</span>
+              </motion.div>
+
+              <motion.div
+                animate={{ 
+                  y: [0, -10, 0],
+                  x: [0, 3, 0]
+                }}
+                transition={{ 
+                  duration: 5, 
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1
+                }}
+                className="absolute -bottom-3 -left-3 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg"
+              >
+                <Package className="w-6 h-6" style={{color: '#55a743'}} />
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Desktop Layout: Side by Side */}
+        <div className="hidden lg:grid lg:grid-cols-2 gap-16 items-center">
           {/* Left: Product Image */}
           <motion.div
             initial={{ opacity: 0, x: -50, scale: 0.8 }}
@@ -44,12 +229,13 @@ export default function CallToActionSection() {
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="bg-white rounded-3xl p-8 shadow-elegant"
+                className="bg-white rounded-3xl p-8 shadow-2xl"
               >
                 <img 
                   src={heroProduct} 
                   alt="Pakasain Protein Nimko - Premium Pakistani Snack"
-                  className="w-full h-80 object-cover rounded-2xl"
+                  className="w-full h-80 object-contain rounded-2xl"
+                  loading="eager"
                 />
               </motion.div>
 
@@ -63,7 +249,7 @@ export default function CallToActionSection() {
                   rotate: { duration: 20, repeat: Infinity, ease: "linear" },
                   scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
                 }}
-                className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow"
+                className="absolute -top-4 -right-4 w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg"
               >
                 <span className="text-2xl">🏆</span>
               </motion.div>
@@ -79,27 +265,26 @@ export default function CallToActionSection() {
                   ease: "easeInOut",
                   delay: 1
                 }}
-                className="absolute -bottom-4 -left-4 w-16 h-16 bg-success rounded-full flex items-center justify-center shadow-floating"
+                className="absolute -bottom-4 -left-4 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg"
               >
-                <Package className="w-8 h-8 text-white" />
+                <Package className="w-8 h-8" style={{color: '#55a743'}} />
               </motion.div>
             </div>
 
-            {/* Product Features */}
+            {/* Desktop: Product Features */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="mt-8 grid grid-cols-2 gap-4"
+              className="mt-8 grid grid-cols-3 gap-4"
             >
-              <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
-                <div className="text-3xl mb-2">22g</div>
-                <div className="text-white/90 font-poppins font-medium">Protein per 100g</div>
-              </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
-                <div className="text-3xl mb-2">100%</div>
-                <div className="text-white/90 font-poppins font-medium">Natural</div>
-              </div>
+              {features.map((feature, index) => (
+                <div key={feature.title} className="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center border border-white/30">
+                  <feature.icon className="w-8 h-8 mx-auto mb-2" style={{color: feature.color}} />
+                  <div className="text-lg font-bold text-white">{feature.title}</div>
+                  <div className="text-sm text-white/80">{feature.description}</div>
+                </div>
+              ))}
             </motion.div>
           </motion.div>
 
@@ -114,10 +299,12 @@ export default function CallToActionSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-4xl lg:text-6xl font-poppins font-bold mb-6 leading-tight"
+              className="text-4xl lg:text-6xl font-bold mb-6 leading-tight" style={{
+                fontFamily: "'Playfair Display', serif"
+              }}
             >
               Ready to{" "}
-              <span className="text-accent">Power Up</span>{" "}
+              <span className="text-yellow-300">Power Up</span>{" "}
               Your Day?
             </motion.h2>
 
@@ -125,7 +312,9 @@ export default function CallToActionSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-xl lg:text-2xl text-white/90 font-inter mb-8 leading-relaxed"
+              className="text-xl lg:text-2xl text-white/90 mb-8 leading-relaxed" style={{
+                fontFamily: "'Lora', serif"
+              }}
             >
               Join thousands who've discovered the perfect balance of authentic Pakistani taste 
               and modern nutrition. Your taste buds and your body will thank you.
@@ -136,53 +325,55 @@ export default function CallToActionSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.7 }}
-              className="space-y-4 mb-10"
+              className="grid grid-cols-2 gap-3 mb-10"
             >
-              {[
-                "✓ 22g protein per 100g serving",
-                "✓ Premium nuts & legumes", 
-                "✓ Authentic Pakistani spices",
-                "✓ Perfect for any occasion"
-              ].map((benefit, index) => (
+              {benefits.map((benefit, index) => (
                 <motion.div
                   key={benefit}
                   initial={{ opacity: 0, x: -20 }}
                   animate={inView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.8 + (index * 0.1) }}
-                  className="flex items-center gap-3 text-lg font-inter"
+                  className="flex items-center gap-3 text-lg"
                 >
-                  <span className="text-accent text-xl">✓</span>
-                  <span>{benefit}</span>
+                  <span className="text-yellow-300 text-xl">✓</span>
+                  <span className="text-sm md:text-base">{benefit}</span>
                 </motion.div>
               ))}
             </motion.div>
 
-            {/* CTA Buttons */}
+            {/* Desktop: CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 1.2 }}
-              className="flex flex-col sm:flex-row gap-6"
+              className="flex flex-col sm:flex-row gap-6 mb-8"
             >
-              <Button 
-                variant="premium" 
-                size="xl"
-                className="px-10 py-6 text-lg font-poppins font-bold group relative overflow-hidden"
-              >
-                <motion.span
-                  className="flex items-center gap-3"
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.2 }}
+              <Link to="/checkout">
+                <Button 
+                  size="xl"
+                  className="px-10 py-6 text-lg font-bold bg-white hover:bg-gray-100 text-gray-800 border-2 border-white/50 shadow-2xl group relative overflow-hidden"
+                  style={{
+                    fontFamily: "'Playfair Display', serif"
+                  }}
                 >
-                  Order Now
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </motion.span>
-              </Button>
+                  <motion.span
+                    className="flex items-center gap-3"
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    🍽️ Order Now
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </motion.span>
+                </Button>
+              </Link>
 
               <Button 
-                variant="ghost" 
+                variant="outline" 
                 size="xl"
-                className="px-10 py-6 text-lg font-poppins font-bold text-white border-2 border-white/30 hover:bg-white/10 hover:border-white/50 backdrop-blur-sm"
+                className="px-10 py-6 text-lg font-bold text-white border-2 border-white/30 hover:bg-white/10 hover:border-white/50 backdrop-blur-sm"
+                style={{
+                  fontFamily: "'Playfair Display', serif"
+                }}
               >
                 <ExternalLink className="w-5 h-5 mr-3" />
                 Visit Pak Asian Foods
@@ -194,48 +385,109 @@ export default function CallToActionSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 1.4 }}
-              className="mt-8 flex items-center gap-4 text-white/80"
+              className="flex items-center gap-4 text-white/80"
             >
-              <Truck className="w-6 h-6 text-accent" />
-              <span className="font-inter">Free shipping on orders over $50</span>
+              <Truck className="w-6 h-6 text-yellow-300" />
+              <span className="font-medium">Free shipping on orders over $50</span>
             </motion.div>
           </motion.div>
         </div>
 
-        {/* Bottom Testimonial */}
+        {/* Testimonials Grid
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 1.6 }}
-          className="mt-20 text-center"
+          className="mt-16 md:mt-20"
         >
-          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-12 max-w-4xl mx-auto">
-            <motion.blockquote
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center" style={{
+            fontFamily: "'Playfair Display', serif"
+          }}>
+            What Our Customers Say
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 1.8 + (index * 0.1) }}
+                className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 text-center"
+              >
+                <div className="flex justify-center mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-yellow-300 fill-current" />
+                  ))}
+                </div>
+                <p className="text-white/90 mb-3 italic" style={{
+                  fontFamily: "'Lora', serif"
+                }}>
+                  "{testimonial.text}"
+                </p>
+                <p className="text-white/70 text-sm font-medium">
+                  - {testimonial.author}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div> */}
+
+        {/* Bottom CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 2.0 }}
+          className="text-center"
+        >
+          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-12 max-w-4xl mx-auto border border-white/20">
+            <motion.h3
               initial={{ opacity: 0, scale: 0.9 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.8, delay: 1.8 }}
-              className="text-2xl lg:text-3xl font-poppins font-semibold text-white/95 leading-relaxed"
+              transition={{ duration: 0.8, delay: 2.2 }}
+              className="text-2xl md:text-3xl font-bold text-white mb-6" style={{
+                fontFamily: "'Playfair Display', serif"
+              }}
             >
-              "Pakasain Protein Nimko – Where Tradition Meets Nutrition"
-            </motion.blockquote>
+              Start Your Journey Today
+            </motion.h3>
             
-            <motion.div
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 2.0 }}
-              className="mt-6 flex justify-center items-center gap-2"
+              transition={{ duration: 0.6, delay: 2.4 }}
+              className="text-lg text-white/90 mb-8 max-w-2xl mx-auto" style={{
+                fontFamily: "'Lora', serif"
+              }}
             >
-              {[...Array(5)].map((_, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={inView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.3, delay: 2.1 + (i * 0.1) }}
-                  className="text-2xl"
-                >
-                  ⭐
-                </motion.span>
-              ))}
+              Experience the perfect blend of tradition and nutrition with Pakasain Protein Nimko
+            </motion.p>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.6, delay: 2.6 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+            >
+              <Button 
+                size="lg"
+                className="px-8 py-4 bg-white text-gray-800 font-bold hover:bg-gray-100 shadow-lg"
+                style={{
+                  fontFamily: "'Playfair Display', serif"
+                }}
+              >
+                🚀 Get Started Now
+              </Button>
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="px-8 py-4 text-white border-white hover:bg-white/10"
+                style={{
+                  fontFamily: "'Playfair Display', serif"
+                }}
+              >
+                📞 Contact Us
+              </Button>
             </motion.div>
           </div>
         </motion.div>

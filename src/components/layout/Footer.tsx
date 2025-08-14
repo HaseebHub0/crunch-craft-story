@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import logo from "@/assets/logo.webp";
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
@@ -52,8 +53,8 @@ export default function Footer() {
             className="lg:col-span-2"
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center">
-                <span className="text-white font-poppins font-bold text-2xl">P</span>
+              <div className="w-12 h-12 rounded-xl overflow-hidden bg-white flex items-center justify-center">
+                <img src={logo} alt="Pakasain Logo" className="w-full h-full object-contain" />
               </div>
               <div>
                 <h3 className="font-poppins font-bold text-2xl text-background">
