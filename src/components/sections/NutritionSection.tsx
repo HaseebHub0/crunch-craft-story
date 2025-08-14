@@ -40,25 +40,22 @@ const Counter = ({ end, duration, suffix = "", inView }: CounterProps) => {
   }, [end, duration, inView]);
 
   return (
-    <motion.span
-      className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-white"
-      initial={{ scale: 0.5, opacity: 0 }}
-      animate={inView ? { scale: 1, opacity: 1 } : {}}
-      transition={{ duration: 0.8, delay: 0.3 }}
+    <span
+      className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-white block"
       style={{
         fontFamily: "'Playfair Display', serif",
         textShadow: "0 4px 20px rgba(0,0,0,0.3)"
       }}
     >
       {count}{suffix}
-    </motion.span>
+    </span>
   );
 };
 
 export default function NutritionSection() {
   const [ref, inView] = useInView({
     triggerOnce: true,
-    threshold: 0.3,
+    threshold: 0.1,
   });
 
   const nutritionFacts = [
@@ -130,7 +127,7 @@ export default function NutritionSection() {
   return (
     <section 
       ref={ref}
-      className="py-12 sm:py-16 md:py-24 relative overflow-hidden"
+      className="py-8 sm:py-12 md:py-16 lg:py-24 relative overflow-hidden bg-gray-50"
       style={{
         background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)'
       }}
@@ -144,20 +141,10 @@ export default function NutritionSection() {
       
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12 sm:mb-16 md:mb-20"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="inline-block p-3 bg-gradient-to-r from-red-600 to-green-600 rounded-full mb-6"
-          >
+        <div className="text-center mb-8 sm:mb-12 md:mb-16 lg:mb-20">
+          <div className="inline-block p-3 bg-gradient-to-r from-red-600 to-green-600 rounded-full mb-4 sm:mb-6">
             <Target className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-          </motion.div>
+          </div>
           
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight px-2" style={{
             fontFamily: "'Playfair Display', serif"
@@ -172,15 +159,10 @@ export default function NutritionSection() {
             Experience the perfect balance of taste and nutrition with every crunchy bite. 
             Packed with premium ingredients and authentic Pakistani flavors.
           </p>
-        </motion.div>
+        </div>
 
         {/* Main Protein Counter */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="text-center mb-12 sm:mb-16 md:mb-20"
-        >
+        <div className="text-center mb-8 sm:mb-12 md:mb-16 lg:mb-20">
           <div className="relative px-4">
             <div 
               className="rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl mx-auto max-w-2xl relative overflow-hidden"
@@ -192,45 +174,29 @@ export default function NutritionSection() {
               <div className="absolute top-4 right-4 text-2xl sm:text-4xl opacity-20">🏆</div>
               <div className="absolute bottom-4 left-4 text-xl sm:text-3xl opacity-20">💪</div>
               
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-white/90 text-base sm:text-lg md:text-xl font-semibold mb-4"
-                style={{fontFamily: "'Playfair Display', serif"}}
-              >
+              <p className="text-white/90 text-base sm:text-lg md:text-xl font-semibold mb-4" style={{
+                fontFamily: "'Playfair Display', serif"
+              }}>
                 Protein Power Per 100g
-              </motion.p>
+              </p>
               
               <Counter end={22} duration={2} suffix="g" inView={inView} />
               
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="text-white/90 text-sm sm:text-base md:text-lg mt-4 px-2"
-                style={{fontFamily: "'Lora', serif"}}
-              >
+              <p className="text-white/90 text-sm sm:text-base md:text-lg mt-4 px-2" style={{
+                fontFamily: "'Lora', serif"
+              }}>
                 Fuel your muscles and satisfy your cravings
-              </motion.p>
+              </p>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Nutrition Facts Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mb-12 sm:mb-16 md:mb-20"
-        >
+        <div className="mb-8 sm:mb-12 md:mb-16 lg:mb-20">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 px-2">
             {nutritionFacts.map((fact, index) => (
-              <motion.div
+              <div
                 key={fact.title}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.6 + (index * 0.1) }}
                 className="bg-white rounded-xl sm:rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-center group"
               >
                 <div 
@@ -251,23 +217,16 @@ export default function NutritionSection() {
                 <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
                   {fact.description}
                 </p>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Benefits Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-12 sm:mb-16 md:mb-20 px-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-12 md:mb-16 lg:mb-20 px-2">
           {benefits.map((benefit, index) => (
-            <motion.div
+            <div
               key={benefit.title}
-              initial={{ opacity: 0, y: 50 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ 
-                duration: 0.6, 
-                delay: 0.8 + (index * 0.1),
-                ease: "easeOut"
-              }}
               className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group border border-gray-100"
             >
               <div className="flex items-start gap-3 sm:gap-4">
@@ -301,26 +260,16 @@ export default function NutritionSection() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.2 }}
-          className="text-center px-2"
-        >
+        <div className="text-center px-2">
           <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl max-w-5xl mx-auto border border-gray-100">
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.8, delay: 1.4 }}
-              className="inline-block p-3 bg-gradient-to-r from-red-600 to-green-600 rounded-full mb-4 sm:mb-6"
-            >
+            <div className="inline-block p-3 bg-gradient-to-r from-red-600 to-green-600 rounded-full mb-4 sm:mb-6">
               <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-            </motion.div>
+            </div>
             
             <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6 px-2" style={{
               fontFamily: "'Playfair Display', serif"
@@ -355,7 +304,7 @@ export default function NutritionSection() {
               </button>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
