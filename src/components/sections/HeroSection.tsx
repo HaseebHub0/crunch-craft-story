@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Zap, Heart, Star, ArrowRight } from "lucide-react";
-import heroProduct from "@/assets/Products/Product.png";
+import heroProduct from "@/assets/Products/Product.webp";
 import proteinNimko from "@/assets/Protien-Nimko.webp";
 import spiceBackground from "@/assets/spice-background.webp";
 
