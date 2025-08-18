@@ -3,7 +3,7 @@ import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, ExternalLink, Package, Truck, Star, Heart, Zap, Shield } from "lucide-react";
-import heroProduct from "@/assets/Products/product1.png";
+import heroProduct from "@/assets/Products/Product1.png";
 
 export default function CallToActionSection() {
   const [ref, inView] = useInView({
@@ -140,7 +140,7 @@ export default function CallToActionSection() {
                     fontFamily: "'Montserrat', serif"
                   }}
                 >
-                  🍽️ Order Now
+                  Order Now
                 </Button>
               </Link>
             </motion.div>
@@ -174,36 +174,6 @@ export default function CallToActionSection() {
                 />
               </motion.div>
 
-              {/* Mobile: Floating Elements */}
-              <motion.div
-                animate={{ 
-                  rotate: 360,
-                  scale: [1, 1.1, 1]
-                }}
-                transition={{ 
-                  rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                  scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-                }}
-                className="absolute -top-3 -right-3 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg"
-              >
-                <span className="text-xl">🏆</span>
-              </motion.div>
-
-              <motion.div
-                animate={{ 
-                  y: [0, -10, 0],
-                  x: [0, 3, 0]
-                }}
-                transition={{ 
-                  duration: 5, 
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1
-                }}
-                className="absolute -bottom-3 -left-3 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg"
-              >
-                <Package className="w-6 h-6" style={{color: '#55a743'}} />
-              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -239,36 +209,7 @@ export default function CallToActionSection() {
                 />
               </motion.div>
 
-              {/* Floating Elements */}
-              <motion.div
-                animate={{ 
-                  rotate: 360,
-                  scale: [1, 1.1, 1]
-                }}
-                transition={{ 
-                  rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                  scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-                }}
-                className="absolute -top-4 -right-4 w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg"
-              >
-                <span className="text-2xl">🏆</span>
-              </motion.div>
-
-              <motion.div
-                animate={{ 
-                  y: [0, -15, 0],
-                  x: [0, 5, 0]
-                }}
-                transition={{ 
-                  duration: 5, 
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1
-                }}
-                className="absolute -bottom-4 -left-4 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg"
-              >
-                <Package className="w-8 h-8" style={{color: '#55a743'}} />
-              </motion.div>
+        
             </div>
 
             {/* Desktop: Product Features */}
