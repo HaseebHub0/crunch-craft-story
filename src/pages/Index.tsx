@@ -14,9 +14,9 @@ const Index = () => {
 
   return (
     <>
-      {showSplash && (
+      {/* {showSplash && (
         <SplashScreen onComplete={() => setShowSplash(false)} />
-      )}
+      )} */}
       
       <div className="min-h-screen">
         <Header />
@@ -26,17 +26,21 @@ const Index = () => {
           <HeroSection />
         </section>
         
+        <section id="occasions">
+          <UsageOccasionsSection />
+        </section>
+
         <section id="story">
           <OriginStorySection />
         </section>
         
+        
+
         <section id="nutrition">
           <NutritionSection />
         </section>
         
-        <section id="occasions">
-          <UsageOccasionsSection />
-        </section>
+        
         
         <section id="ingredients">
           <IngredientsShowcase />

@@ -43,7 +43,7 @@ const Counter = ({ end, duration, suffix = "", inView }: CounterProps) => {
     <span
       className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-white block"
       style={{
-        fontFamily: "'Playfair Display', serif",
+        fontFamily: "'Montserrat', serif",
         textShadow: "0 4px 20px rgba(0,0,0,0.3)"
       }}
     >
@@ -147,14 +147,14 @@ export default function NutritionSection() {
           </div>
           
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight px-2" style={{
-            fontFamily: "'Playfair Display', serif"
+            fontFamily: "'Montserrat', serif"
           }}>
             Nutrition That{" "}
             <span style={{color: '#9d0803'}}>Powers</span>{" "}
             Your Day
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4" style={{
-            fontFamily: "'Lora', serif"
+            fontFamily: "'Nunito', serif"
           }}>
             Experience the perfect balance of taste and nutrition with every crunchy bite. 
             Packed with premium ingredients and authentic Pakistani flavors.
@@ -175,7 +175,7 @@ export default function NutritionSection() {
               <div className="absolute bottom-4 left-4 text-xl sm:text-3xl opacity-20">💪</div>
               
               <p className="text-white/90 text-base sm:text-lg md:text-xl font-semibold mb-4" style={{
-                fontFamily: "'Playfair Display', serif"
+                fontFamily: "'Nunito', serif"
               }}>
                 Protein Power Per 100g
               </p>
@@ -183,7 +183,7 @@ export default function NutritionSection() {
               <Counter end={22} duration={2} suffix="g" inView={inView} />
               
               <p className="text-white/90 text-sm sm:text-base md:text-lg mt-4 px-2" style={{
-                fontFamily: "'Lora', serif"
+                fontFamily: "'Nunito', serif"
               }}>
                 Fuel your muscles and satisfy your cravings
               </p>
@@ -239,13 +239,13 @@ export default function NutritionSection() {
                 
                 <div className="flex-1">
                   <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2 sm:mb-3" style={{
-                    fontFamily: "'Playfair Display', serif"
+                    fontFamily: "'Montserrat', serif"
                   }}>
                     {benefit.title}
                   </h3>
                   
                   <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 leading-relaxed" style={{
-                    fontFamily: "'Lora', serif"
+                    fontFamily: "'Nunito', serif"
                   }}>
                     {benefit.description}
                   </p>
@@ -272,12 +272,12 @@ export default function NutritionSection() {
             </div>
             
             <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6 px-2" style={{
-              fontFamily: "'Playfair Display', serif"
+              fontFamily: "'Montserrat', serif"
             }}>
               Perfect for Fitness Enthusiasts & Snack Lovers
             </h3>
             <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-4" style={{
-              fontFamily: "'Lora', serif"
+              fontFamily: "'Nunito', serif"
             }}>
               Whether you're recovering from a workout or need a satisfying snack, 
               Pakasain Protein Nimko delivers the nutrition and taste you crave.

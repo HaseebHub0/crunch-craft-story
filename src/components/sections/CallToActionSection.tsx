@@ -3,7 +3,7 @@ import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, ExternalLink, Package, Truck, Star, Heart, Zap, Shield } from "lucide-react";
-import heroProduct from "@/assets/Products/product.png";
+import heroProduct from "@/assets/Products/product1.png";
 
 export default function CallToActionSection() {
   const [ref, inView] = useInView({
@@ -89,7 +89,7 @@ export default function CallToActionSection() {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.3 }}
               className="text-3xl md:text-4xl font-bold mb-6 leading-tight" style={{
-                fontFamily: "'Playfair Display', serif"
+                fontFamily: "'Montserrat', serif"
               }}
             >
               Ready to{" "}
@@ -102,7 +102,7 @@ export default function CallToActionSection() {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.5 }}
               className="text-lg md:text-xl text-white/90 mb-6 leading-relaxed" style={{
-                fontFamily: "'Lora', serif"
+                fontFamily: "'Nunito', serif"
               }}
             >
               Join thousands who've discovered the perfect balance of authentic Pakistani taste 
@@ -137,7 +137,7 @@ export default function CallToActionSection() {
                   size="lg"
                   className="w-full max-w-xs px-8 py-4 text-lg font-bold bg-white hover:bg-gray-100 text-gray-800 border-2 border-white/50 shadow-2xl"
                   style={{
-                    fontFamily: "'Playfair Display', serif"
+                    fontFamily: "'Montserrat', serif"
                   }}
                 >
                   🍽️ Order Now
@@ -300,7 +300,7 @@ export default function CallToActionSection() {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.3 }}
               className="text-4xl lg:text-6xl font-bold mb-6 leading-tight" style={{
-                fontFamily: "'Playfair Display', serif"
+                fontFamily: "'Montserrat', serif"
               }}
             >
               Ready to{" "}
@@ -313,7 +313,7 @@ export default function CallToActionSection() {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.5 }}
               className="text-xl lg:text-2xl text-white/90 mb-8 leading-relaxed" style={{
-                fontFamily: "'Lora', serif"
+                fontFamily: "'Nunito', serif"
               }}
             >
               Join thousands who've discovered the perfect balance of authentic Pakistani taste 
@@ -353,7 +353,7 @@ export default function CallToActionSection() {
                   size="xl"
                   className="px-10 py-6 text-lg font-bold bg-white hover:bg-gray-100 text-gray-800 border-2 border-white/50 shadow-2xl group relative overflow-hidden"
                   style={{
-                    fontFamily: "'Playfair Display', serif"
+                    fontFamily: "'Montserrat', serif"
                   }}
                 >
                   <motion.span
@@ -361,7 +361,7 @@ export default function CallToActionSection() {
                     whileHover={{ x: 5 }}
                     transition={{ duration: 0.2 }}
                   >
-                    🍽️ Order Now
+                    Order Now
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </motion.span>
                 </Button>
@@ -370,9 +370,9 @@ export default function CallToActionSection() {
               <Button 
                 variant="outline" 
                 size="xl"
-                className="px-10 py-6 text-lg font-bold text-white border-2 border-white/30 hover:bg-white/10 hover:border-white/50 backdrop-blur-sm"
+                className="px-10 py-6 text-lg font-bold text-black border-2 border-white/30 hover:bg-white/10 hover:border-white/50 backdrop-blur-sm"
                 style={{
-                  fontFamily: "'Playfair Display', serif"
+                  fontFamily: "'Montserrat', serif"
                 }}
               >
                 <ExternalLink className="w-5 h-5 mr-3" />
@@ -433,64 +433,6 @@ export default function CallToActionSection() {
           </div>
         </motion.div> */}
 
-        {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 2.0 }}
-          className="text-center"
-        >
-          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-12 max-w-4xl mx-auto border border-white/20">
-            <motion.h3
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.8, delay: 2.2 }}
-              className="text-2xl md:text-3xl font-bold text-white mb-6" style={{
-                fontFamily: "'Playfair Display', serif"
-              }}
-            >
-              Start Your Journey Today
-            </motion.h3>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 2.4 }}
-              className="text-lg text-white/90 mb-8 max-w-2xl mx-auto" style={{
-                fontFamily: "'Lora', serif"
-              }}
-            >
-              Experience the perfect blend of tradition and nutrition with Pakasain Protein Nimko
-            </motion.p>
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.6, delay: 2.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
-              <Button 
-                size="lg"
-                className="px-8 py-4 bg-white text-gray-800 font-bold hover:bg-gray-100 shadow-lg"
-                style={{
-                  fontFamily: "'Playfair Display', serif"
-                }}
-              >
-                🚀 Get Started Now
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="px-8 py-4 text-white border-white hover:bg-white/10"
-                style={{
-                  fontFamily: "'Playfair Display', serif"
-                }}
-              >
-                📞 Contact Us
-              </Button>
-            </motion.div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

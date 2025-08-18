@@ -146,14 +146,14 @@ export default function IngredientsShowcase() {
           </motion.div>
           
           <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight" style={{
-            fontFamily: "'Playfair Display', serif"
+            fontFamily: "'Montserrat', serif"
           }}>
             Premium{" "}
             <span style={{color: '#9d0803'}}>Ingredients</span>
           </h2>
           
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" style={{
-            fontFamily: "'Lora', serif"
+            fontFamily: "'Nunito', serif"
           }}>
             Discover the carefully selected ingredients that make every bite nutritious and delicious. 
             Each component is chosen for its nutritional value and authentic taste.
@@ -201,7 +201,7 @@ export default function IngredientsShowcase() {
                   </motion.div>
                   
                   <h3 className="font-bold text-sm md:text-lg mb-2 text-gray-900" style={{
-                    fontFamily: "'Playfair Display', serif"
+                    fontFamily: "'Montserrat', serif"
                   }}>
                     {ingredient.name}
                   </h3>
@@ -252,7 +252,7 @@ export default function IngredientsShowcase() {
                 }}
               >
                 <p className="text-xs md:text-sm text-gray-700 leading-relaxed" style={{
-                  fontFamily: "'Lora', serif"
+                  fontFamily: "'Nunito', serif"
                 }}>
                   {ingredient.fact}
                 </p>
@@ -270,7 +270,7 @@ export default function IngredientsShowcase() {
           className="mb-16 md:mb-20"
         >
           <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center" style={{
-            fontFamily: "'Playfair Display', serif"
+            fontFamily: "'Montserrat', serif"
           }}>
             Our Quality Promise
           </h3>
@@ -292,13 +292,13 @@ export default function IngredientsShowcase() {
                 </div>
                 
                 <h4 className="text-lg font-bold text-gray-900 mb-2" style={{
-                  fontFamily: "'Playfair Display', serif"
+                  fontFamily: "'Montserrat', serif"
                 }}>
                   {feature.title}
                 </h4>
                 
                 <p className="text-sm text-gray-600 leading-relaxed" style={{
-                  fontFamily: "'Lora', serif"
+                  fontFamily: "'Nunito', serif"
                 }}>
                   {feature.description}
                 </p>
@@ -331,7 +331,7 @@ export default function IngredientsShowcase() {
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6, delay: 1.4 }}
               className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6 relative z-10" style={{
-                fontFamily: "'Playfair Display', serif"
+                fontFamily: "'Montserrat', serif"
               }}
             >
               Crafted with Love, Powered by Nature
@@ -342,7 +342,7 @@ export default function IngredientsShowcase() {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 1.6 }}
               className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto mb-8 relative z-10" style={{
-                fontFamily: "'Lora', serif"
+                fontFamily: "'Nunito', serif"
               }}
             >
               Every ingredient is carefully sourced and perfectly seasoned with traditional Pakistani 
