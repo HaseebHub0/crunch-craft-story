@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Wheat, Sparkles, Clock, Award } from "lucide-react";
+import TimeHonoredRecipeIcon from "@/assets/3d_icons/3dicons-clock-dynamic-premium.png";
+import PremiumQualityIcon from "@/assets/3d_icons/3dicons-shield-dynamic-premium.png";
 
 export default function OriginStorySection() {
   const [ref, inView] = useInView({
@@ -9,11 +11,11 @@ export default function OriginStorySection() {
   });
 
   const ingredients = [
-    { name: "Black Chickpea Flour", icon: "🌾", delay: 0.2 },
-    { name: "Premium Almonds", icon: "🥜", delay: 0.4 },
-    { name: "Roasted Chickpeas", icon: "🥨", delay: 0.6 },
-    { name: "Pistachios & Walnuts", icon: "🌰", delay: 0.8 },
-    { name: "Sweet Raisins", icon: "🍇", delay: 1.0 },
+    { name: "Black Chickpea Flour", delay: 0.2, },
+    { name: "Premium Almonds",  delay: 0.4, },
+    { name: "Roasted Chickpeas", delay: 0.6, },
+    { name: "Pistachios & Walnuts", delay: 0.8},
+    { name: "Sweet Raisins",  delay: 1.0},
   ];
 
   return (
@@ -44,9 +46,7 @@ export default function OriginStorySection() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="flex items-center gap-3 mb-4"
               >
-                <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-white" />
-                </div>
+                
                 <span className="text-primary font-poppins font-semibold text-lg">
                   The Origin Story
                 </span>
@@ -94,8 +94,8 @@ export default function OriginStorySection() {
               transition={{ duration: 0.8, delay: 0.9 }}
               className="grid grid-cols-2 gap-4"
             >
-              <div className="bg-white rounded-xl p-6 shadow-floating hover:shadow-elegant transition-all duration-300">
-                <Clock className="w-8 h-8 text-primary mb-3" />
+              <div className="bg-white rounded-xl p-6 shadow-floating hover:shadow-elegant items-center justify-center transition-all duration-300">
+              <img src={TimeHonoredRecipeIcon} alt="Time Honored Recipe" className="w-16 h-16 mx-auto mb-4 drop-shadow-lg" />
                 <h4 className="font-poppins font-semibold text-foreground mb-2">
                   Time-Honored Recipe
                 </h4>
@@ -104,8 +104,8 @@ export default function OriginStorySection() {
                 </p>
               </div>
               
-              <div className="bg-white rounded-xl p-6 shadow-floating hover:shadow-elegant transition-all duration-300">
-                <Award className="w-8 h-8 text-success mb-3" />
+              <div className="bg-white rounded-xl p-6 shadow-floating hover:shadow-elegant items-center justify-center transition-all duration-300">
+              <img src={PremiumQualityIcon} alt="Premium Quality" className="w-16 h-16 mx-auto mb-4 drop-shadow-lg" />
                 <h4 className="font-poppins font-semibold text-foreground mb-2">
                   Premium Quality
                 </h4>
@@ -151,7 +151,7 @@ export default function OriginStorySection() {
                         repeatType: "loop" 
                       }}
                     >
-                      {ingredient.icon}
+               
                     </motion.span>
                     <div>
                       <h4 className="font-poppins font-semibold text-foreground">
@@ -166,21 +166,7 @@ export default function OriginStorySection() {
               </div>
             </div>
 
-            {/* Floating Decoration */}
-            <motion.div
-              className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow"
-              animate={{ 
-                y: [0, -10, 0],
-                rotate: [0, 5, -5, 0]
-              }}
-              transition={{ 
-                duration: 4, 
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            >
-              <Wheat className="w-8 h-8 text-white" />
-            </motion.div>
+            
           </motion.div>
         </div>
       </div>

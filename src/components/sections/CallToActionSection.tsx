@@ -13,19 +13,19 @@ export default function CallToActionSection() {
 
   const features = [
     {
-      icon: Zap,
+      
       title: "22g Protein",
       description: "per 100g serving",
       color: "#9d0803"
     },
     {
-      icon: Heart,
+      
       title: "100% Natural",
       description: "no artificial ingredients",
       color: "#55a743"
     },
     {
-      icon: Shield,
+      
       title: "Premium Quality",
       description: "carefully sourced",
       color: "#fbbf24"
@@ -64,7 +64,7 @@ export default function CallToActionSection() {
       ref={ref}
       className="py-16 md:py-24 relative overflow-hidden"
       style={{
-        background: 'linear-gradient(135deg, #9d0803 0%, #55a743 100%)'
+        background: 'linear-gradient(135deg, #9d0803 0%,rgb(13, 14, 13) 100%)'
       }}
     >
       {/* Background Pattern */}
@@ -118,7 +118,7 @@ export default function CallToActionSection() {
             >
               {features.map((feature, index) => (
                 <div key={feature.title} className="bg-white/20 backdrop-blur-sm rounded-xl p-3 text-center border border-white/30">
-                  <feature.icon className="w-6 h-6 mx-auto mb-2" style={{color: feature.color}} />
+                  
                   <div className="text-sm font-bold text-white">{feature.title}</div>
                   <div className="text-xs text-white/80">{feature.description}</div>
                 </div>
@@ -221,7 +221,7 @@ export default function CallToActionSection() {
             >
               {features.map((feature, index) => (
                 <div key={feature.title} className="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center border border-white/30">
-                  <feature.icon className="w-8 h-8 mx-auto mb-2" style={{color: feature.color}} />
+                  
                   <div className="text-lg font-bold text-white">{feature.title}</div>
                   <div className="text-sm text-white/80">{feature.description}</div>
                 </div>
@@ -261,26 +261,7 @@ export default function CallToActionSection() {
               and modern nutrition. Your taste buds and your body will thank you.
             </motion.p>
 
-            {/* Benefits List */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="grid grid-cols-2 gap-3 mb-10"
-            >
-              {benefits.map((benefit, index) => (
-                <motion.div
-                  key={benefit}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.8 + (index * 0.1) }}
-                  className="flex items-center gap-3 text-lg"
-                >
-                  <span className="text-yellow-300 text-xl">✓</span>
-                  <span className="text-sm md:text-base">{benefit}</span>
-                </motion.div>
-              ))}
-            </motion.div>
+            
 
             {/* Desktop: CTA Buttons */}
             <motion.div
@@ -321,16 +302,7 @@ export default function CallToActionSection() {
               </Button>
             </motion.div>
 
-            {/* Shipping Info */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 1.4 }}
-              className="flex items-center gap-4 text-white/80"
-            >
-              <Truck className="w-6 h-6 text-yellow-300" />
-              <span className="font-medium">Free shipping on orders over $50</span>
-            </motion.div>
+            
           </motion.div>
         </div>
 

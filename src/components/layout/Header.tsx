@@ -1,31 +1,57 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ShoppingBag } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import logo from "@/assets/logo.webp";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const { getTotalItems } = useCart();
   const cartItemCount = getTotalItems();
 
+  // Scroll-based header visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down and past 100px - hide header
+        setIsVisible(false);
+      } else {
+        // Scrolling up - show header
+        setIsVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "Products", href: "/products" },
+    { name: "Occasions", href: "#occasions" },
+    // { name: "Products", href: "/products" },
     { name: "Story", href: "#story" },
     { name: "Nutrition", href: "#nutrition" },
-    { name: "Occasions", href: "#occasions" },
+    
     { name: "Ingredients", href: "#ingredients" },
   ];
 
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-       className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-border shadow-sm"
+      animate={{ 
+        y: isVisible ? 0 : -100, 
+        opacity: isVisible ? 1 : 0 
+      }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-md border-b border-border shadow-sm"
     >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16 md:h-20">
