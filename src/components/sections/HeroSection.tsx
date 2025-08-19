@@ -107,7 +107,7 @@ export default function HeroSection() {
               {/* Main Product Image */}
               <motion.img
                 src={heroProduct}
-                alt="Pakasain Protein Nimko - Main Product"
+                alt="Pakasian Protein Nimko - Main Product"
                 className="w-full max-w-sm md:max-w-md lg:max-w-lg rounded-3xl shadow-2xl object-contain relative z-10"
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
@@ -134,7 +134,7 @@ export default function HeroSection() {
             >
               <motion.img
                 src={proteinNimko}
-                alt="Pakasain Protein Nimko - Premium Quality"
+                alt="Pakasian Protein Nimko - Premium Quality"
                 className="w-full max-w-sm rounded-2xl shadow-xl object-contain"
                 animate={{ rotate: [0, 2, -2, 0] }}
                 transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
