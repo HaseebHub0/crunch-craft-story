@@ -38,13 +38,7 @@ export default function Footer() {
       ref={ref}
       className="bg-foreground text-background py-16 relative overflow-hidden"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-10 left-10 text-6xl">🌾</div>
-        <div className="absolute top-20 right-20 text-6xl">🥜</div>
-        <div className="absolute bottom-10 left-1/4 text-6xl">🌶️</div>
-        <div className="absolute bottom-20 right-10 text-6xl">✨</div>
-      </div>
+      
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Main Footer Content */}
@@ -154,33 +148,7 @@ export default function Footer() {
           </motion.div>
         </div>
 
-        {/* Newsletter Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="bg-background/10 backdrop-blur-sm rounded-2xl p-8 mb-12"
-        >
-          <div className="text-center max-w-2xl mx-auto">
-            <h4 className="font-poppins font-bold text-2xl text-background mb-4">
-              Stay Updated on New Products
-            </h4>
-            <p className="text-background/80 font-inter mb-6">
-              Be the first to know about new flavors, special offers, and Pakistani snack innovations
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="flex-1 px-4 py-3 rounded-lg bg-background text-foreground font-inter border-0 focus:ring-2 focus:ring-accent outline-none"
-              />
-              <button className="px-6 py-3 bg-gradient-primary text-white font-poppins font-semibold rounded-lg hover:shadow-glow transition-all duration-300 transform hover:scale-105">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </motion.div>
-
+        
         {/* Bottom Section */}
         <div className="border-t border-background/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
