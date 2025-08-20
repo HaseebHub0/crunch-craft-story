@@ -22,11 +22,12 @@ export default function Footer() {
     { name: "About Us", href: "#story" },
     { name: "Products", href: "#nutrition" },
     { name: "Nutrition Info", href: "#nutrition" },
+    { name: "Badges", href: "#badges" },
     { name: "Contact", href: "#contact" },
   ];
 
   const productLinks = [
-    { name: "Pakasain Protein Nimko", href: "#" },
+    { name: "Pakasian Protein Nimko", href: "#" },
     { name: "Traditional Nimko", href: "#" },
     { name: "Spice Blends", href: "#" },
     { name: "Snack Boxes", href: "#" },
@@ -57,11 +58,11 @@ export default function Footer() {
           >
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-xl overflow-hidden bg-white flex items-center justify-center">
-                <img src={logo} alt="Pakasain Logo" className="w-full h-full object-contain" />
+                <img src={logo} alt="Pakasian Logo" className="w-full h-full object-contain" />
               </div>
               <div>
                 <h3 className="font-poppins font-bold text-2xl text-background">
-                  Pakasain Protein Nimko
+                  Pakasian Protein Nimko
                 </h3>
                 <p className="text-background/70 text-sm">
                   By Pak Asian Foods

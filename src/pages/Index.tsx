@@ -4,6 +4,7 @@ import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import NutritionSection from "@/components/sections/NutritionSection";
 import UsageOccasionsSection from "@/components/sections/UsageOccasionsSection";
+import BadgesSection from "@/components/sections/badges";
 import CallToActionSection from "@/components/sections/CallToActionSection";
 import SplashScreen from "@/components/SplashScreen";
 
@@ -31,8 +32,13 @@ const Index = () => {
         <section id="nutrition">
           <NutritionSection />
         </section>
-        
+        <section id="badges">
+          <BadgesSection />
+        </section>
         <CallToActionSection />
+        
+        
+       
       </main>
         
         <Footer />

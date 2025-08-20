@@ -39,7 +39,7 @@ export default function Header() {
     // { name: "Products", href: "/products" },
     { name: "Story", href: "#story" },
     { name: "Nutrition", href: "#nutrition" },
-    
+    { name: "Badges", href: "#badges" },
     { name: "Ingredients", href: "#ingredients" },
   ];
 
