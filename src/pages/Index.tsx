@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
-import OriginStorySection from "@/components/sections/OriginStorySection";
 import NutritionSection from "@/components/sections/NutritionSection";
 import UsageOccasionsSection from "@/components/sections/UsageOccasionsSection";
 import CallToActionSection from "@/components/sections/CallToActionSection";
@@ -28,13 +27,7 @@ const Index = () => {
         <section id="occasions">
           <UsageOccasionsSection />
         </section>
-
-        <section id="story">
-          <OriginStorySection />
-        </section>
         
-        
-
         <section id="nutrition">
           <NutritionSection />
         </section>
