@@ -135,7 +135,7 @@ export default function CallToActionSection() {
               <Link to="/checkout">
                 <Button 
                   size="lg"
-                  className="w-full max-w-xs px-8 py-4 text-lg font-bold bg-white hover:bg-gray-100 text-gray-800 border-2 border-white/50 shadow-2xl"
+                  className="group bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto lg:mx-0"
                   style={{
                     fontFamily: "'Montserrat', serif"
                   }}
@@ -273,7 +273,7 @@ export default function CallToActionSection() {
               <Link to="/checkout">
                 <Button 
                   size="xl"
-                  className="px-10 py-6 text-lg font-bold bg-white hover:bg-gray-100 text-gray-800 border-2 border-white/50 shadow-2xl group relative overflow-hidden"
+                  className="group bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto lg:mx-0"
                   style={{
                     fontFamily: "'Montserrat', serif"
                   }}

@@ -24,7 +24,7 @@ export default function Products() {
       id: "1",
       name: "Pakasain Protein Nimko",
       price: 24.99,
-      image: "/src/assets/Protien Nimko.png",
+      image: "/src/assets/Protien-Nimko.webp",
       description: "Premium Pakistani snack with 22g protein per 100g serving",
       weight: "250g",
       protein: "22g"
@@ -33,7 +33,7 @@ export default function Products() {
       id: "2",
       name: "Pakasain Protein Nimko - Family Pack",
       price: 44.99,
-      image: "/src/assets/Protien Nimko.png",
+      image: "/src/assets/spice-background.webp",
       description: "Larger pack perfect for families and gatherings",
       weight: "500g",
       protein: "22g"
@@ -42,7 +42,7 @@ export default function Products() {
       id: "3",
       name: "Pakasain Protein Nimko - Travel Size",
       price: 14.99,
-      image: "/src/assets/Protien Nimko.png",
+      image: "/src/assets/floating-ingredients.png",
       description: "Perfect for on-the-go nutrition and travel",
       weight: "150g",
       protein: "22g"
@@ -77,12 +77,12 @@ export default function Products() {
           className="text-center mb-16"
         >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6" style={{
-            fontFamily: "'Playfair Display', serif"
+            fontFamily: "'Montserrat', serif"
           }}>
             Our Products
           </h1>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto" style={{
-            fontFamily: "'Lora', serif"
+            fontFamily: "'Nunito', serif"
           }}>
             Discover our range of premium Pakistani Protein Nimko products, 
             each crafted with authentic flavors and superior nutrition.
@@ -114,13 +114,13 @@ export default function Products() {
               {/* Product Info */}
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2" style={{
-                  fontFamily: "'Playfair Display', serif"
+                  fontFamily: "'Montserrat', serif"
                 }}>
                   {product.name}
                 </h3>
                 
                 <p className="text-gray-600 mb-4" style={{
-                  fontFamily: "'Lora', serif"
+                  fontFamily: "'Nunito', serif"
                 }}>
                   {product.description}
                 </p>
@@ -140,7 +140,7 @@ export default function Products() {
                   className={`w-full py-3 ${
                     addedItems.has(product.id)
                       ? 'bg-green-600 hover:bg-green-700'
-                      : 'bg-gradient-to-r from-red-600 to-green-600 hover:from-red-700 hover:to-green-700'
+                      : 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
                   } text-white font-bold transition-all duration-300`}
                   disabled={addedItems.has(product.id)}
                 >
@@ -170,12 +170,12 @@ export default function Products() {
         >
           <div className="bg-gradient-to-r from-red-50 to-green-50 rounded-3xl p-8 md:p-12 border border-red-100">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4" style={{
-              fontFamily: "'Playfair Display', serif"
+                fontFamily: "'Montserrat', serif"
             }}>
               Ready to Experience Authentic Pakistani Flavors?
             </h2>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto" style={{
-              fontFamily: "'Lora', serif"
+              fontFamily: "'Nunito', serif"
             }}>
               Add your favorite products to cart and enjoy the perfect blend of tradition and nutrition.
             </p>
@@ -184,13 +184,13 @@ export default function Products() {
               <Link to="/cart">
                 <Button 
                   size="lg"
-                  className="px-8 py-4 bg-gradient-to-r from-red-600 to-green-600 text-white font-bold hover:shadow-lg"
+                  className="px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold hover:shadow-lg"
                 >
                   View Cart
                 </Button>
               </Link>
               <Button 
-                variant="outline" 
+                variant="secondary" 
                 size="lg"
                 className="px-8 py-4 border-2 border-gray-300 text-gray-700 font-bold hover:border-gray-400"
               >

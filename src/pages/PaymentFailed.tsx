@@ -54,13 +54,13 @@ export default function PaymentFailed() {
           </motion.div>
           
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4" style={{
-            fontFamily: "'Playfair Display', serif"
+            fontFamily: "'Montserrat', serif"
           }}>
             Payment Failed
           </h1>
           
           <p className="text-lg text-gray-600 mb-2" style={{
-            fontFamily: "'Lora', serif"
+            fontFamily: "'Nunito', serif"
           }}>
             We're sorry, but your payment could not be processed.
           </p>
@@ -158,14 +158,14 @@ export default function PaymentFailed() {
         >
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/checkout">
-              <Button size="lg" className="px-8 py-4 bg-gradient-to-r from-red-600 to-green-600 text-white font-bold hover:shadow-lg">
+              <Button size="lg" className="px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold hover:shadow-lg">
                 <RefreshCw className="w-5 h-5 mr-2" />
                 Try Again
               </Button>
             </Link>
             
             <Link to="/cart">
-              <Button variant="outline" size="lg" className="px-8 py-4 border-2 border-gray-300 text-gray-700 font-bold hover:border-gray-400">
+              <Button variant="secondary" size="lg" className="px-8 py-4 border-2 border-gray-300 text-gray-700 font-bold hover:border-gray-400">
                 <ArrowLeft className="w-5 h-5 mr-2" />
                 Back to Cart
               </Button>
@@ -193,7 +193,7 @@ export default function PaymentFailed() {
               <p className="text-sm text-gray-600 mb-4">
                 Speak with a customer service representative
               </p>
-              <Button variant="outline" size="sm" className="w-full">
+              <Button variant="secondary" size="sm" className="w-full">
                 +1 (555) 123-4567
               </Button>
             </div>
@@ -206,7 +206,7 @@ export default function PaymentFailed() {
               <p className="text-sm text-gray-600 mb-4">
                 Send us a detailed message
               </p>
-              <Button variant="outline" size="sm" className="w-full">
+              <Button variant="secondary" size="sm" className="w-full">
                 support@pakasain.com
               </Button>
             </div>
@@ -219,7 +219,7 @@ export default function PaymentFailed() {
               <p className="text-sm text-gray-600 mb-4">
                 Try a different payment method
               </p>
-              <Button variant="outline" size="sm" className="w-full">
+              <Button variant="secondary" size="sm" className="w-full">
                 View Options
               </Button>
             </div>
@@ -239,10 +239,10 @@ export default function PaymentFailed() {
               Our team is here to help you complete your order successfully.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button variant="outline" className="border-red-300 text-red-700 hover:bg-red-50">
+                <Button variant="secondary" className="border-red-300 text-red-700 hover:bg-red-50">
                 Live Chat
               </Button>
-              <Button variant="outline" className="border-green-300 text-green-700 hover:bg-green-50">
+              <Button variant="secondary" className="border-green-300 text-green-700 hover:bg-green-50">
                 FAQ
               </Button>
             </div>

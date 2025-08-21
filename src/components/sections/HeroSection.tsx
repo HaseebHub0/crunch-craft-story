@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Zap, Heart, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroProduct from "@/assets/Products/Product.webp";
 import proteinNimko from "@/assets/Protien-Nimko.webp";
 import tick from "@/assets/3d_icons/3dicons-tick-dynamic.png";
@@ -14,7 +15,7 @@ export default function HeroSection() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex items-center overflow-hidden pt-20"
+      className="relative min-h-screen flex items-center overflow-hidden pt-20 mt-20 md:mt-0"
       style={{
         background: "linear-gradient(135deg, #fefefe 0%, #f8fafc 100%)",
       }}
@@ -76,7 +77,7 @@ export default function HeroSection() {
             >
               <div className="bg-red-50 border border-red-200 rounded-full px-3 py-2 flex items-center gap-2">
                 <Zap className="w-4 h-4 text-red-600" />
-                <span className="font-medium text-xs lg:text-sm text-red-700">22g Protein</span>
+                <span className="font-medium text-xs lg:text-sm text-red-700">22g Protein Per 100g</span>
               </div>
               <div className="bg-green-50 border border-green-200 rounded-full px-3 py-2 flex items-center gap-2">
                 <Heart className="w-4 h-4 text-green-600" />
@@ -85,6 +86,7 @@ export default function HeroSection() {
             </motion.div>
 
             {/* CTA Button */}
+            <Link to="/products">
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -94,6 +96,7 @@ export default function HeroSection() {
               <span className="relative z-10">Order Now</span>
               <img src={tick} alt="tick" className="w-8 h-8 lg:w-10 lg:h-10" />
             </motion.button>
+            </Link>
           </motion.div>
 
           {/* Middle Section - Main Product Image */}
@@ -123,7 +126,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: 50 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="hidden lg:flex lg:col-span-1 flex-col items-end text-right"
+            className="lg:flex lg:col-span-1 flex-col items-end text-right"
           >
             {/* Secondary Product Image */}
             <motion.div
@@ -156,7 +159,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.7 }}
-              className="space-y-4"
+              className="hidden lg:block space-y-4"
             >
               <h3 className="text-xl font-semibold text-gray-800 font-heading">
                 Traditional Recipe

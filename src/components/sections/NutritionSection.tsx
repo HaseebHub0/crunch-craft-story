@@ -58,41 +58,7 @@ export default function NutritionSection() {
     threshold: 0.1,
   });
 
-  const nutritionFacts = [
-    {
-      icon: Target,
-      title: "22g Protein",
-      value: "22g",
-      description: "High-quality protein for muscle building and recovery",
-      color: "#9d0803",
-      bgColor: "rgba(157, 8, 3, 0.1)"
-    },
-    {
-      icon: Leaf,
-      title: "Natural Fiber",
-      value: "8g",
-      description: "Dietary fiber for digestive health and satiety",
-      color: "#55a743",
-      bgColor: "rgba(85, 167, 67, 0.1)"
-    },
-    {
-      icon: Zap,
-      title: "Healthy Fats",
-      value: "15g",
-      description: "Essential fatty acids from premium nuts and seeds",
-      color: "#fbbf24",
-      bgColor: "rgba(251, 191, 36, 0.1)"
-    },
-    {
-      icon: Heart,
-      title: "Low Sugar",
-      value: "3g",
-      description: "Minimal added sugars for balanced nutrition",
-      color: "#ef4444",
-      bgColor: "rgba(239, 68, 68, 0.1)"
-    }
-  ];
-
+  
   
 
   return (

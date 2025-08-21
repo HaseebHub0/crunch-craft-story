@@ -36,11 +36,9 @@ export default function Header() {
   const navItems = [
     { name: "Home", href: "/" },
     { name: "Occasions", href: "#occasions" },
-    // { name: "Products", href: "/products" },
-    
+    { name: "Products", href: "#products" },
     { name: "Nutrition", href: "#nutrition" },
  
-    
   ];
 
   return (
@@ -100,7 +98,7 @@ export default function Header() {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-4">
             <Link to="/cart">
-              <Button variant="ghost" size="sm" className="relative">
+              <Button variant="secondary" size="sm" className="relative">
                 <ShoppingBag className="w-4 h-4 mr-2" />
                 Cart
                 {cartItemCount > 0 && (
@@ -171,7 +169,7 @@ export default function Header() {
             ))}
             <div className="pt-4 space-y-2">
               <Link to="/cart" onClick={() => setIsMenuOpen(false)}>
-                <Button variant="ghost" size="sm" className="w-full relative">
+                <Button variant="secondary" size="sm" className="w-full relative">
                   <ShoppingBag className="w-4 h-4 mr-2" />
                   Cart
                   {cartItemCount > 0 && (
@@ -181,11 +179,11 @@ export default function Header() {
                   )}
                 </Button>
               </Link>
-              <Link to="/checkout" onClick={() => setIsMenuOpen(false)}>
-                <Button variant="hero" size="sm" className="w-full">
-                  Order Now
-                </Button>
-              </Link>
+              <Link to="/checkout">
+              <Button className="group bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto lg:mx-0">
+                Order Now
+              </Button>
+            </Link>
             </div>
           </nav>
         </motion.div>

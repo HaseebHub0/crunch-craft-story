@@ -28,26 +28,26 @@ export default function Cart() {
             </div>
             
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4" style={{
-              fontFamily: "'Playfair Display', serif"
+              fontFamily: "'Montserrat', serif"
             }}>
               Your Cart is Empty
             </h1>
             
             <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto" style={{
-              fontFamily: "'Lora', serif"
+              fontFamily: "'Nunito', serif"
             }}>
               Looks like you haven't added any delicious Pakasain Protein Nimko to your cart yet.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/">
-                <Button size="lg" className="px-8 py-4 bg-gradient-to-r from-red-600 to-green-600 text-white font-bold hover:shadow-lg">
-                  🍽️ Continue Shopping
+                <Button size="lg" className="px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold hover:shadow-lg">
+                  Continue Shopping
                 </Button>
               </Link>
               
               <Link to="/products">
-                <Button variant="outline" size="lg" className="px-8 py-4 border-2 border-gray-300 text-gray-700 font-bold hover:border-gray-400">
+                <Button variant="secondary" size="lg" className="px-8 py-4 border-2 border-gray-300 text-gray-700 font-bold hover:border-gray-400">
                   View All Products
                 </Button>
               </Link>
@@ -78,12 +78,12 @@ export default function Cart() {
           </div>
           
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900" style={{
-            fontFamily: "'Playfair Display', serif"
+            fontFamily: "'Montserrat', serif"
           }}>
             Shopping Cart
           </h1>
           <p className="text-gray-600 mt-2" style={{
-            fontFamily: "'Lora', serif"
+            fontFamily: "'Nunito', serif"
           }}>
             {items.length} item{items.length !== 1 ? 's' : ''} in your cart
           </p>
@@ -234,9 +234,9 @@ export default function Cart() {
               {/* Checkout Button */}
               <Link to="/checkout">
                 <Button 
-                  className="w-full py-4 bg-gradient-to-r from-red-600 to-green-600 text-white font-bold hover:shadow-lg text-lg"
+                  className="w-full py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold hover:shadow-lg text-lg"
                   style={{
-                    fontFamily: "'Playfair Display', serif"
+                    fontFamily: "'Montserrat', serif"
                   }}
                 >
                   <CreditCard className="w-5 h-5 mr-2" />
@@ -247,7 +247,7 @@ export default function Cart() {
               {/* Continue Shopping */}
               <div className="mt-4 text-center">
                 <Link to="/">
-                  <Button variant="ghost" className="text-gray-600 hover:text-gray-900">
+                  <Button variant="secondary" className="text-gray-600 hover:text-gray-900">
                     Continue Shopping
                   </Button>
                 </Link>

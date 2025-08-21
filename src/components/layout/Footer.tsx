@@ -97,10 +97,10 @@ export default function Footer() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h4 className="font-poppins font-bold text-xl text-background mb-6">
+            <h4 className="hidden lg:block font-poppins font-bold text-xl text-background mb-6">
               Quick Links
             </h4>
-            <ul className="space-y-3">
+            <ul className="hidden lg:block space-y-3">
               {quickLinks.map((link, index) => (
                 <motion.li
                   key={link.name}
@@ -110,7 +110,7 @@ export default function Footer() {
                 >
                   <a 
                     href={link.href}
-                    className="text-background/70 hover:text-accent transition-colors font-inter hover:translate-x-1 transform duration-200 inline-block"
+                    className="hidden lg:block text-background/70 hover:text-accent transition-colors font-inter hover:translate-x-1 transform duration-200 inline-block"
                   >
                     {link.name}
                   </a>
@@ -125,10 +125,10 @@ export default function Footer() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <h4 className="font-poppins font-bold text-xl text-background mb-6">
+            <h4 className="hidden lg:block font-poppins font-bold text-xl text-background mb-6">
               Our Products
             </h4>
-            <ul className="space-y-3">
+            <ul className="hidden lg:block space-y-3">
               {productLinks.map((link, index) => (
                 <motion.li
                   key={link.name}
@@ -138,7 +138,7 @@ export default function Footer() {
                 >
                   <a 
                     href={link.href}
-                    className="text-background/70 hover:text-accent transition-colors font-inter hover:translate-x-1 transform duration-200 inline-block"
+                    className="hidden lg:block text-background/70 hover:text-accent transition-colors font-inter hover:translate-x-1 transform duration-200 inline-block"
                   >
                     {link.name}
                   </a>

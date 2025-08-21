@@ -107,7 +107,7 @@ export default function Checkout() {
         >
           <div className="flex items-center gap-4 mb-6">
             <Link to="/cart">
-              <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
+              <Button variant="secondary" size="sm" className="text-gray-600 hover:text-gray-900">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Cart
               </Button>
@@ -115,7 +115,7 @@ export default function Checkout() {
           </div>
           
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900" style={{
-            fontFamily: "'Playfair Display', serif"
+              fontFamily: "'Montserrat', serif"
           }}>
             Checkout
           </h1>
@@ -284,7 +284,7 @@ export default function Checkout() {
                       <Button
                         type="button"
                         onClick={nextStep}
-                        className="px-8 py-3 bg-gradient-to-r from-red-600 to-green-600 text-white font-bold hover:shadow-lg"
+                        className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold hover:shadow-lg"
                       >
                         Continue to Payment
                       </Button>
@@ -364,7 +364,7 @@ export default function Checkout() {
                     <div className="flex justify-between">
                       <Button
                         type="button"
-                        variant="outline"
+                        variant="secondary"
                         onClick={prevStep}
                         className="px-8 py-3"
                       >
@@ -374,7 +374,7 @@ export default function Checkout() {
                       <Button
                         type="button"
                         onClick={nextStep}
-                        className="px-8 py-3 bg-gradient-to-r from-red-600 to-green-600 text-white font-bold hover:shadow-lg"
+                        className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold hover:shadow-lg"
                       >
                         Review Order
                       </Button>
@@ -422,7 +422,7 @@ export default function Checkout() {
                     <div className="flex justify-between">
                       <Button
                         type="button"
-                        variant="outline"
+                        variant="secondary"
                         onClick={prevStep}
                         className="px-8 py-3"
                       >
@@ -431,7 +431,7 @@ export default function Checkout() {
                       
                       <Button
                         type="submit"
-                        className="px-8 py-3 bg-gradient-to-r from-red-600 to-green-600 text-white font-bold hover:shadow-lg"
+                          className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold hover:shadow-lg"
                       >
                         <Lock className="w-5 h-5 mr-2" />
                         Place Order

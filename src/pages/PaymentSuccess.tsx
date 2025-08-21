@@ -9,8 +9,8 @@ export default function PaymentSuccess() {
     orderDate: new Date().toLocaleDateString(),
     estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(),
     items: [
-      { name: "Pakasain Protein Nimko", quantity: 2, price: 24.99 },
-      { name: "Pakasain Protein Nimko - Family Pack", quantity: 1, price: 44.99 }
+      { name: "Pakasian Protein Nimko", quantity: 2, price: 24.99 },
+      { name: "Pakasian Protein Nimko - Family Pack", quantity: 1, price: 44.99 }
     ],
     total: 102.57,
     shippingAddress: {
@@ -42,13 +42,13 @@ export default function PaymentSuccess() {
           </motion.div>
           
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4" style={{
-            fontFamily: "'Playfair Display', serif"
+            fontFamily: "'Montserrat', serif"
           }}>
             Payment Successful!
           </h1>
           
           <p className="text-lg text-gray-600 mb-2" style={{
-            fontFamily: "'Lora', serif"
+            fontFamily: "'Nunito', serif"
           }}>
             Thank you for your order. Your payment has been processed successfully.
           </p>
@@ -156,13 +156,13 @@ export default function PaymentSuccess() {
         >
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/">
-              <Button size="lg" className="px-8 py-4 bg-gradient-to-r from-red-600 to-green-600 text-white font-bold hover:shadow-lg">
+                <Button size="lg" className="px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold hover:shadow-lg">
                 <Home className="w-5 h-5 mr-2" />
                 Continue Shopping
               </Button>
             </Link>
             
-            <Button variant="outline" size="lg" className="px-8 py-4 border-2 border-gray-300 text-gray-700 font-bold hover:border-gray-400">
+            <Button variant="secondary" size="lg" className="px-8 py-4 border-2 border-gray-300 text-gray-700 font-bold hover:border-gray-400">
               <Download className="w-5 h-5 mr-2" />
               Download Receipt
             </Button>
@@ -185,7 +185,7 @@ export default function PaymentSuccess() {
             <p className="text-gray-600 mb-4">
               You'll receive tracking information via email once your order ships.
             </p>
-            <Button variant="outline" className="border-red-300 text-red-700 hover:bg-red-50">
+            <Button variant="secondary" className="border-red-300 text-red-700 hover:bg-red-50">
               <ShoppingBag className="w-4 h-4 mr-2" />
               View Order Status
             </Button>
