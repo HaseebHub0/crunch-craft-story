@@ -121,7 +121,7 @@ export default function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Right Section - Additional Image & Content - Hidden on mobile */}
+          {/* Right Section - Additional Image & Content */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
