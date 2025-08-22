@@ -6,7 +6,7 @@ import { toast } from "../hooks/use-toast";
 export default function Checkout() {
   const { state, getTotalPrice, clearCart } = useCart();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -38,7 +38,7 @@ export default function Checkout() {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
     if (formData.phone.trim() && !/^\d{10}$/.test(formData.phone.trim())) {
@@ -62,7 +62,7 @@ export default function Checkout() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: "" }));
@@ -90,16 +90,14 @@ export default function Checkout() {
       };
 
       // 👇 Change endpoint depending on environment
-      const endpoint =
-        window.location.hostname === "localhost"
-          ? "https://cors-anywhere.herokuapp.com/https://script.google.com/macros/s/AKfycbw0Soa6YwKQ-eAL-fvr9HUH2pbQvXggRF5u87s9ANECkFmV0_lnAQCNF426Ymdwb2I/exec"
-          : "https://script.google.com/macros/s/AKfycbw0Soa6YwKQ-eAL-fvr9HUH2pbQvXggRF5u87s9ANECkFmV0_lnAQCNF426Ymdwb2I/exec";
+      const endpoint = "/.netlify/functions/proxy";
 
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
       });
+
 
       const result = await response.json();
 
@@ -122,7 +120,7 @@ export default function Checkout() {
         description: "There was an error placing your order. Please try again.",
         variant: "destructive",
         duration: 5000,
-    });
+      });
     } finally {
       setIsLoading(false);
     }
@@ -144,14 +142,14 @@ export default function Checkout() {
             {/* Order Summary */}
             <div className="space-y-4">
               <h2 className="text-xl font-semibold text-gray-800">Order Summary</h2>
-              
+
               <div className="bg-gray-50 rounded-lg p-4">
                 <div className="space-y-3">
                   {state.items.map((item) => (
                     <div key={item.id} className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <img 
-                          src={item.image} 
+                        <img
+                          src={item.image}
                           alt={item.name}
                           className="w-12 h-12 object-cover rounded-md"
                         />
@@ -167,7 +165,7 @@ export default function Checkout() {
                     </div>
                   ))}
                 </div>
-                
+
                 <div className="border-t pt-4 mt-4">
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-semibold text-gray-800">Total:</span>
@@ -180,7 +178,7 @@ export default function Checkout() {
             {/* Checkout Form */}
             <div className="space-y-4">
               <h2 className="text-xl font-semibold text-gray-800">Shipping Information</h2>
-              
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -192,9 +190,8 @@ export default function Checkout() {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
-                      errors.name ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.name ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     placeholder="Enter your full name"
                   />
                   {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
@@ -210,9 +207,8 @@ export default function Checkout() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
-                      errors.phone ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.phone ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     placeholder="Enter your phone number"
                   />
                   {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
@@ -228,9 +224,8 @@ export default function Checkout() {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
-                      errors.email ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     placeholder="Enter your email address"
                   />
                   {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
@@ -246,9 +241,8 @@ export default function Checkout() {
                     value={formData.address}
                     onChange={handleInputChange}
                     rows={3}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
-                      errors.address ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.address ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     placeholder="Enter your complete address"
                   />
                   {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
@@ -265,9 +259,8 @@ export default function Checkout() {
                       name="city"
                       value={formData.city}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
-                        errors.city ? 'border-red-500' : 'border-gray-300'
-                      }`}
+                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.city ? 'border-red-500' : 'border-gray-300'
+                        }`}
                       placeholder="Enter city"
                     />
                     {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
@@ -283,9 +276,8 @@ export default function Checkout() {
                       name="pincode"
                       value={formData.pincode}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
-                        errors.pincode ? 'border-red-500' : 'border-gray-300'
-                      }`}
+                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.pincode ? 'border-red-500' : 'border-gray-300'
+                        }`}
                       placeholder="Enter pincode"
                     />
                     {errors.pincode && <p className="text-red-500 text-sm mt-1">{errors.pincode}</p>}
@@ -295,11 +287,10 @@ export default function Checkout() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-colors ${
-                    isLoading
+                  className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-colors ${isLoading
                       ? 'bg-gray-400 cursor-not-allowed'
                       : 'bg-red-600 hover:bg-red-700'
-                  }`}
+                    }`}
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center space-x-2">
