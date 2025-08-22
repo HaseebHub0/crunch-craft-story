@@ -71,11 +71,8 @@ export default function Checkout() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
 
+    if (!validateForm()) return;
     setIsLoading(true);
 
     try {
@@ -92,37 +89,40 @@ export default function Checkout() {
         orderId: `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
       };
 
-      const response = await fetch("https://script.google.com/macros/s/AKfycbz8lCIMKRlOP5BFce0A4Kom7yJrttBWENTejn28SbcVHAmKJ6lBev1oPwvQV0C4OfuCDg/exec", {
+      // 👇 Change endpoint depending on environment
+      const endpoint =
+        window.location.hostname === "localhost"
+          ? "https://cors-anywhere.herokuapp.com/https://script.google.com/macros/s/AKfycbxEqM3PqLVaEL_cfeQ5kCQmySlJaPuSzUbs7k_zTGndCmu02Z7yMQjA2xrrcviDp4pN/exec"
+          : "https://script.google.com/macros/s/AKfycbxEqM3PqLVaEL_cfeQ5kCQmySlJaPuSzUbs7k_zTGndCmu02Z7yMQjA2xrrcviDp4pN/exec";
+
+      const response = await fetch(endpoint, {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.message);
       }
 
-      // Clear cart and show success message
       clearCart();
       toast({
         title: "Order Placed Successfully!",
-        description: `Your order #${orderData.orderId} has been placed. We'll contact you soon!`,
+        description: `Your order #${orderData.orderId} has been placed.`,
         duration: 5000,
       });
 
-      // Redirect to success page or home
       navigate("/");
-      
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error placing order:", error);
       toast({
         title: "Order Failed",
         description: "There was an error placing your order. Please try again.",
         variant: "destructive",
         duration: 5000,
-      });
+    });
     } finally {
       setIsLoading(false);
     }
