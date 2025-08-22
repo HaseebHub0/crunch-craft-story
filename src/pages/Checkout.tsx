@@ -93,7 +93,7 @@ export default function Checkout() {
       const endpoint =
         window.location.hostname === "localhost"
           ? "https://cors-anywhere.herokuapp.com/https://script.google.com/macros/s/AKfycbxEqM3PqLVaEL_cfeQ5kCQmySlJaPuSzUbs7k_zTGndCmu02Z7yMQjA2xrrcviDp4pN/exec"
-          : "https://script.google.com/macros/s/AKfycbxEqM3PqLVaEL_cfeQ5kCQmySlJaPuSzUbs7k_zTGndCmu02Z7yMQjA2xrrcviDp4pN/exec";
+          : "https://script.google.com/macros/s/AKfycbxJVeVB503XV9a3sbZ1uBxpq3WXBxq3CHSJEj_V6Fj3zrklqV6CcsUcPhBFayBpE_06/exec";
 
       const response = await fetch(endpoint, {
         method: "POST",
