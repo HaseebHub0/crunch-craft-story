@@ -13,9 +13,9 @@ export default function Footer() {
   });
 
   const socialLinks = [
-    { icon: Facebook, href: "#", color: "hover:text-blue-500" },
-    { icon: Instagram, href: "#", color: "hover:text-pink-500" },
-    { icon: Twitter, href: "#", color: "hover:text-blue-400" },
+    { icon: Facebook, href: "https://www.facebook.com/share/15KjrkXxpj/", color: "hover:text-blue-500" },
+    { icon: Instagram, href: "https://www.instagram.com/pakasianfoodspk?igsh=MW1qZTFneHV6bXpmcw==", color: "hover:text-pink-500" },
+   
   ];
 
   const quickLinks = [
@@ -91,7 +91,7 @@ export default function Footer() {
             </div>
           </motion.div>
 
-          {/* Quick Links */}
+          {/* Quick Links
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -119,7 +119,7 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          {/* Products */}
+          Products 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -145,7 +145,7 @@ export default function Footer() {
                 </motion.li>
               ))}
             </ul>
-          </motion.div>
+          </motion.div> */}
         </div>
 
         

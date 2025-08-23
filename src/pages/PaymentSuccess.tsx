@@ -9,10 +9,10 @@ export default function PaymentSuccess() {
     orderDate: new Date().toLocaleDateString(),
     estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(),
     items: [
-      { name: "Pakasian Protein Nimko", quantity: 2, price: 24.99 },
-      { name: "Pakasian Protein Nimko - Family Pack", quantity: 1, price: 44.99 }
+      { name: "Pakasian Protein Nimko", quantity: 2, price: 1399 },
+      { name: "Pakasian Protein Nimko - Family Pack", quantity: 1, price: 2499 }
     ],
-    total: 102.57,
+    total: 5297,
     shippingAddress: {
       name: "John Doe",
       address: "123 Main Street",
@@ -74,7 +74,7 @@ export default function PaymentSuccess() {
                   <span className="font-medium">{item.name}</span>
                   <span className="text-gray-500 ml-2">x{item.quantity}</span>
                 </div>
-                <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
+                <span className="font-medium">PKR {(item.price * item.quantity).toFixed(2)}</span>
               </div>
             ))}
           </div>
@@ -82,7 +82,7 @@ export default function PaymentSuccess() {
           <div className="border-t border-gray-200 pt-4">
             <div className="flex justify-between font-bold text-lg text-gray-900">
               <span>Total</span>
-              <span>${orderDetails.total.toFixed(2)}</span>
+              <span>PKR {orderDetails.total.toFixed(2)}</span>
             </div>
           </div>
         </motion.div>

@@ -9,9 +9,8 @@ export default function Cart() {
   const { items } = state;
 
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = subtotal > 50 ? 0 : 5.99;
-  const tax = subtotal * 0.08; // 8% tax
-  const total = subtotal + shipping + tax;
+  const shipping = subtotal > 2000 ? 0 : 5.99;
+  const total = subtotal + shipping;
 
   if (items.length === 0) {
     return (
@@ -36,7 +35,7 @@ export default function Cart() {
             <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto" style={{
               fontFamily: "'Nunito', serif"
             }}>
-              Looks like you haven't added any delicious Pakasain Protein Nimko to your cart yet.
+              Looks like you haven't added any delicious Pakasian Protein Nimko to your cart yet.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -124,7 +123,7 @@ export default function Cart() {
                     <div className="flex-1 min-w-0">
                       <h3 className="font-bold text-gray-900 mb-1">{item.name}</h3>
                       <p className="text-sm text-gray-600 mb-2">{item.description}</p>
-                      <p className="text-sm text-gray-500">Weight: {item.weight}</p>
+                     
                     </div>
                     
                     {/* Quantity Controls */}
@@ -152,8 +151,8 @@ export default function Cart() {
                     
                     {/* Price */}
                     <div className="text-right">
-                      <div className="font-bold text-gray-900">${(item.price * item.quantity).toFixed(2)}</div>
-                      <div className="text-sm text-gray-500">${item.price.toFixed(2)} each</div>
+                      <div className="font-bold text-gray-900">PKR {(item.price * item.quantity).toFixed(2)}</div>
+                      <div className="text-sm text-gray-500">PKR {item.price.toFixed(2)} each</div>
                     </div>
                     
                     {/* Remove Button */}
@@ -185,23 +184,19 @@ export default function Cart() {
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>PKR {subtotal.toFixed(2)}</span>
                 </div>
                 
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
-                  <span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+                  <span>{shipping === 0 ? 'Free' : `${shipping.toFixed(2)}`}</span>
                 </div>
-                
-                <div className="flex justify-between text-gray-600">
-                  <span>Tax</span>
-                  <span>${tax.toFixed(2)}</span>
-                </div>
+              
                 
                 <div className="border-t border-gray-200 pt-3">
                   <div className="flex justify-between font-bold text-lg text-gray-900">
                     <span>Total</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>PKR {total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
@@ -214,13 +209,13 @@ export default function Cart() {
                 </div>
                 <p className="text-sm text-gray-600">
                   {shipping === 0 
-                    ? 'Free shipping on orders over $50' 
-                    : `Add $${(50 - subtotal).toFixed(2)} more for free shipping`
+                                    ? 'Free shipping on orders over PKR 2000'
+                : `Add ${(2000 - subtotal).toFixed(2)} more for free shipping`
                   }
                 </p>
               </div>
 
-              {/* Security Info */}
+              {/* Security Info
               <div className="mb-6 p-4 bg-gray-50 rounded-lg">
                 <div className="flex items-center gap-2 mb-2">
                   <Shield className="w-5 h-5 text-gray-600" />
@@ -229,7 +224,7 @@ export default function Cart() {
                 <p className="text-sm text-gray-600">
                   Your payment information is encrypted and secure
                 </p>
-              </div>
+              </div> */}
 
               {/* Checkout Button */}
               <Link to="/checkout">

@@ -22,29 +22,11 @@ export default function Products() {
   const products: Product[] = [
     {
       id: "1",
-      name: "Pakasain Protein Nimko",
-      price: 24.99,
+      name: "Pakasian Protein Nimko",
+      price: 1399,
       image: "/src/assets/Protien-Nimko.webp",
       description: "Premium Pakistani snack with 22g protein per 100g serving",
-      weight: "250g",
-      protein: "22g"
-    },
-    {
-      id: "2",
-      name: "Pakasain Protein Nimko - Family Pack",
-      price: 44.99,
-      image: "/src/assets/spice-background.webp",
-      description: "Larger pack perfect for families and gatherings",
-      weight: "500g",
-      protein: "22g"
-    },
-    {
-      id: "3",
-      name: "Pakasain Protein Nimko - Travel Size",
-      price: 14.99,
-      image: "/src/assets/floating-ingredients.png",
-      description: "Perfect for on-the-go nutrition and travel",
-      weight: "150g",
+      weight: "1 kg",
       protein: "22g"
     }
   ];
@@ -127,7 +109,7 @@ export default function Products() {
 
                 <div className="flex items-center justify-between mb-4">
                   <div className="text-2xl font-bold text-gray-900">
-                    ${product.price}
+                    PKR {product.price}
                   </div>
                   <div className="text-sm text-gray-500">
                     {product.weight}

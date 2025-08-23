@@ -159,7 +159,7 @@ export default function Checkout() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium text-gray-800">₹{item.price}</p>
+                        <p className="font-medium text-gray-800">PKR {item.price}</p>
                         <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
                       </div>
                     </div>
@@ -169,7 +169,7 @@ export default function Checkout() {
                 <div className="border-t pt-4 mt-4">
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-semibold text-gray-800">Total:</span>
-                    <span className="text-2xl font-bold text-red-600">₹{totalPrice}</span>
+                    <span className="text-2xl font-bold text-red-600">PKR {totalPrice}</span>
                   </div>
                 </div>
               </div>
@@ -268,7 +268,7 @@ export default function Checkout() {
 
                   <div>
                     <label htmlFor="pincode" className="block text-sm font-medium text-gray-700 mb-1">
-                      Pincode *
+                      Postal Code *
                     </label>
                     <input
                       type="text"
@@ -298,7 +298,7 @@ export default function Checkout() {
                       <span>Processing Order...</span>
                     </div>
                   ) : (
-                    `Place Order - ₹${totalPrice}`
+                    `Place Order - PKR ${totalPrice}`
                   )}
                 </button>
               </form>

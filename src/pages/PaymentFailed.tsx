@@ -7,7 +7,7 @@ export default function PaymentFailed() {
   const orderDetails = {
     orderNumber: "PAK-2024-001",
     orderDate: new Date().toLocaleDateString(),
-    total: 102.57,
+    total: 5297,
     errorMessage: "Payment was declined by your bank. Please check your card details and try again."
   };
 
@@ -106,21 +106,21 @@ export default function PaymentFailed() {
                 <span className="font-medium">Pakasain Protein Nimko</span>
                 <span className="text-gray-500 ml-2">x2</span>
               </div>
-              <span className="font-medium">$49.98</span>
+              <span className="font-medium">PKR 2798</span>
             </div>
             <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
               <div>
                 <span className="font-medium">Pakasain Protein Nimko - Family Pack</span>
                 <span className="text-gray-500 ml-2">x1</span>
               </div>
-              <span className="font-medium">$44.99</span>
+              <span className="font-medium">PKR 2499</span>
             </div>
           </div>
           
           <div className="border-t border-gray-200 pt-4">
             <div className="flex justify-between font-bold text-lg text-gray-900">
               <span>Total</span>
-              <span>${orderDetails.total.toFixed(2)}</span>
+              <span>PKR {orderDetails.total.toFixed(2)}</span>
             </div>
           </div>
         </motion.div>
