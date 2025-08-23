@@ -209,8 +209,8 @@ export default function Cart() {
                 </div>
                 <p className="text-sm text-gray-600">
                   {shipping === 0 
-                                    ? 'Free shipping on orders over PKR 2000'
-                : `Add ${(2000 - subtotal).toFixed(2)} more for free shipping`
+                                    ? '✅Free shipping Activated'
+                : `Add 1kg more for free shipping`
                   }
                 </p>
               </div>
