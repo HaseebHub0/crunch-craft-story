@@ -24,7 +24,7 @@ export default function Products() {
       id: "1",
       name: "Pakasian Protein Nimko",
       price: 1399,
-      image: "/src/assets/Protien-Nimko.webp",
+      image: "/src/assets/Product.png",
       description: "Premium Pakistani snack with 22g protein per 100g serving",
       weight: "1 kg",
       protein: "22g"
@@ -82,11 +82,11 @@ export default function Products() {
               className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300"
             >
               {/* Product Image */}
-              <div className="relative h-64 bg-gray-100">
+              <div className="relative h-100 bg-gray-100">
                 <img 
                   src={product.image} 
                   alt={product.name}
-                  className="w-full h-full object-cover"
+                  className="w-50 h-50 object-cover"
                 />
                 <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
                   {product.protein} Protein
