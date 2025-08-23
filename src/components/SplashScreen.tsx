@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Zap, Heart, Shield, Award, Star, CheckCircle } from "lucide-react";
-import logo from "@/assets/logo.webp";
+// import logo from "@/assets/logo.webp";
 
 interface SplashScreenProps {
   onComplete: () => void;
@@ -170,7 +170,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
               <div className="relative">
                 {/* Mobile: Smaller logo container */}
                 <div className="w-24 h-24 md:w-32 md:h-32 mx-auto bg-white/10 backdrop-blur-xl rounded-2xl md:rounded-3xl flex items-center justify-center border border-white/30 shadow-2xl">
-                  <img src={logo} alt="Pakasain Logo" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
+                  <img src="/logo.webp" alt="Pakasain Logo" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
                 </div>
                 {/* Glow effect */}
                 <motion.div

@@ -4,7 +4,7 @@ import { Menu, X, ShoppingBag } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
-import logo from "@/assets/logo.webp";
+// import logo from "@/assets/logo.webp";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,7 +60,7 @@ export default function Header() {
           >
             <Link to="/">
               <div className="w-20 h-20 rounded-lg overflow-hidden flex items-center justify-center bg-white">
-                <img src={logo} alt="Pakasain Logo" className="w-full h-full object-contain" />
+                <img src="/logo.webp" alt="Pakasain Logo" className="w-full h-full object-contain" />
               </div>
             </Link>
           </motion.div>

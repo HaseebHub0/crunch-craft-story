@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import logo from "@/assets/logo.webp";
+// import logo from "@/assets/logo.webp";
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
-import LocationIcon from "@/assets/3d_icons/3dicons-map-pin-dynamic-premium (1).png";
-import PhoneIcon from "@/assets/3d_icons/3dicons-call-only-dynamic-premium.png";
-import MailIcon from "@/assets/3d_icons/3dicons-mail-dynamic-premium.png";
+// import LocationIcon from "@/assets/3d_icons/3dicons-map-pin-dynamic-premium (1).png";
+// import PhoneIcon from "@/assets/3d_icons/3dicons-call-only-dynamic-premium.png";
+// import MailIcon from "@/assets/3d_icons/3dicons-mail-dynamic-premium.png";
 
 export default function Footer() {
   const [ref, inView] = useInView({
@@ -52,7 +52,7 @@ export default function Footer() {
           >
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-xl overflow-hidden bg-white flex items-center justify-center">
-                <img src={logo} alt="Pakasian Logo" className="w-full h-full object-contain" />
+                <img src="/logo.webp" alt="Pakasian Logo" className="w-full h-full object-contain" />
               </div>
               <div>
                 <h3 className="font-poppins font-bold text-2xl text-background">
@@ -71,19 +71,19 @@ export default function Footer() {
             
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-              <img src={LocationIcon} alt="Location" className="w-10 h-10 " />
+              <img src="/3d_icons/3dicons-map-pin-dynamic-premium (1).png" alt="Location" className="w-10 h-10 " />
                 <span className="text-background/80 font-inter">
                   Lahore, Pakistan
                 </span>
               </div>
               <div className="flex items-center gap-3">
-              <img src={PhoneIcon} alt="Phone" className="w-10 h-10" />
+              <img src="/3d_icons/3dicons-call-only-dynamic-premium.png" alt="Phone" className="w-10 h-10" />
                 <span className="text-background/80 font-inter">
                   +92 300 1234567
                 </span>
               </div>
               <div className="flex items-center gap-3">
-              <img src={MailIcon} alt="Mail" className="w-10 h-10 " />
+              <img src="/3d_icons/3dicons-mail-dynamic-premium.png" alt="Mail" className="w-10 h-10 " />
                 <span className="text-background/80 font-inter">
                   info@pakasianfoods.com
                 </span>

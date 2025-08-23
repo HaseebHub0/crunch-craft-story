@@ -132,7 +132,7 @@ export default function CallToActionSection() {
               transition={{ duration: 0.8, delay: 1.0 }}
               className="mb-8"
             >
-              <Link to="/checkout">
+              <Link to="/products">
                 <Button 
                   size="lg"
                   className="group bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto lg:mx-0"

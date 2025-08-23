@@ -24,7 +24,7 @@ export default function Products() {
       id: "1",
       name: "Pakasian Protein Nimko",
       price: 1399,
-      image: "/src/assets/Product.png",
+      image: "Products/Product1.png",
       description: "Premium Pakistani snack with 22g protein per 100g serving",
       weight: "1 kg",
       protein: "22g"
