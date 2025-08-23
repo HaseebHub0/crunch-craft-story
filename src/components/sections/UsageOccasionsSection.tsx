@@ -1,7 +1,7 @@
-import AfterExerciseIcon from "@/assets/3d_icons/3dicons-gym-dynamic-color.png";
-import BoostIcon from "@/assets/3d_icons/3dicons-sun-front-color.png";
-import ChaiIcon from "@/assets/3d_icons/3dicons-tea-cup-dynamic-premium.png";
-import FamilyIcon from "@/assets/3d_icons/3dicons-heart-dynamic-color.png";
+import AfterExerciseIcon from "/3d_icons/3dicons-gym-dynamic-color.png";
+import BoostIcon from "/3d_icons/3dicons-sun-front-color.png";
+import ChaiIcon from "/3d_icons/3dicons-tea-cup-dynamic-premium.png";
+import FamilyIcon from "/3d_icons/3dicons-heart-dynamic-color.png";
 
 export default function OccasionSection() {
   return (

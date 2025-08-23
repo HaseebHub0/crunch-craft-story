@@ -1,9 +1,9 @@
 
 
-import naturalIcon from "@/assets/license/2.webp";
-import panjabfoodIcon from "@/assets/license/1.webp";
-import halalIcon from "@/assets/license/3.webp";
-import proteinIcon from "@/assets/license/4.webp";
+import naturalIcon from "/license/2.webp";
+import panjabfoodIcon from "/license/1.webp";
+import halalIcon from "/license/3.webp";
+import proteinIcon from "/license/4.webp";
 
 export default function BadgesSection() {
     const badges = [

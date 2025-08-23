@@ -3,7 +3,7 @@ import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, ExternalLink, Package, Truck, Star, Heart, Zap, Shield } from "lucide-react";
-import heroProduct from "@/assets/Products/Product1.png";
+import heroProduct from "/Products/Product1.png";
 
 export default function CallToActionSection() {
   const [ref, inView] = useInView({

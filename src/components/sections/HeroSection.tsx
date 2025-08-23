@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Zap, Heart, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import heroProduct from "@/assets/Products/Product.webp";
-import proteinNimko from "@/assets/Protien-Nimko.png";
-import tick from "@/assets/3d_icons/3dicons-tick-dynamic.png";
+import heroProduct from "/Products/Product.webp";
+import proteinNimko from "/Protien-Nimko.png";
+import tick from "/3d_icons/3dicons-tick-dynamic.png";
 
 export default function HeroSection() {
   const [ref, inView] = useInView({
