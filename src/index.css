@@ -20,7 +20,7 @@ All colors MUST be HSL.
 
     /* Brand colors */
     --brand-red: 0 96% 31%;        /* #9c0303 */
-    --brand-yellow: 44 94% 49%;    /* #f7b500 */
+
     --brand-green: 120 50% 31%;    /* #2b7a2b */
     
     /* Primary uses brand red */
@@ -36,9 +36,9 @@ All colors MUST be HSL.
     --muted: 35 15% 92%;
     --muted-foreground: 20 8% 45%;
 
-    /* Accent uses brand yellow */
+    /* Accent uses brand yellow
     --accent: 44 94% 49%;
-    --accent-foreground: 20 14% 4%;
+    --accent-foreground: 20 14% 4%; */
 
     /* Success uses brand green */
     --success: 120 50% 31%;

@@ -289,7 +289,8 @@ export default function CallToActionSection() {
                 </Button>
               </Link>
 
-              <Button 
+              <Link to="https://pakasianfoods.com"> 
+              <Button
                 variant="outline" 
                 size="xl"
                 className="px-10 py-6 text-lg font-bold text-black border-2 border-white/30 hover:bg-white/10 hover:border-white/50 backdrop-blur-sm"
@@ -300,6 +301,7 @@ export default function CallToActionSection() {
                 <ExternalLink className="w-5 h-5 mr-3" />
                 Visit Pak Asian Foods
               </Button>
+            </Link>
             </motion.div>
 
             

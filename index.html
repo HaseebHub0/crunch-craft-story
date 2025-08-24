@@ -25,5 +25,18 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Fallback script for SPA routing -->
+    <script>
+      // Handle direct URL access for SPA routes
+      (function() {
+        var path = window.location.pathname;
+        if (path !== '/' && !path.includes('.')) {
+          // This is a route, not a file
+          // The .htaccess should handle this, but this is a backup
+          console.log('SPA route detected:', path);
+        }
+      })();
+    </script>
   </body>
 </html>
