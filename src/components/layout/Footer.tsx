@@ -73,13 +73,13 @@ export default function Footer() {
               <div className="flex items-center gap-3">
               <img src="/3d_icons/3dicons-map-pin-dynamic-premium (1).png" alt="Location" className="w-10 h-10 " />
                 <span className="text-background/80 font-inter">
-                  Lahore, Pakistan
+                  Nag Shah Chowk, Shujabad Road, Multan
                 </span>
               </div>
               <div className="flex items-center gap-3">
               <img src="/3d_icons/3dicons-call-only-dynamic-premium.png" alt="Phone" className="w-10 h-10" />
                 <span className="text-background/80 font-inter">
-                  +92 300 1234567
+                  +92 315-742222, 061-4231425
                 </span>
               </div>
               <div className="flex items-center gap-3">
@@ -149,6 +149,39 @@ export default function Footer() {
         </div>
 
         
+        {/* Policy Links */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="flex flex-wrap justify-center gap-6 mb-8"
+        >
+          <a 
+            href="/privacy-policy"
+            className="text-background/70 hover:text-accent transition-colors font-inter text-sm"
+          >
+            Privacy Policy
+          </a>
+          <a 
+            href="/terms-conditions"
+            className="text-background/70 hover:text-accent transition-colors font-inter text-sm"
+          >
+            Terms & Conditions
+          </a>
+          <a 
+            href="/shipping-policy"
+            className="text-background/70 hover:text-accent transition-colors font-inter text-sm"
+          >
+            Shipping Policy
+          </a>
+          <a 
+            href="/return-policy"
+            className="text-background/70 hover:text-accent transition-colors font-inter text-sm"
+          >
+            Return Policy
+          </a>
+        </motion.div>
+
         {/* Bottom Section */}
         <div className="border-t border-background/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">

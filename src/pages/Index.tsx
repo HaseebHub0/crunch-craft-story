@@ -13,9 +13,9 @@ const Index = () => {
 
   return (
     <>
-      {/* {showSplash && (
+      {showSplash && (
         <SplashScreen onComplete={() => setShowSplash(false)} />
-      )} */}
+      )}
       
       <div className="min-h-screen">
         <Header />
