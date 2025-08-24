@@ -85,7 +85,7 @@ export default function Footer() {
               <div className="flex items-center gap-3">
               <img src="/3d_icons/3dicons-mail-dynamic-premium.png" alt="Mail" className="w-10 h-10 " />
                 <span className="text-background/80 font-inter">
-                  info@pakasianfoods.com
+                infopakasian@gmail.com
                 </span>
               </div>
             </div>
