@@ -39,22 +39,47 @@ export default function Checkout() {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
-    if (formData.phone.trim() && !/^\d{11}$/.test(formData.phone.trim())) {
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters long";
+    }
+
+    // Phone validation
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^\d{11}$/.test(formData.phone.trim())) {
       newErrors.phone = "Please enter a valid 11-digit phone number";
     }
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    if (formData.email.trim() && !/\S+@\S+\.\S+/.test(formData.email.trim())) {
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email.trim())) {
       newErrors.email = "Please enter a valid email address";
     }
-    if (!formData.address.trim()) newErrors.address = "Address is required";
-    if (!formData.city.trim()) newErrors.city = "City is required";
-    if (!formData.pincode.trim()) newErrors.pincode = "Postal code is required";
-    // No validation for postal code
-  if (!formData.pincode.trim()) {
-  newErrors.pincode = "Postal code is required";
-}
+
+    // Address validation
+    if (!formData.address.trim()) {
+      newErrors.address = "Address is required";
+    } else if (formData.address.trim().length < 10) {
+      newErrors.address = "Address must be at least 10 characters long";
+    }
+
+    // City validation
+    if (!formData.city.trim()) {
+      newErrors.city = "City is required";
+    } else if (formData.city.trim().length < 2) {
+      newErrors.city = "City must be at least 2 characters long";
+    }
+
+    // Pincode validation
+    if (!formData.pincode.trim()) {
+      newErrors.pincode = "Postal code is required";
+    } else if (!/^\d{5,6}$/.test(formData.pincode.trim())) {
+      newErrors.pincode = "Please enter a valid 5-6 digit postal code";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -77,20 +102,43 @@ export default function Checkout() {
     setIsLoading(true);
 
     try {
+      // Generate a unique order ID
+      const orderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Format cart items to match what the backend expects
+      const formattedCartItems = state.items.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        weight: item.weight,
+        quantity: item.quantity,
+        image: item.image
+      }));
+
       const orderData = {
-        name: formData.name,
-        phone: formData.phone,
-        email: formData.email,
-        address: formData.address,
-        city: formData.city,
-        pincode: formData.pincode,
-        cart: state.items,
+        orderId: orderId,
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim(),
+        address: formData.address.trim(),
+        city: formData.city.trim(),
+        pincode: formData.pincode.trim(),
+        cart: formattedCartItems,
         totalAmount: getTotalPrice(),
-        orderDate: new Date().toISOString(),
-        orderId: `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+        orderDate: new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        })
       };
 
-      // 👇 Change endpoint depending on environment
+      console.log("Sending order data:", orderData);
+      console.log("Cart items count:", formattedCartItems.length);
+      console.log("Total amount:", getTotalPrice());
+
+      // Send to Netlify function which will proxy to Google Apps Script
       const endpoint = "/.netlify/functions/proxy";
 
       const response = await fetch(endpoint, {
@@ -99,28 +147,45 @@ export default function Checkout() {
         body: JSON.stringify(orderData),
       });
 
-
-      const result = await response.json();
-
-      if (!result.success) {
-        throw new Error(result.message);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
+      const result = await response.json();
+      console.log("Backend response:", result);
+
+      if (!result.success) {
+        throw new Error(result.message || "Order failed");
+      }
+
+      // Clear cart and show success message
       clearCart();
       toast({
-        title: "Order Placed Successfully!",
-        description: `Your order #${orderData.orderId} has been placed.`,
-        duration: 5000,
+        title: "Order Placed Successfully! 🎉",
+        description: `Your order #${orderId} has been placed. Check your email for confirmation.`,
+        duration: 8000,
       });
 
+      // Navigate to success page or home
       navigate("/");
     } catch (error: any) {
       console.error("Error placing order:", error);
+      
+      let errorMessage = "There was an error placing your order. Please try again.";
+      
+      if (error.message.includes("Failed to fetch")) {
+        errorMessage = "Network error. Please check your internet connection and try again.";
+      } else if (error.message.includes("HTTP error")) {
+        errorMessage = "Server error. Please try again in a few minutes.";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
       toast({
-        title: "Order Failed",
-        description: "There was an error placing your order. Please try again.",
+        title: "Order Failed ❌",
+        description: errorMessage,
         variant: "destructive",
-        duration: 5000,
+        duration: 8000,
       });
     } finally {
       setIsLoading(false);
@@ -208,11 +273,13 @@ export default function Checkout() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.phone ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                    placeholder="Enter your phone number"
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
+                      errors.phone ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="e.g., 03001234567"
                   />
                   {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+                  <p className="text-xs text-gray-500 mt-1">Enter 11-digit phone number (e.g., 03001234567)</p>
                 </div>
 
                 <div>
@@ -234,7 +301,7 @@ export default function Checkout() {
 
                 <div>
                   <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
-                    Address *
+                    Complete Address *
                   </label>
                   <textarea
                     id="address"
@@ -242,11 +309,13 @@ export default function Checkout() {
                     value={formData.address}
                     onChange={handleInputChange}
                     rows={3}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.address ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                    placeholder="Enter your complete address"
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
+                      errors.address ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="Enter your complete address including street, house number, area, etc."
                   />
                   {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
+                  <p className="text-xs text-gray-500 mt-1">Please provide your complete address for accurate delivery</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -288,10 +357,11 @@ export default function Checkout() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-colors ${isLoading
+                  className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-colors ${
+                    isLoading
                       ? 'bg-gray-400 cursor-not-allowed'
                       : 'bg-red-600 hover:bg-red-700'
-                    }`}
+                  }`}
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center space-x-2">
@@ -302,6 +372,12 @@ export default function Checkout() {
                     `Place Order - PKR ${totalPrice}`
                   )}
                 </button>
+
+                {isLoading && (
+                  <p className="text-sm text-gray-600 text-center">
+                    Please wait while we process your order...
+                  </p>
+                )}
               </form>
             </div>
           </div>
