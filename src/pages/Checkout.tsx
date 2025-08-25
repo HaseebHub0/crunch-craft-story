@@ -279,7 +279,7 @@ export default function Checkout() {
                       onChange={handleInputChange}
                       className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.pincode ? 'border-red-500' : 'border-gray-300'
                         }`}
-                      placeholder="Enter pincode"
+                      placeholder="Enter Postal Code"
                     />
                     {errors.pincode && <p className="text-red-500 text-sm mt-1">{errors.pincode}</p>}
                   </div>
