@@ -41,8 +41,8 @@ export default function Checkout() {
 
     if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
-    if (formData.phone.trim() && !/^\d{10}$/.test(formData.phone.trim())) {
-      newErrors.phone = "Please enter a valid 10-digit phone number";
+    if (formData.phone.trim() && !/^\d{11}$/.test(formData.phone.trim())) {
+      newErrors.phone = "Please enter a valid 11-digit phone number";
     }
     if (!formData.email.trim()) newErrors.email = "Email is required";
     if (formData.email.trim() && !/\S+@\S+\.\S+/.test(formData.email.trim())) {
@@ -50,10 +50,11 @@ export default function Checkout() {
     }
     if (!formData.address.trim()) newErrors.address = "Address is required";
     if (!formData.city.trim()) newErrors.city = "City is required";
-    if (!formData.pincode.trim()) newErrors.pincode = "Pincode is required";
-    if (formData.pincode.trim() && !/^\d{6}$/.test(formData.pincode.trim())) {
-      newErrors.pincode = "Please enter a valid 6-digit pincode";
-    }
+    if (!formData.pincode.trim()) newErrors.pincode = "Postal code is required";
+    // No validation for postal code
+  if (!formData.pincode.trim()) {
+  newErrors.pincode = "Postal code is required";
+}
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
