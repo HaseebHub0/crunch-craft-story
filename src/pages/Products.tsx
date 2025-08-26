@@ -126,7 +126,7 @@ export default function Products() {
 
                 {/* Action Buttons */}
                 <div className="space-y-3">
-                  <Button
+                  {/* <Button
                     onClick={() => handleAddToCart(product)}
                     className={`w-full py-3 ${
                       addedItems.has(product.id)
@@ -146,14 +146,14 @@ export default function Products() {
                         Add to Cart
                       </>
                     )}
-                  </Button>
+                  </Button> */}
                   
                   <Link to={`/product/${product.id}`}>
                     <Button
                       variant="outline"
                       className="w-full py-3 border-2 border-gray-300 hover:border-red-500 hover:text-red-600 transition-all duration-300"
                     >
-                      View Details & Reviews
+                      Order Now
                     </Button>
                   </Link>
                 </div>

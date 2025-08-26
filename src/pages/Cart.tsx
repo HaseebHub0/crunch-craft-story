@@ -9,7 +9,7 @@ export default function Cart() {
   const { items } = state;
 
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = subtotal > 2000 ? 0 : 5.99;
+  const shipping = subtotal > 2000 ? 0 : 200;
   const total = subtotal + shipping;
 
   if (items.length === 0) {
@@ -25,26 +25,26 @@ export default function Cart() {
             <div className="w-24 h-24 mx-auto mb-6 bg-gray-200 rounded-full flex items-center justify-center">
               <ShoppingBag className="w-12 h-12 text-gray-400" />
             </div>
-            
+
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4" style={{
               fontFamily: "'Montserrat', serif"
             }}>
               Your Cart is Empty
             </h1>
-            
+
             <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto" style={{
               fontFamily: "'Nunito', serif"
             }}>
               Looks like you haven't added any delicious Pakasian Protein Nimko to your cart yet.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/">
                 <Button size="lg" className="px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold hover:shadow-lg">
                   Continue Shopping
                 </Button>
               </Link>
-              
+
               <Link to="/products">
                 <Button variant="secondary" size="lg" className="px-8 py-4 border-2 border-gray-300 text-gray-700 font-bold hover:border-gray-400">
                   View All Products
@@ -75,7 +75,7 @@ export default function Cart() {
               </Button>
             </Link>
           </div>
-          
+
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900" style={{
             fontFamily: "'Montserrat', serif"
           }}>
@@ -100,7 +100,7 @@ export default function Cart() {
               <div className="p-6 border-b border-gray-100">
                 <h2 className="text-xl font-bold text-gray-900">Cart Items</h2>
               </div>
-              
+
               <div className="divide-y divide-gray-100">
                 {items.map((item, index) => (
                   <motion.div
@@ -112,20 +112,20 @@ export default function Cart() {
                   >
                     {/* Product Image */}
                     <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
-                      <img 
-                        src={item.image} 
+                      <img
+                        src={item.image}
                         alt={item.name}
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    
+
                     {/* Product Details */}
                     <div className="flex-1 min-w-0">
                       <h3 className="font-bold text-gray-900 mb-1">{item.name}</h3>
                       <p className="text-sm text-gray-600 mb-2">{item.description}</p>
-                     
+
                     </div>
-                    
+
                     {/* Quantity Controls */}
                     <div className="flex items-center gap-2">
                       <Button
@@ -136,9 +136,9 @@ export default function Cart() {
                       >
                         <Minus className="w-4 h-4" />
                       </Button>
-                      
+
                       <span className="w-12 text-center font-medium">{item.quantity}</span>
-                      
+
                       <Button
                         variant="outline"
                         size="sm"
@@ -148,13 +148,13 @@ export default function Cart() {
                         <Plus className="w-4 h-4" />
                       </Button>
                     </div>
-                    
+
                     {/* Price */}
                     <div className="text-right">
                       <div className="font-bold text-gray-900">PKR {(item.price * item.quantity).toFixed(2)}</div>
                       <div className="text-sm text-gray-500">PKR {item.price.toFixed(2)} each</div>
                     </div>
-                    
+
                     {/* Remove Button */}
                     <Button
                       variant="ghost"
@@ -179,20 +179,20 @@ export default function Cart() {
               className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sticky top-8"
             >
               <h2 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
-              
+
               {/* Price Breakdown */}
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
                   <span>PKR {subtotal.toFixed(2)}</span>
                 </div>
-                
+
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
-                  <span>{shipping === 0 ? 'Free' : `${shipping.toFixed(2)}`}</span>
+                  <span>{shipping === 0 ? "Free" : `${shipping.toFixed(2)}`}</span>
                 </div>
-              
-                
+
+
                 <div className="border-t border-gray-200 pt-3">
                   <div className="flex justify-between font-bold text-lg text-gray-900">
                     <span>Total</span>
@@ -208,9 +208,9 @@ export default function Cart() {
                   <span className="font-medium text-gray-900">Shipping</span>
                 </div>
                 <p className="text-sm text-gray-600">
-                  {shipping === 0 
-                                    ? '✅Free shipping Activated'
-                : `Add 1kg more for free shipping`
+                  {shipping === 0
+                    ? '✅Free shipping Activated'
+                    : `Add 1kg more for free shipping`
                   }
                 </p>
               </div>
@@ -228,7 +228,7 @@ export default function Cart() {
 
               {/* Checkout Button */}
               <Link to="/checkout">
-                <Button 
+                <Button
                   className="w-full py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold hover:shadow-lg text-lg"
                   style={{
                     fontFamily: "'Montserrat', serif"
