@@ -8,7 +8,12 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "node deploy-functions.js",
+    "deploy:functions": "netlify deploy --prod --dir=dist",
+    "test:function": "node test-function.js",
+    "test:file-system": "node test-file-system.js",
+    "dev:netlify": "netlify dev"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",

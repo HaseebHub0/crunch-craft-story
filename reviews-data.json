@@ -1,0 +1,26 @@
+[
+  {
+    "id": "demo-001",
+    "productId": "1",
+    "name": "Sarah Johnson",
+    "rating": 5,
+    "comment": "Absolutely love this product! The quality is outstanding and it exceeded my expectations. Highly recommend!",
+    "date": "2025-08-26T09:00:00.000Z"
+  },
+  {
+    "id": "demo-002",
+    "productId": "1",
+    "name": "Mike Chen",
+    "rating": 4,
+    "comment": "Great product overall. Good value for money and fast delivery. Would buy again.",
+    "date": "2025-08-25T15:30:00.000Z"
+  },
+  {
+    "id": "demo-003",
+    "productId": "2",
+    "name": "Emily Rodriguez",
+    "rating": 5,
+    "comment": "This is exactly what I was looking for! Perfect fit and amazing quality. Thank you!",
+    "date": "2025-08-24T11:45:00.000Z"
+  }
+]

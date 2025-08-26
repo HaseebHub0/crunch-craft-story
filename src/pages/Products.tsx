@@ -89,11 +89,13 @@ export default function Products() {
             >
               {/* Product Image */}
               <div className="relative h-100 bg-gray-100">
-                <img 
-                  src={product.image} 
-                  alt={product.name}
-                  className="w-50 h-50 object-cover"
-                />
+                <Link to={`/product/${product.id}`}>
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    className="w-50 h-50 object-cover cursor-pointer hover:scale-105 transition-transform duration-300"
+                  />
+                </Link>
                 <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
                   {product.protein} Protein
                 </div>
@@ -122,28 +124,39 @@ export default function Products() {
                   <div className="text-sm text-gray-500">{product.weight}</div>
                 </div>
 
-                {/* Add to Cart Button */}
-                <Button
-                  onClick={() => handleAddToCart(product)}
-                  className={`w-full py-3 ${
-                    addedItems.has(product.id)
-                      ? "bg-green-600 hover:bg-green-700"
-                      : "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
-                  } text-white font-bold transition-all duration-300`}
-                  disabled={addedItems.has(product.id)}
-                >
-                  {addedItems.has(product.id) ? (
-                    <>
-                      <ShoppingCart className="w-5 h-5 mr-2" />
-                      Added to Cart!
-                    </>
-                  ) : (
-                    <>
-                      <Plus className="w-5 h-5 mr-2" />
-                      Add to Cart
-                    </>
-                  )}
-                </Button>
+                {/* Action Buttons */}
+                <div className="space-y-3">
+                  <Button
+                    onClick={() => handleAddToCart(product)}
+                    className={`w-full py-3 ${
+                      addedItems.has(product.id)
+                        ? "bg-green-600 hover:bg-green-700"
+                        : "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+                    } text-white font-bold transition-all duration-300`}
+                    disabled={addedItems.has(product.id)}
+                  >
+                    {addedItems.has(product.id) ? (
+                      <>
+                        <ShoppingCart className="w-5 h-5 mr-2" />
+                        Added to Cart!
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="w-5 h-5 mr-2" />
+                        Add to Cart
+                      </>
+                    )}
+                  </Button>
+                  
+                  <Link to={`/product/${product.id}`}>
+                    <Button
+                      variant="outline"
+                      className="w-full py-3 border-2 border-gray-300 hover:border-red-500 hover:text-red-600 transition-all duration-300"
+                    >
+                      View Details & Reviews
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </motion.div>
           ))}

@@ -143,6 +143,19 @@ export default function CallToActionSection() {
                   Order Now
                 </Button>
               </Link>
+              <Link to="https://pakasianfoods.com"> 
+              <Button
+                size="lg"
+                variant="outline"
+                className="px-10 mt-5 py-6 text-lg font-bold text-black border-2 border-white/30 hover:bg-white/10 hover:border-white/50 backdrop-blur-sm"
+                style={{
+                  fontFamily: "'Montserrat', serif"
+                }}
+              >
+                <ExternalLink className="w-5 h-5 mr-3" />
+                Visit Pak Asian Foods
+              </Button>
+              </Link>
             </motion.div>
           </motion.div>
 
