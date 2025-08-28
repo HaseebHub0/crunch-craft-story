@@ -30,22 +30,22 @@ const Index = () => {
         <section id="occasions">
           <UsageOccasionsSection />
         </section>
-        
-        <section id="nutrition">
-          <NutritionSection />
-        </section>
-        
+
         <section id="family">
           <FamilySection />
+        </section>
+        <section id="logos">
+          <LogoSection />
+        </section>
+        <section id="nutrition">
+          <NutritionSection />
         </section>
         
         <section id="badges">
           <BadgesSection />
         </section>
         
-        <section id="logos">
-          <LogoSection />
-        </section>
+        
         
         <CallToActionSection />
         
