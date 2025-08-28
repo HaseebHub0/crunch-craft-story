@@ -49,41 +49,11 @@ const ShippingPolicy = () => {
                 </p>
               </section>
 
-              <section className="mb-8">
-                <h2 className="font-poppins font-bold text-2xl text-foreground mb-4">
-                  2. Shipping Methods
-                </h2>
-                <div className="space-y-4">
-                  <div className="bg-muted rounded-lg p-4">
-                    <h3 className="font-poppins font-semibold text-lg text-foreground mb-2">
-                      Standard Shipping (3-5 business days)
-                    </h3>
-                    <p className="text-muted-foreground font-inter text-sm">
-                      Free for orders above PKR 2,000. PKR 200 for orders below PKR 2,000.
-                    </p>
-                  </div>
-                  <div className="bg-muted rounded-lg p-4">
-                    <h3 className="font-poppins font-semibold text-lg text-foreground mb-2">
-                      Express Shipping (1-2 business days)
-                    </h3>
-                    <p className="text-muted-foreground font-inter text-sm">
-                      PKR 500 additional charge. Available for major cities only.
-                    </p>
-                  </div>
-                  <div className="bg-muted rounded-lg p-4">
-                    <h3 className="font-poppins font-semibold text-lg text-foreground mb-2">
-                      Same Day Delivery
-                    </h3>
-                    <p className="text-muted-foreground font-inter text-sm">
-                      PKR 800 additional charge. Available in Multan city only for orders placed before 2 PM.
-                    </p>
-                  </div>
-                </div>
-              </section>
+              
 
               <section className="mb-8">
                 <h2 className="font-poppins font-bold text-2xl text-foreground mb-4">
-                  3. Processing Time
+                  2. Processing Time
                 </h2>
                 <p className="text-muted-foreground font-inter leading-relaxed mb-4">
                   Orders are typically processed and shipped within 24-48 hours of order confirmation. 
@@ -98,7 +68,7 @@ const ShippingPolicy = () => {
 
               <section className="mb-8">
                 <h2 className="font-poppins font-bold text-2xl text-foreground mb-4">
-                  4. Shipping Costs
+                  3. Shipping Costs
                 </h2>
                 <p className="text-muted-foreground font-inter leading-relaxed mb-4">
                   Shipping costs are calculated based on:
@@ -116,7 +86,7 @@ const ShippingPolicy = () => {
 
               <section className="mb-8">
                 <h2 className="font-poppins font-bold text-2xl text-foreground mb-4">
-                  5. Order Tracking
+                  4. Order Tracking
                 </h2>
                 <p className="text-muted-foreground font-inter leading-relaxed mb-4">
                   Once your order ships, you will receive:
@@ -131,7 +101,7 @@ const ShippingPolicy = () => {
 
               <section className="mb-8">
                 <h2 className="font-poppins font-bold text-2xl text-foreground mb-4">
-                  6. Delivery Process
+                  5. Delivery Process
                 </h2>
                 <p className="text-muted-foreground font-inter leading-relaxed mb-4">
                   Our delivery process includes:
@@ -146,7 +116,7 @@ const ShippingPolicy = () => {
 
               <section className="mb-8">
                 <h2 className="font-poppins font-bold text-2xl text-foreground mb-4">
-                  7. Delivery Issues
+                  6. Delivery Issues
                 </h2>
                 <p className="text-muted-foreground font-inter leading-relaxed mb-4">
                   If you experience delivery issues, please contact us within 24 hours:
@@ -161,7 +131,7 @@ const ShippingPolicy = () => {
 
               <section className="mb-8">
                 <h2 className="font-poppins font-bold text-2xl text-foreground mb-4">
-                  8. Special Handling
+                  7. Special Handling
                 </h2>
                 <p className="text-muted-foreground font-inter leading-relaxed mb-4">
                   Some products require special handling:
@@ -176,7 +146,7 @@ const ShippingPolicy = () => {
 
               <section>
                 <h2 className="font-poppins font-bold text-2xl text-foreground mb-4">
-                  9. Contact Information
+                  8. Contact Information
                 </h2>
                 <p className="text-muted-foreground font-inter leading-relaxed mb-4">
                   For shipping-related questions or concerns, please contact us:

@@ -38,7 +38,8 @@ export default function Header() {
     { name: "Occasions", href: "#occasions" },
     { name: "Products", href: "/products" },
     { name: "Nutrition", href: "#nutrition" },
- 
+    { name: "Family", href: "#family" },
+   
   ];
 
   return (

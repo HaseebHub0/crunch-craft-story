@@ -135,7 +135,7 @@ const PrivacyPolicy = () => {
                 </p>
                 <div className="bg-muted rounded-lg p-4">
                   <p className="text-muted-foreground font-inter">
-                    <strong>Email:</strong> privacy@pakasianfoods.com<br />
+                    <strong>Email:</strong> infopakasian@gmail.com<br />
                     <strong>Phone:</strong> +92 315-742222<br />
                     <strong>Address:</strong> Nag Shah Chowk, Shujabad Road, Multan, Pakistan
                   </p>

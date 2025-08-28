@@ -6,6 +6,8 @@ import NutritionSection from "@/components/sections/NutritionSection";
 import UsageOccasionsSection from "@/components/sections/UsageOccasionsSection";
 import BadgesSection from "@/components/sections/badges";
 import CallToActionSection from "@/components/sections/CallToActionSection";
+import LogoSection from "@/components/sections/LogoSection";
+import FamilySection from "@/components/sections/FamilySection";
 import SplashScreen from "@/components/SplashScreen";
 
 const Index = () => {
@@ -32,9 +34,19 @@ const Index = () => {
         <section id="nutrition">
           <NutritionSection />
         </section>
+        
+        <section id="family">
+          <FamilySection />
+        </section>
+        
         <section id="badges">
           <BadgesSection />
         </section>
+        
+        <section id="logos">
+          <LogoSection />
+        </section>
+        
         <CallToActionSection />
         
         
