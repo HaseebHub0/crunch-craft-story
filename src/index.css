@@ -271,6 +271,7 @@ All colors MUST be HSL.
     animation: var(--animate-power-glow);
   }
 }
+
 .logoloop {
   position: relative;
   overflow-x: hidden;

@@ -16,6 +16,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import ReturnPolicy from "./pages/ReturnPolicy";
+import LogoLoopDemoPage from "./pages/LogoLoopDemoPage";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -36,8 +38,7 @@ const App = () => (
             <Route path="/terms-conditions" element={<TermsConditions />} />
             <Route path="/shipping-policy" element={<ShippingPolicy />} />
             <Route path="/return-policy" element={<ReturnPolicy />} />
-            {/* <Route path="/payment-success" element={<PaymentSuccess />} />
-            <Route path="/payment-failed" element={<PaymentFailed />} />  */}
+            <Route path="/logo-loop-demo" element={<LogoLoopDemoPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
