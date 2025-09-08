@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { useCart } from "../contexts/CartContext";
+import { useFreeOrders } from "../contexts/FreeOrdersContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "../hooks/use-toast";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import StickyOfferBar from "@/components/StickyOfferBar";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
+import SimplePopup from "@/components/SimplePopup";
 
 export default function Checkout() {
   const { state, getTotalPrice, clearCart } = useCart();
+  const { decreaseFreeOrders, isOfferActive } = useFreeOrders();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -158,6 +165,11 @@ export default function Checkout() {
         throw new Error(result.message || "Order failed");
       }
 
+      // Decrease free orders counter if offer is active
+      if (isOfferActive()) {
+        decreaseFreeOrders();
+      }
+
       // Clear cart and show success message
       clearCart();
       toast({
@@ -192,12 +204,15 @@ export default function Checkout() {
     }
   };
 
-  const totalPrice = getTotalPrice();
+  const totalPrice = isOfferActive() ? 0 : getTotalPrice();
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <>
+      <StickyOfferBar />
+      <Header />
+      <div className="min-h-screen bg-gray-50 py-8" style={{ paddingTop: '60px' }}>
       <div className="max-w-4xl mx-auto px-4">
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden mt-20">
           {/* Header */}
           <div className="bg-gradient-to-r from-red-600 to-red-700 px-6 py-4">
             <h1 className="text-2xl font-bold text-white">Checkout</h1>
@@ -225,8 +240,20 @@ export default function Checkout() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium text-gray-800">PKR {item.price}</p>
-                        <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                        {isOfferActive() ? (
+                          <>
+                            <div className="flex items-center justify-end gap-2">
+                              <span className="font-medium text-gray-500 line-through">PKR {item.price}</span>
+                              <span className="font-bold text-green-600">FREE!</span>
+                            </div>
+                            <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                          </>
+                        ) : (
+                          <>
+                            <p className="font-medium text-gray-800">PKR {item.price}</p>
+                            <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                          </>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -235,7 +262,14 @@ export default function Checkout() {
                 <div className="border-t pt-4 mt-4">
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-semibold text-gray-800">Total:</span>
-                    <span className="text-2xl font-bold text-red-600">PKR {totalPrice}</span>
+                    {isOfferActive() ? (
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl font-semibold text-gray-500 line-through">PKR {getTotalPrice()}</span>
+                        <span className="text-2xl font-bold text-green-600">FREE!</span>
+                      </div>
+                    ) : (
+                      <span className="text-2xl font-bold text-red-600">PKR {totalPrice}</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -368,6 +402,8 @@ export default function Checkout() {
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       <span>Processing Order...</span>
                     </div>
+                  ) : isOfferActive() ? (
+                    "Place Order - FREE!"
                   ) : (
                     `Place Order - PKR ${totalPrice}`
                   )}
@@ -383,6 +419,10 @@ export default function Checkout() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+      <Footer />
+      <ExitIntentPopup />
+      <SimplePopup />
+    </>
   );
 }

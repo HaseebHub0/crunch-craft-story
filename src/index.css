@@ -255,6 +255,35 @@ All colors MUST be HSL.
     }
   }
 
+  @keyframes offer-pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 hsl(var(--brand-red) / 0.4);
+    }
+    50% {
+      transform: scale(1.02);
+      box-shadow: 0 0 0 8px hsl(var(--brand-red) / 0);
+    }
+  }
+
+  @keyframes offer-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(var(--brand-red) / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px hsl(var(--brand-red) / 0.6), 0 0 60px hsl(var(--brand-red) / 0.3);
+    }
+  }
+
+  @keyframes countdown-flash {
+    0%, 100% {
+      color: #ffffff;
+    }
+    50% {
+      color: #fbbf24;
+    }
+  }
+
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
   }
@@ -269,6 +298,18 @@ All colors MUST be HSL.
 
   .animate-power-glow {
     animation: var(--animate-power-glow);
+  }
+
+  .animate-offer-pulse {
+    animation: offer-pulse 2s ease-in-out infinite;
+  }
+
+  .animate-offer-glow {
+    animation: offer-glow 3s ease-in-out infinite;
+  }
+
+  .animate-countdown-flash {
+    animation: countdown-flash 1s ease-in-out infinite;
   }
 }
 

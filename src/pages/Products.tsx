@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Plus, ShoppingCart } from "lucide-react";
+import { Plus, ShoppingCart, Gift } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useFreeOrders } from "@/contexts/FreeOrdersContext";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import StickyOfferBar from "@/components/StickyOfferBar";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
+import SimplePopup from "@/components/SimplePopup";
 
 interface Product {
   id: string;
@@ -17,6 +23,7 @@ interface Product {
 
 export default function Products() {
   const { addItem } = useCart();
+  const { isOfferActive } = useFreeOrders();
   const [addedItems, setAddedItems] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
 
@@ -53,8 +60,11 @@ export default function Products() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 md:py-24">
-      <div className="container mx-auto px-4 max-w-7xl">
+    <>
+      <StickyOfferBar />
+      <Header />
+      <div className="min-h-screen bg-gray-50 py-8 md:py-24" style={{ paddingTop: '60px' }}>
+      <div className="container mx-auto px-4 max-w-7xl mt-20">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -99,6 +109,17 @@ export default function Products() {
                 <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
                   {product.protein} Protein
                 </div>
+                {isOfferActive() && (
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="absolute top-4 left-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-red-800 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 animate-offer-pulse"
+                  >
+                    <Gift className="w-4 h-4" />
+                    FREE!
+                  </motion.div>
+                )}
               </div>
 
               {/* Product Info */}
@@ -118,8 +139,21 @@ export default function Products() {
                 </p>
 
                 <div className="flex items-center justify-between mb-4">
-                  <div className="text-2xl font-bold text-gray-900">
-                    PKR {product.price}
+                  <div className="flex items-center gap-3">
+                    {isOfferActive() ? (
+                      <>
+                        <span className="text-xl font-bold text-gray-500 line-through">
+                          PKR {product.price}
+                        </span>
+                        <span className="text-2xl font-black text-green-600">
+                          FREE!
+                        </span>
+                      </>
+                    ) : (
+                      <div className="text-2xl font-bold text-gray-900">
+                        PKR {product.price}
+                      </div>
+                    )}
                   </div>
                   <div className="text-sm text-gray-500">{product.weight}</div>
                 </div>
@@ -196,6 +230,10 @@ export default function Products() {
           </div>
         </motion.div> */}
       </div>
-    </div>
+      </div>
+      <Footer />
+      <ExitIntentPopup />
+      <SimplePopup />
+    </>
   );
 }

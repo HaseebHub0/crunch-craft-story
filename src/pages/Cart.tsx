@@ -3,19 +3,29 @@ import { Button } from "@/components/ui/button";
 import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft, CreditCard, Truck, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { useFreeOrders } from "@/contexts/FreeOrdersContext";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import StickyOfferBar from "@/components/StickyOfferBar";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
+import SimplePopup from "@/components/SimplePopup";
 
 export default function Cart() {
   const { state, updateQuantity, removeItem } = useCart();
+  const { isOfferActive } = useFreeOrders();
   const { items } = state;
 
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = subtotal > 2000 ? 0 : 200;
-  const total = subtotal + shipping;
+  const total = isOfferActive() ? 0 : subtotal + shipping;
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 py-16">
-        <div className="container mx-auto px-4 max-w-4xl">
+      <>
+        <StickyOfferBar />
+        <Header />
+        <div className="min-h-screen bg-gray-50 py-16" style={{ paddingTop: '60px' }}>
+        <div className="container mx-auto px-4 max-w-4xl mt-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -53,13 +63,20 @@ export default function Cart() {
             </div>
           </motion.div>
         </div>
-      </div>
+        </div>
+        <Footer />
+        <ExitIntentPopup />
+        <SimplePopup />
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 md:py-16">
-      <div className="container mx-auto px-4 max-w-7xl">
+    <>
+      <StickyOfferBar />
+      <Header />
+      <div className="min-h-screen bg-gray-50 py-8 md:py-16" style={{ paddingTop: '60px' }}>
+      <div className="container mx-auto px-4 max-w-7xl mt-20">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -151,8 +168,20 @@ export default function Cart() {
 
                     {/* Price */}
                     <div className="text-right">
-                      <div className="font-bold text-gray-900">PKR {(item.price * item.quantity).toFixed(2)}</div>
-                      <div className="text-sm text-gray-500">PKR {item.price.toFixed(2)} each</div>
+                      {isOfferActive() ? (
+                        <>
+                          <div className="flex items-center justify-end gap-2">
+                            <span className="font-bold text-gray-500 line-through">PKR {(item.price * item.quantity).toFixed(2)}</span>
+                            <span className="font-black text-green-600">FREE!</span>
+                          </div>
+                          <div className="text-sm text-gray-500 line-through">PKR {item.price.toFixed(2)} each</div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="font-bold text-gray-900">PKR {(item.price * item.quantity).toFixed(2)}</div>
+                          <div className="text-sm text-gray-500">PKR {item.price.toFixed(2)} each</div>
+                        </>
+                      )}
                     </div>
 
                     {/* Remove Button */}
@@ -182,26 +211,51 @@ export default function Cart() {
 
               {/* Price Breakdown */}
               <div className="space-y-3 mb-6">
-                <div className="flex justify-between text-gray-600">
-                  <span>Subtotal</span>
-                  <span>PKR {subtotal.toFixed(2)}</span>
-                </div>
+                {isOfferActive() ? (
+                  <>
+                    <div className="flex justify-between text-gray-600">
+                      <span>Subtotal</span>
+                      <div className="flex items-center gap-2">
+                        <span className="line-through">PKR {subtotal.toFixed(2)}</span>
+                        <span className="text-green-600 font-bold">FREE!</span>
+                      </div>
+                    </div>
 
-                <div className="flex justify-between text-gray-600">
-                  <span>Shipping</span>
-                  <span>{shipping === 0 ? "Free" : `${shipping.toFixed(2)}`}</span>
-                </div>
+                    <div className="flex justify-between text-gray-600">
+                      <span>Shipping</span>
+                      <span className="text-green-600 font-bold">FREE!</span>
+                    </div>
 
+                    <div className="border-t border-gray-200 pt-3">
+                      <div className="flex justify-between font-bold text-lg text-green-600">
+                        <span>Total</span>
+                        <span>FREE!</span>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-between text-gray-600">
+                      <span>Subtotal</span>
+                      <span>PKR {subtotal.toFixed(2)}</span>
+                    </div>
 
-                <div className="border-t border-gray-200 pt-3">
-                  <div className="flex justify-between font-bold text-lg text-gray-900">
-                    <span>Total</span>
-                    <span>PKR {total.toFixed(2)}</span>
-                  </div>
-                </div>
+                    {/* <div className="flex justify-between text-gray-600">
+                      <span>Shipping</span>
+                      <span>{shipping === 0 ? "Free" : `PKR ${shipping.toFixed(2)}`}</span>
+                    </div> */}
+
+                    <div className="border-t border-gray-200 pt-3">
+                      <div className="flex justify-between font-bold text-lg text-gray-900">
+                        <span>Total</span>
+                        <span>PKR {total.toFixed(2)}</span>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
 
-              {/* Shipping Info */}
+              {/* Shipping Info
               <div className="mb-6 p-4 bg-gray-50 rounded-lg">
                 <div className="flex items-center gap-2 mb-2">
                   <Truck className="w-5 h-5 text-gray-600" />
@@ -213,7 +267,7 @@ export default function Cart() {
                     : `Add 1kg more for free shipping`
                   }
                 </p>
-              </div>
+              </div> */}
 
               {/* Security Info
               <div className="mb-6 p-4 bg-gray-50 rounded-lg">
@@ -251,6 +305,10 @@ export default function Cart() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+      <Footer />
+      <ExitIntentPopup />
+      <SimplePopup />
+    </>
   );
 }

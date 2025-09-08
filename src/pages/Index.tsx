@@ -9,6 +9,9 @@ import CallToActionSection from "@/components/sections/CallToActionSection";
 import LogoSection from "@/components/sections/LogoSection";
 import FamilySection from "@/components/sections/FamilySection";
 import SplashScreen from "@/components/SplashScreen";
+import StickyOfferBar from "@/components/StickyOfferBar";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
+import SimplePopup from "@/components/SimplePopup";
 
 const Index = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -20,6 +23,7 @@ const Index = () => {
       )}
        */}
       <div className="min-h-screen">
+        <StickyOfferBar />
         <Header />
       
       <main>
@@ -54,6 +58,8 @@ const Index = () => {
       </main>
         
         <Footer />
+        <ExitIntentPopup />
+        <SimplePopup />
       </div>
     </>
   );
