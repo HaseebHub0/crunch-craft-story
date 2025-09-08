@@ -41,19 +41,19 @@ const SimplePopup: React.FC = () => {
 
         {/* Header */}
         <div className="bg-red-600 text-white p-4 rounded-t-lg -m-6 mb-4">
-          <h2 className="text-xl font-bold">🎉 Special Offer! 🎉</h2>
-          <p className="text-red-100">Get your first Protein Nimko pack FREE!</p>
+          <h2 className="text-xl font-bold">🚚 Free Delivery Offer! 🚚</h2>
+          <p className="text-red-100">Get FREE delivery on your first order!</p>
         </div>
 
         {/* Content */}
         <div className="space-y-4">
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <span className="text-lg font-bold text-gray-500 line-through">PKR 1,399</span>
-              <span className="text-2xl font-black text-green-600">FREE!</span>
+              <span className="text-lg font-bold text-gray-500 line-through">PKR 200</span>
+              <span className="text-2xl font-black text-green-600">FREE DELIVERY!</span>
             </div>
             <p className="text-sm text-gray-600 mb-4">
-              Only {state.remainingFreeOrders} free orders left!
+              Only {state.remainingFreeOrders} free delivery orders left!
             </p>
           </div>
 
@@ -61,7 +61,7 @@ const SimplePopup: React.FC = () => {
             <Link to="/products" onClick={handleClose}>
               <Button className="w-full bg-red-600 hover:bg-red-700 text-white">
                 <Gift className="w-4 h-4 mr-2" />
-                Claim Your FREE Pack Now!
+                Get FREE Delivery Now!
               </Button>
             </Link>
             

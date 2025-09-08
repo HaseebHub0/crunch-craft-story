@@ -40,7 +40,7 @@ const StickyOfferBar: React.FC = () => {
             transition={{ duration: 0.3 }}
             className="text-sm md:text-base font-bold font-montserrat"
           >
-            🔥 Hurry! Only <span className="text-yellow-300 font-black text-lg animate-countdown-flash">{state.remainingFreeOrders}</span> free orders left!
+            🚚 Hurry! Only <span className="text-yellow-300 font-black text-lg animate-countdown-flash">{state.remainingFreeOrders}</span> free delivery orders left!
           </motion.span>
           
           <motion.div

@@ -120,7 +120,7 @@ export default function ProductDetail() {
                   className="absolute top-4 left-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-red-800 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 animate-offer-pulse"
                 >
                   <Gift className="w-4 h-4" />
-                  FREE!
+                  FREE DELIVERY!
                 </motion.div>
               )}
             </div>
@@ -149,24 +149,23 @@ export default function ProductDetail() {
               </p>
 
               <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                  {isOfferActive() ? (
-                    <>
-                      <span className="text-2xl font-bold text-gray-500 line-through">
-                        PKR {product.price}
-                      </span>
-                      <span className="text-3xl font-black text-green-600">
-                        FREE!
-                      </span>
-                    </>
-                  ) : (
-                    <div className="text-3xl font-bold text-gray-900">
-                      PKR {product.price}
-                    </div>
-                  )}
+                <div className="text-3xl font-bold text-gray-900">
+                  PKR {product.price}
                 </div>
                 <div className="text-lg text-gray-500">{product.weight}</div>
               </div>
+              
+              {isOfferActive() && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="flex items-center gap-2 text-green-700 mb-2">
+                    <Gift className="w-5 h-5" />
+                    <span className="font-semibold text-lg">FREE Delivery on this order!</span>
+                  </div>
+                  <p className="text-green-600">
+                    Save PKR 200 on delivery charges - Only {state.remainingFreeOrders} free delivery orders left!
+                  </p>
+                </div>
+              )}
 
               {/* Add to Cart Button */}
               <Button
@@ -188,7 +187,7 @@ export default function ProductDetail() {
                 ) : isOfferActive() ? (
                   <>
                     <Gift className="w-6 h-6 mr-2" />
-                    Get FREE Pack!
+                    Get FREE Delivery!
                   </>
                 ) : (
                   <>
@@ -210,14 +209,14 @@ export default function ProductDetail() {
             className="mb-8 bg-gradient-to-r from-red-600 via-red-700 to-red-800 text-white rounded-2xl p-6 shadow-lg"
           >
             <div className="text-center">
-              <h3 className="text-2xl font-bold mb-2">🎉 Limited Time Offer! 🎉</h3>
-              <p className="text-lg mb-4">Get your first Protein Nimko pack absolutely FREE!</p>
+              <h3 className="text-2xl font-bold mb-2">🚚 Free Delivery Offer! 🚚</h3>
+              <p className="text-lg mb-4">Get FREE delivery on your first order!</p>
               <div className="flex items-center justify-center gap-4">
                 <div className="bg-yellow-400 text-red-800 px-4 py-2 rounded-full font-bold">
-                  Only {state.remainingFreeOrders} free orders left!
+                  Only {state.remainingFreeOrders} free delivery orders left!
                 </div>
                 <div className="text-sm text-yellow-100">
-                  Hurry up before they're gone!
+                  Save PKR 200 on delivery charges!
                 </div>
               </div>
             </div>
@@ -283,3 +282,4 @@ export default function ProductDetail() {
     </>
   );
 }
+

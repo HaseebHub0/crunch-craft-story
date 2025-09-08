@@ -117,7 +117,7 @@ export default function Products() {
                     className="absolute top-4 left-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-red-800 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 animate-offer-pulse"
                   >
                     <Gift className="w-4 h-4" />
-                    FREE!
+                    FREE DELIVERY!
                   </motion.div>
                 )}
               </div>
@@ -139,24 +139,23 @@ export default function Products() {
                 </p>
 
                 <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    {isOfferActive() ? (
-                      <>
-                        <span className="text-xl font-bold text-gray-500 line-through">
-                          PKR {product.price}
-                        </span>
-                        <span className="text-2xl font-black text-green-600">
-                          FREE!
-                        </span>
-                      </>
-                    ) : (
-                      <div className="text-2xl font-bold text-gray-900">
-                        PKR {product.price}
-                      </div>
-                    )}
+                  <div className="text-2xl font-bold text-gray-900">
+                    PKR {product.price}
                   </div>
                   <div className="text-sm text-gray-500">{product.weight}</div>
                 </div>
+                
+                {isOfferActive() && (
+                  <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <div className="flex items-center gap-2 text-green-700">
+                      <Gift className="w-4 h-4" />
+                      <span className="font-semibold">FREE Delivery on this order!</span>
+                    </div>
+                    <p className="text-sm text-green-600 mt-1">
+                      Save PKR 200 on delivery charges
+                    </p>
+                  </div>
+                )}
 
                 {/* Action Buttons */}
                 <div className="space-y-3">
@@ -237,3 +236,4 @@ export default function Products() {
     </>
   );
 }
+

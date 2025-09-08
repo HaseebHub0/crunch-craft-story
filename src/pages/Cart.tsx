@@ -16,8 +16,8 @@ export default function Cart() {
   const { items } = state;
 
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = subtotal > 2000 ? 0 : 200;
-  const total = isOfferActive() ? 0 : subtotal + shipping;
+  const shipping = isOfferActive() ? 0 : (subtotal > 2000 ? 0 : 200);
+  const total = subtotal + shipping;
 
   if (items.length === 0) {
     return (
@@ -168,20 +168,8 @@ export default function Cart() {
 
                     {/* Price */}
                     <div className="text-right">
-                      {isOfferActive() ? (
-                        <>
-                          <div className="flex items-center justify-end gap-2">
-                            <span className="font-bold text-gray-500 line-through">PKR {(item.price * item.quantity).toFixed(2)}</span>
-                            <span className="font-black text-green-600">FREE!</span>
-                          </div>
-                          <div className="text-sm text-gray-500 line-through">PKR {item.price.toFixed(2)} each</div>
-                        </>
-                      ) : (
-                        <>
-                          <div className="font-bold text-gray-900">PKR {(item.price * item.quantity).toFixed(2)}</div>
-                          <div className="text-sm text-gray-500">PKR {item.price.toFixed(2)} each</div>
-                        </>
-                      )}
+                      <div className="font-bold text-gray-900">PKR {(item.price * item.quantity).toFixed(2)}</div>
+                      <div className="text-sm text-gray-500">PKR {item.price.toFixed(2)} each</div>
                     </div>
 
                     {/* Remove Button */}
@@ -211,48 +199,29 @@ export default function Cart() {
 
               {/* Price Breakdown */}
               <div className="space-y-3 mb-6">
-                {isOfferActive() ? (
-                  <>
-                    <div className="flex justify-between text-gray-600">
-                      <span>Subtotal</span>
-                      <div className="flex items-center gap-2">
-                        <span className="line-through">PKR {subtotal.toFixed(2)}</span>
-                        <span className="text-green-600 font-bold">FREE!</span>
-                      </div>
-                    </div>
+                <div className="flex justify-between text-gray-600">
+                  <span>Subtotal</span>
+                  <span>PKR {subtotal.toFixed(2)}</span>
+                </div>
 
-                    <div className="flex justify-between text-gray-600">
-                      <span>Shipping</span>
+                <div className="flex justify-between text-gray-600">
+                  <span>Shipping</span>
+                  {isOfferActive() ? (
+                    <div className="flex items-center gap-2">
+                      <span className="line-through text-gray-400">PKR 200</span>
                       <span className="text-green-600 font-bold">FREE!</span>
                     </div>
+                  ) : (
+                    <span>{shipping === 0 ? "Free" : `PKR ${shipping.toFixed(2)}`}</span>
+                  )}
+                </div>
 
-                    <div className="border-t border-gray-200 pt-3">
-                      <div className="flex justify-between font-bold text-lg text-green-600">
-                        <span>Total</span>
-                        <span>FREE!</span>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex justify-between text-gray-600">
-                      <span>Subtotal</span>
-                      <span>PKR {subtotal.toFixed(2)}</span>
-                    </div>
-
-                    {/* <div className="flex justify-between text-gray-600">
-                      <span>Shipping</span>
-                      <span>{shipping === 0 ? "Free" : `PKR ${shipping.toFixed(2)}`}</span>
-                    </div> */}
-
-                    <div className="border-t border-gray-200 pt-3">
-                      <div className="flex justify-between font-bold text-lg text-gray-900">
-                        <span>Total</span>
-                        <span>PKR {total.toFixed(2)}</span>
-                      </div>
-                    </div>
-                  </>
-                )}
+                <div className="border-t border-gray-200 pt-3">
+                  <div className="flex justify-between font-bold text-lg text-gray-900">
+                    <span>Total</span>
+                    <span>PKR {total.toFixed(2)}</span>
+                  </div>
+                </div>
               </div>
 
               {/* Shipping Info

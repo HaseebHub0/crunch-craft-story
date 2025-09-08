@@ -15,8 +15,8 @@ type FreeOrdersAction =
   | { type: 'LOAD_FROM_STORAGE'; payload: FreeOrdersState };
 
 const initialState: FreeOrdersState = {
-  remainingFreeOrders: 20,
-  totalFreeOrders: 20,
+  remainingFreeOrders: 29,
+  totalFreeOrders: 29,
   hasShownExitPopup: false,
   hasShownFreeOfferPopup: false,
 };

@@ -204,7 +204,7 @@ export default function Checkout() {
     }
   };
 
-  const totalPrice = isOfferActive() ? 0 : getTotalPrice();
+  const totalPrice = getTotalPrice();
 
   return (
     <>
@@ -240,20 +240,8 @@ export default function Checkout() {
                         </div>
                       </div>
                       <div className="text-right">
-                        {isOfferActive() ? (
-                          <>
-                            <div className="flex items-center justify-end gap-2">
-                              <span className="font-medium text-gray-500 line-through">PKR {item.price}</span>
-                              <span className="font-bold text-green-600">FREE!</span>
-                            </div>
-                            <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-                          </>
-                        ) : (
-                          <>
-                            <p className="font-medium text-gray-800">PKR {item.price}</p>
-                            <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-                          </>
-                        )}
+                        <p className="font-medium text-gray-800">PKR {item.price}</p>
+                        <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
                       </div>
                     </div>
                   ))}
@@ -262,15 +250,18 @@ export default function Checkout() {
                 <div className="border-t pt-4 mt-4">
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-semibold text-gray-800">Total:</span>
-                    {isOfferActive() ? (
-                      <div className="flex items-center gap-2">
-                        <span className="text-xl font-semibold text-gray-500 line-through">PKR {getTotalPrice()}</span>
-                        <span className="text-2xl font-bold text-green-600">FREE!</span>
-                      </div>
-                    ) : (
-                      <span className="text-2xl font-bold text-red-600">PKR {totalPrice}</span>
-                    )}
+                    <span className="text-2xl font-bold text-red-600">PKR {totalPrice}</span>
                   </div>
+                  {isOfferActive() && (
+                    <div className="mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+                      <div className="flex items-center gap-2 text-green-700">
+                        <span className="font-semibold">🚚 FREE Delivery Applied!</span>
+                      </div>
+                      <p className="text-sm text-green-600 mt-1">
+                        You saved PKR 200 on delivery charges
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -402,8 +393,6 @@ export default function Checkout() {
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       <span>Processing Order...</span>
                     </div>
-                  ) : isOfferActive() ? (
-                    "Place Order - FREE!"
                   ) : (
                     `Place Order - PKR ${totalPrice}`
                   )}
