@@ -1,6 +1,13 @@
 User-agent: *
 Allow: /
 
+# Favicon and logo files
+Allow: /favicon.ico
+Allow: /logo.webp
+Allow: /android-chrome-*.png
+Allow: /apple-touch-icon.png
+Allow: /favicon-*.png
+
 # Sitemap location
 Sitemap: https://pakasianmart.com/sitemap.xml
 
