@@ -7,8 +7,6 @@ import { useFreeOrders } from "@/contexts/FreeOrdersContext";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyOfferBar from "@/components/StickyOfferBar";
-import ExitIntentPopup from "@/components/ExitIntentPopup";
-import SimplePopup from "@/components/SimplePopup";
 
 export default function Cart() {
   const { state, updateQuantity, removeItem } = useCart();
@@ -65,8 +63,6 @@ export default function Cart() {
         </div>
         </div>
         <Footer />
-        <ExitIntentPopup />
-        <SimplePopup />
       </>
     );
   }
@@ -276,8 +272,6 @@ export default function Cart() {
       </div>
       </div>
       <Footer />
-      <ExitIntentPopup />
-      <SimplePopup />
     </>
   );
 }

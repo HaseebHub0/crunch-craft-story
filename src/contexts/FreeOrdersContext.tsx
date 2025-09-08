@@ -15,8 +15,8 @@ type FreeOrdersAction =
   | { type: 'LOAD_FROM_STORAGE'; payload: FreeOrdersState };
 
 const initialState: FreeOrdersState = {
-  remainingFreeOrders: 29,
-  totalFreeOrders: 29,
+  remainingFreeOrders: 20,
+  totalFreeOrders: 20,
   hasShownExitPopup: false,
   hasShownFreeOfferPopup: false,
 };
@@ -62,6 +62,7 @@ interface FreeOrdersContextType {
   state: FreeOrdersState;
   decreaseFreeOrders: () => void;
   resetFreeOrders: () => void;
+  clearAndReset: () => void;
   setExitPopupShown: () => void;
   setFreeOfferPopupShown: () => void;
   isOfferActive: () => boolean;
@@ -90,9 +91,19 @@ export const FreeOrdersProvider: React.FC<FreeOrdersProviderProps> = ({ children
     if (savedState) {
       try {
         const parsedState = JSON.parse(savedState);
-        dispatch({ type: 'LOAD_FROM_STORAGE', payload: parsedState });
+        // Only load if the saved state has the correct totalFreeOrders (20)
+        if (parsedState.totalFreeOrders === 20) {
+          dispatch({ type: 'LOAD_FROM_STORAGE', payload: parsedState });
+        } else {
+          // Clear old localStorage and reset to initial state
+          localStorage.removeItem('freeOrdersState');
+          dispatch({ type: 'RESET_FREE_ORDERS' });
+        }
       } catch (error) {
         console.error('Error loading free orders state:', error);
+        // Clear localStorage and reset to initial state on error
+        localStorage.removeItem('freeOrdersState');
+        dispatch({ type: 'RESET_FREE_ORDERS' });
       }
     }
   }, []);
@@ -107,6 +118,11 @@ export const FreeOrdersProvider: React.FC<FreeOrdersProviderProps> = ({ children
   };
 
   const resetFreeOrders = () => {
+    dispatch({ type: 'RESET_FREE_ORDERS' });
+  };
+
+  const clearAndReset = () => {
+    localStorage.removeItem('freeOrdersState');
     dispatch({ type: 'RESET_FREE_ORDERS' });
   };
 
@@ -126,6 +142,7 @@ export const FreeOrdersProvider: React.FC<FreeOrdersProviderProps> = ({ children
     state,
     decreaseFreeOrders,
     resetFreeOrders,
+    clearAndReset,
     setExitPopupShown,
     setFreeOfferPopupShown,
     isOfferActive,

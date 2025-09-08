@@ -14,8 +14,6 @@ import productImage from "/Products/Product1.png";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyOfferBar from "@/components/StickyOfferBar";
-import ExitIntentPopup from "@/components/ExitIntentPopup";
-import SimplePopup from "@/components/SimplePopup";
 
 interface Product {
   id: string;
@@ -277,8 +275,6 @@ export default function ProductDetail() {
       </div>
       </div>
       <Footer />
-      <ExitIntentPopup />
-      <SimplePopup />
     </>
   );
 }

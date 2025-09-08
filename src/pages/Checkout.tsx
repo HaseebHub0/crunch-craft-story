@@ -6,8 +6,6 @@ import { toast } from "../hooks/use-toast";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyOfferBar from "@/components/StickyOfferBar";
-import ExitIntentPopup from "@/components/ExitIntentPopup";
-import SimplePopup from "@/components/SimplePopup";
 
 export default function Checkout() {
   const { state, getTotalPrice, clearCart } = useCart();
@@ -410,8 +408,6 @@ export default function Checkout() {
       </div>
       </div>
       <Footer />
-      <ExitIntentPopup />
-      <SimplePopup />
     </>
   );
 }

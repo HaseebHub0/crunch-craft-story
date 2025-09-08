@@ -8,8 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyOfferBar from "@/components/StickyOfferBar";
-import ExitIntentPopup from "@/components/ExitIntentPopup";
-import SimplePopup from "@/components/SimplePopup";
+
 
 interface Product {
   id: string;
@@ -231,8 +230,6 @@ export default function Products() {
       </div>
       </div>
       <Footer />
-      <ExitIntentPopup />
-      <SimplePopup />
     </>
   );
 }
