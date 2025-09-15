@@ -3,7 +3,7 @@ import { useInView } from "react-intersection-observer";
 import { Zap, Heart, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroProduct from "/Products/Product.webp";
-import proteinNimko from "/Protien-Nimko.png";
+import proteinNimko from "/hero-col3.png";
 import tick from "/3d_icons/3dicons-tick-dynamic.png";
 
 export default function HeroSection() {
