@@ -15,7 +15,7 @@ export default function HeroSection() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex items-center overflow-hidden pt-20 mt-20 md:mt-0"
+      className="relative min-h-screen flex items-center overflow-hidden pt-24 mt-16 md:mt-0"
       style={{
         background: "linear-gradient(135deg, #fefefe 0%, #f8fafc 100%)",
       }}
@@ -27,7 +27,7 @@ export default function HeroSection() {
       </div>
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-center min-h-screen">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 items-center min-h-screen py-8 lg:py-12">
           
           {/* Left Section - Hero Text */}
           <motion.div
@@ -41,15 +41,11 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-3xl md:text-4xl lg:text-6xl font-heading font-bold text-gray-900 mb-4 lg:mb-6 leading-tight"
-            >
-              Best{" "}
-              <span className="text-red-600">
-                Protein Nimko
-              </span>{" "}
-              <span className="text-green-600">
-                in Pakistan
-              </span>
+              className="text-4xl md:text-5xl lg:text-7xl font-heading font-bold text-gray-900 mb-6 lg:mb-8 leading-tight"
+            > Pakasian {""}
+            <span className="text-green-600">Protein {""}</span>
+            <span className="text-red-600">Nimko</span>
+              
             </motion.h1>
 
             {/* Subtitle - Simplified for mobile */}
@@ -57,14 +53,14 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-base md:text-lg lg:text-xl text-gray-600 mb-6 lg:mb-8 leading-relaxed font-body max-w-md lg:max-w-none"
+              className="text-lg md:text-xl lg:text-2xl text-gray-600 mb-8 lg:mb-10 leading-relaxed font-body max-w-lg lg:max-w-2xl"
             >
               <span className="hidden md:inline">
-                Premium Pakistani protein nimko with 22g protein per 100g serving. 
-                Best protein nimko snacks with authentic taste and superior nutrition for your healthy lifestyle.
+                Experience the perfect blend of traditional Pakistani flavors with modern nutrition. 
+                Our protein nimko delivers 22g of premium protein per 100g serving, crafted for your healthy lifestyle.
               </span>
               <span className="md:hidden">
-                Best protein nimko in Pakistan - 22g protein per 100g serving with authentic taste.
+                Traditional Pakistani flavors with 22g protein per 100g serving. Premium nutrition for your healthy lifestyle.
               </span>
             </motion.p>
 

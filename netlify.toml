@@ -48,7 +48,7 @@ plugins = []
 [functions."*"]
 
 [build]
-publish = "C:\\Users\\theal\\Downloads\\crunch-craft-story-main\\crunch-craft-story-main\\dist"
+publish = "dist"
 publishOrigin = "ui"
 commandOrigin = "ui"
 command = "npm run build"
