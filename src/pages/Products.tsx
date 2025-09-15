@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyOfferBar from "@/components/StickyOfferBar";
+import SEO from "@/components/SEO";
 
 
 interface Product {
@@ -29,10 +30,10 @@ export default function Products() {
   const products: Product[] = [
     {
       id: "1",
-      name: "Pakasian Protein Nimko",
+      name: "Best Protein Nimko in Pakistan",
       price: 1399,
       image: "Products/Product1.png",
-      description: "Premium Pakistani snack with 22g protein per 100g serving",
+      description: "Best protein nimko in Pakistan - Premium Pakistani protein nimko with 22g protein per 100g serving",
       weight: "1 kg",
       protein: "22g"
     }
@@ -60,6 +61,13 @@ export default function Products() {
 
   return (
     <>
+      <SEO
+        title="Best Protein Nimko Products in Pakistan | Pakasian Premium Nimko"
+        description="Discover our premium collection of protein nimko snacks in Pakistan. Best protein nimko with 22g protein per 100g serving, crafted with authentic Pakistani flavors."
+        keywords="protein nimko products, best protein nimko pakistan, protein nimko snacks, pakistani protein nimko, high protein nimko, protein nimko online, buy protein nimko"
+        url="https://pakasianmart.com/products"
+        type="website"
+      />
       <StickyOfferBar />
       <Header />
       <div className="min-h-screen bg-gray-50 py-8 md:py-24" style={{ paddingTop: '60px' }}>
@@ -75,14 +83,14 @@ export default function Products() {
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6"
             style={{ fontFamily: "'Montserrat', serif" }}
           >
-            Our Products
+            Best Protein Nimko Products
           </h1>
           <p
             className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto"
             style={{ fontFamily: "'Nunito', serif" }}
           >
-            Discover our range of premium Pakistani Protein Nimko products, 
-            each crafted with authentic flavors and superior nutrition.
+            Discover our premium collection of protein nimko snacks in Pakistan. 
+            Best protein nimko with 22g protein per 100g serving, crafted with authentic Pakistani flavors.
           </p>
         </motion.div>
 

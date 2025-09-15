@@ -4,6 +4,7 @@ Allow: /
 # Favicon and logo files
 Allow: /favicon.ico
 Allow: /logo.webp
+Allow: /logo-new.svg
 Allow: /android-chrome-*.png
 Allow: /apple-touch-icon.png
 Allow: /favicon-*.png

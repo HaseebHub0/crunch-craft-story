@@ -12,9 +12,9 @@ interface SEOProps {
 }
 
 const SEO: React.FC<SEOProps> = ({
-  title = "Pakasian Protein Nimko - Power in Every Crunch | Premium Pakistani Snack",
-  description = "Fuel your day with Pakasian Protein Nimko - 22g protein per 100g serving. Bold taste meets unbeatable nutrition in this premium high-protein Pakistani snack.",
-  keywords = "protein nimko, pakistani snacks, high protein snacks, nimko, pakistani food, protein rich snacks, healthy snacks, traditional snacks, pakistani cuisine, protein bars alternative, nimko snacks, pakistani protein snacks",
+  title = "Protein Nimko - 22g Protein Pakistani Snack | Pakasian Premium Nimko",
+  description = "Best Protein Nimko in Pakistan - 22g protein per 100g serving. Premium Pakistani protein nimko snacks with authentic taste and superior nutrition. Order now!",
+  keywords = "protein nimko, protein nimko pakistan, best protein nimko, pakistani protein nimko, high protein nimko, protein nimko snacks, nimko protein, protein rich nimko, healthy nimko, protein nimko online, buy protein nimko, protein nimko delivery, pakistani snacks protein, nimko with protein, protein nimko brand",
   image = "https://pakasianmart.com/logo.webp",
   url = "https://pakasianmart.com/",
   type = "website",

@@ -43,12 +43,12 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="text-3xl md:text-4xl lg:text-6xl font-heading font-bold text-gray-900 mb-4 lg:mb-6 leading-tight"
             >
-              Pakasian{" "}
+              Best{" "}
               <span className="text-red-600">
-                Protein
+                Protein Nimko
               </span>{" "}
               <span className="text-green-600">
-                Nimko
+                in Pakistan
               </span>
             </motion.h1>
 
@@ -60,11 +60,11 @@ export default function HeroSection() {
               className="text-base md:text-lg lg:text-xl text-gray-600 mb-6 lg:mb-8 leading-relaxed font-body max-w-md lg:max-w-none"
             >
               <span className="hidden md:inline">
-                Experience the authentic taste of Pakistan's finest ingredients, 
-                crafted with love and packed with premium protein for your healthy lifestyle.
+                Premium Pakistani protein nimko with 22g protein per 100g serving. 
+                Best protein nimko snacks with authentic taste and superior nutrition for your healthy lifestyle.
               </span>
               <span className="md:hidden">
-                Authentic Pakistani taste with premium protein for your healthy lifestyle.
+                Best protein nimko in Pakistan - 22g protein per 100g serving with authentic taste.
               </span>
             </motion.p>
 
@@ -77,11 +77,11 @@ export default function HeroSection() {
             >
               <div className="bg-red-50 border border-red-200 rounded-full px-3 py-2 flex items-center gap-2">
                 <Zap className="w-4 h-4 text-red-600" />
-                <span className="font-medium text-xs lg:text-sm text-red-700">22g Protein Per 100g</span>
+                <span className="font-medium text-xs lg:text-sm text-red-700">22g Protein Nimko</span>
               </div>
               <div className="bg-green-50 border border-green-200 rounded-full px-3 py-2 flex items-center gap-2">
                 <Heart className="w-4 h-4 text-green-600" />
-                <span className="font-medium text-xs lg:text-sm text-green-700">100% Natural</span>
+                <span className="font-medium text-xs lg:text-sm text-green-700">Best Protein Nimko</span>
               </div>
             </motion.div>
 
