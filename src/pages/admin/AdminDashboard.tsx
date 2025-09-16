@@ -21,10 +21,10 @@ import { Badge } from "@/components/ui/badge";
 import AdminLogin from "./AdminLogin";
 import { CloudOrderStorage, URLOrderSharing } from "@/utils/cloudStorage";
 import OrderSync from "@/components/OrderSync";
-import { OrderDatabase, Order as FirebaseOrder } from "@/config/firebase";
+import PakasianDatabase from "@/config/database";
+import type { Order, DatabaseStats } from "@/config/database";
 
-// Use Firebase Order interface
-type Order = FirebaseOrder;
+// Using our simple database interface
 
 export default function AdminDashboard() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -34,24 +34,20 @@ export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [lastSyncTime, setLastSyncTime] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Check authentication and setup real-time listener
+  // Check authentication and initialize database
   useEffect(() => {
     const authState = localStorage.getItem('pakasianAdminAuth');
     if (authState === 'true') {
       setIsAuthenticated(true);
-      setupRealTimeListener();
+      initializeDatabase();
     } else {
       setIsLoading(false);
     }
     
     // Listen for online/offline status
-    const handleOnline = () => {
-      setIsOnline(true);
-      if (isAuthenticated) {
-        syncLocalToFirebase();
-      }
-    };
+    const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
     
     window.addEventListener('online', handleOnline);
@@ -61,11 +57,11 @@ export default function AdminDashboard() {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
-  }, [isAuthenticated]);
+  }, []);
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    loadOrders();
+    initializeDatabase();
   };
 
   const handleLogout = () => {
@@ -73,42 +69,25 @@ export default function AdminDashboard() {
     setIsAuthenticated(false);
   };
 
-  // Setup real-time Firebase listener
-  const setupRealTimeListener = () => {
-    setIsLoading(true);
-    
-    // Listen for real-time updates from Firebase
-    const unsubscribe = OrderDatabase.listenForOrders((firebaseOrders) => {
-      setOrders(firebaseOrders);
-      setLastSyncTime(new Date().toLocaleTimeString());
-      setIsLoading(false);
-    });
-    
-    // Cleanup listener on component unmount
-    return () => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
-    };
-  };
-  
-  // Sync local storage to Firebase
-  const syncLocalToFirebase = async () => {
+  // Initialize database and load orders
+  const initializeDatabase = async () => {
     try {
-      await OrderDatabase.syncLocalToFirebase();
-      console.log('Local orders synced to Firebase');
+      setIsLoading(true);
+      await PakasianDatabase.initialize();
+      loadOrders();
     } catch (error) {
-      console.error('Sync failed:', error);
+      console.error('Database initialization failed:', error);
+      setIsLoading(false);
     }
   };
   
-  // Manual refresh/sync
-  const loadOrders = async () => {
+  // Load orders from database
+  const loadOrders = () => {
     try {
-      setIsLoading(true);
-      const allOrders = await OrderDatabase.getAllOrders();
+      const allOrders = PakasianDatabase.getAllOrders();
       setOrders(allOrders);
       setLastSyncTime(new Date().toLocaleTimeString());
+      console.log(`Loaded ${allOrders.length} orders from database`);
     } catch (error) {
       console.error('Error loading orders:', error);
     } finally {
@@ -116,48 +95,27 @@ export default function AdminDashboard() {
     }
   };
 
-  const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
-    try {
-      // Update in Firebase (this will trigger real-time update)
-      const success = await OrderDatabase.updateOrderStatus(orderId, newStatus);
+  const updateOrderStatus = (orderId: string, newStatus: Order['status']) => {
+    const success = PakasianDatabase.updateOrderStatus(orderId, newStatus);
+    
+    if (success) {
+      // Reload orders to reflect changes
+      loadOrders();
       
-      if (success) {
-        console.log(`Order ${orderId} status updated to ${newStatus}`);
-        
-        // Close modal if order was selected
-        if (selectedOrder?.orderId === orderId) {
-          setSelectedOrder({ ...selectedOrder, status: newStatus });
-        }
-      } else {
-        // Fallback to local update if Firebase fails
-        const updatedOrders = orders.map(order => 
-          order.orderId === orderId 
-            ? { ...order, status: newStatus, updatedAt: Date.now() }
-            : order
-        );
-        setOrders(updatedOrders);
+      // Close modal if order was selected
+      if (selectedOrder?.orderId === orderId) {
+        setSelectedOrder({ ...selectedOrder, status: newStatus });
       }
-    } catch (error) {
-      console.error('Error updating order status:', error);
     }
   };
 
-  const deleteOrder = async (orderId: string) => {
-    try {
-      // Delete from Firebase (this will trigger real-time update)
-      const success = await OrderDatabase.deleteOrder(orderId);
-      
-      if (success) {
-        console.log(`Order ${orderId} deleted`);
-        setSelectedOrder(null);
-      } else {
-        // Fallback to local delete if Firebase fails
-        const updatedOrders = orders.filter(order => order.orderId !== orderId);
-        setOrders(updatedOrders);
-        setSelectedOrder(null);
-      }
-    } catch (error) {
-      console.error('Error deleting order:', error);
+  const deleteOrder = (orderId: string) => {
+    const success = PakasianDatabase.deleteOrder(orderId);
+    
+    if (success) {
+      // Reload orders to reflect changes
+      loadOrders();
+      setSelectedOrder(null);
     }
   };
 
@@ -174,15 +132,26 @@ export default function AdminDashboard() {
     window.open(mailtoURL, '_blank');
   };
 
-  // Filter orders with safe null checks
+  // Filter and search orders
   const filteredOrders = (orders || []).filter(order => {
     if (!order) return false;
-    if (filter === 'all') return true;
-    return order.status === filter;
+    
+    // Apply status filter
+    const statusMatch = filter === 'all' || order.status === filter;
+    
+    // Apply search filter
+    const searchMatch = !searchQuery || 
+      order.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.phone.includes(searchQuery) ||
+      order.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.city.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    return statusMatch && searchMatch;
   });
 
-  // Calculate statistics using Firebase method with safe fallback
-  const stats = OrderDatabase.getStatistics(orders || []);
+  // Calculate statistics using database method
+  const stats = PakasianDatabase.getStatistics();
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -264,7 +233,7 @@ export default function AdminDashboard() {
               <Package className="h-8 w-8 text-red-600" />
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Total Orders</p>
-                <p className="text-2xl font-bold text-gray-900">{stats?.total || 0}</p>
+                <p className="text-2xl font-bold text-gray-900">{stats?.totalOrders || 0}</p>
               </div>
             </div>
           </motion.div>
@@ -279,7 +248,7 @@ export default function AdminDashboard() {
               <Clock className="h-8 w-8 text-yellow-600" />
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Pending</p>
-                <p className="text-2xl font-bold text-gray-900">{stats?.pending || 0}</p>
+                <p className="text-2xl font-bold text-gray-900">{stats?.statusBreakdown?.pending || 0}</p>
               </div>
             </div>
           </motion.div>
@@ -315,13 +284,51 @@ export default function AdminDashboard() {
           </motion.div>
         </div>
 
-        {/* Order Sync */}
-        <OrderSync 
-          orders={orders} 
-          onOrdersImported={(importedOrders) => {
-            setOrders(importedOrders);
-          }} 
-        />
+        {/* Search and Export */}
+        <div className="bg-white rounded-lg shadow mb-6">
+          <div className="p-6">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex-1">
+                <input
+                  type="text"
+                  placeholder="Search orders by ID, name, phone, email, or city..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => {
+                    const exportData = PakasianDatabase.exportData();
+                    navigator.clipboard.writeText(exportData);
+                    alert('Database exported to clipboard! Save this as backup.');
+                  }}
+                  variant="outline"
+                >
+                  Export Database
+                </Button>
+                <Button
+                  onClick={() => {
+                    const importData = prompt('Paste database backup data:');
+                    if (importData) {
+                      const success = PakasianDatabase.importData(importData);
+                      if (success) {
+                        loadOrders();
+                        alert('Database imported successfully!');
+                      } else {
+                        alert('Import failed. Please check the data format.');
+                      }
+                    }
+                  }}
+                  variant="outline"
+                >
+                  Import Database
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Filters */}
         <div className="bg-white rounded-lg shadow mb-6">

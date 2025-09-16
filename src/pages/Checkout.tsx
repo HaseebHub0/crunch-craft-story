@@ -6,7 +6,7 @@ import { toast } from "../hooks/use-toast";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyOfferBar from "@/components/StickyOfferBar";
-import { OrderDatabase } from "@/config/firebase";
+import PakasianDatabase from "@/config/database";
 
 export default function Checkout() {
   const { state, getTotalPrice, clearCart } = useCart();
@@ -164,35 +164,23 @@ export default function Checkout() {
         throw new Error(result.message || "Order failed");
       }
 
-      // Save order to Firebase for real-time admin dashboard
+      // Save order to database for admin dashboard
       try {
-        const firebaseOrder = {
+        const databaseOrder = {
           ...orderData,
           status: 'pending' as const,
           timestamp: new Date().toISOString()
         };
         
-        const firebaseKey = await OrderDatabase.addOrder(firebaseOrder);
+        const success = await PakasianDatabase.addOrder(databaseOrder);
         
-        if (firebaseKey) {
-          console.log('Order saved to Firebase with key:', firebaseKey);
+        if (success) {
+          console.log('Order saved to database successfully');
         } else {
-          console.log('Order saved to localStorage backup');
+          console.log('Order save failed, but order was processed');
         }
       } catch (storageError) {
-        console.error('Failed to save order:', storageError);
-        
-        // Fallback to localStorage
-        const existingOrders = JSON.parse(localStorage.getItem('pakasianOrders') || '[]');
-        const newOrder = {
-          ...orderData,
-          status: 'pending',
-          timestamp: new Date().toISOString(),
-          createdAt: Date.now(),
-          updatedAt: Date.now()
-        };
-        existingOrders.unshift(newOrder);
-        localStorage.setItem('pakasianOrders', JSON.stringify(existingOrders));
+        console.error('Failed to save order to database:', storageError);
       }
 
       // Decrease free orders counter if offer is active
