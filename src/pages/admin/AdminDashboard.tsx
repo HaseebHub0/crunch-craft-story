@@ -19,6 +19,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import AdminLogin from "./AdminLogin";
+import { CloudOrderStorage, URLOrderSharing } from "@/utils/cloudStorage";
+import OrderSync from "@/components/OrderSync";
 
 interface Order {
   orderId: string;
@@ -71,27 +73,58 @@ export default function AdminDashboard() {
   const loadOrders = async () => {
     try {
       setIsLoading(true);
-      // For now, load from localStorage
-      // Later you can connect to your API
+      
+      // Try to sync with cloud first
+      const syncedOrders = await CloudOrderStorage.syncOrders();
+      setOrders(syncedOrders);
+      
+      // Also check for URL shared data
+      const urlOrders = URLOrderSharing.extractOrdersFromURL();
+      if (urlOrders && urlOrders.length > 0) {
+        // Merge URL orders with existing orders
+        const existingOrders = JSON.parse(localStorage.getItem('pakasianOrders') || '[]');
+        const mergedOrders = [...urlOrders, ...existingOrders];
+        
+        // Remove duplicates by orderId
+        const uniqueOrders = mergedOrders.filter((order, index, self) => 
+          index === self.findIndex(o => o.orderId === order.orderId)
+        );
+        
+        setOrders(uniqueOrders);
+        localStorage.setItem('pakasianOrders', JSON.stringify(uniqueOrders));
+        
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+      
+    } catch (error) {
+      console.error('Error loading orders:', error);
+      
+      // Fallback to localStorage only
       const savedOrders = localStorage.getItem('pakasianOrders');
       if (savedOrders) {
         setOrders(JSON.parse(savedOrders));
       }
-    } catch (error) {
-      console.error('Error loading orders:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const updateOrderStatus = (orderId: string, newStatus: Order['status']) => {
+  const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
     const updatedOrders = orders.map(order => 
       order.orderId === orderId 
-        ? { ...order, status: newStatus }
+        ? { ...order, status: newStatus, timestamp: new Date().toISOString() }
         : order
     );
     setOrders(updatedOrders);
     localStorage.setItem('pakasianOrders', JSON.stringify(updatedOrders));
+    
+    // Sync to cloud
+    try {
+      await CloudOrderStorage.uploadOrders(updatedOrders);
+    } catch (error) {
+      console.error('Failed to sync status update to cloud:', error);
+    }
     
     // Close modal if order was selected
     if (selectedOrder?.orderId === orderId) {
@@ -176,7 +209,17 @@ export default function AdminDashboard() {
               </div>
               <div className="flex space-x-2">
                 <Button onClick={loadOrders} className="bg-red-600 hover:bg-red-700">
-                  Refresh Orders
+                  Sync Orders
+                </Button>
+                <Button 
+                  onClick={() => {
+                    const shareUrl = URLOrderSharing.generateShareURL(orders);
+                    navigator.clipboard.writeText(shareUrl);
+                    alert('Share URL copied to clipboard! Use this to access orders on other devices.');
+                  }}
+                  variant="outline"
+                >
+                  Share Data
                 </Button>
                 <Button onClick={handleLogout} variant="outline">
                   <LogOut className="h-4 w-4 mr-2" />
@@ -250,6 +293,14 @@ export default function AdminDashboard() {
             </div>
           </motion.div>
         </div>
+
+        {/* Order Sync */}
+        <OrderSync 
+          orders={orders} 
+          onOrdersImported={(importedOrders) => {
+            setOrders(importedOrders);
+          }} 
+        />
 
         {/* Filters */}
         <div className="bg-white rounded-lg shadow mb-6">
