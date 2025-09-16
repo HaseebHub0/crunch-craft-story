@@ -163,6 +163,27 @@ export default function Checkout() {
         throw new Error(result.message || "Order failed");
       }
 
+      // Save order to localStorage for admin dashboard
+      try {
+        const existingOrders = JSON.parse(localStorage.getItem('pakasianOrders') || '[]');
+        const newOrder = {
+          ...orderData,
+          status: 'pending',
+          timestamp: new Date().toISOString()
+        };
+        existingOrders.unshift(newOrder);
+        
+        // Keep only last 100 orders
+        if (existingOrders.length > 100) {
+          existingOrders.splice(100);
+        }
+        
+        localStorage.setItem('pakasianOrders', JSON.stringify(existingOrders));
+        console.log('Order saved to localStorage for admin dashboard');
+      } catch (storageError) {
+        console.error('Failed to save order to localStorage:', storageError);
+      }
+
       // Decrease free orders counter if offer is active
       if (isOfferActive()) {
         decreaseFreeOrders();
