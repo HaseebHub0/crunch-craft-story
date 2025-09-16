@@ -6,6 +6,14 @@ const EMAILJS_TEMPLATE_ID_ADMIN = process.env.REACT_APP_EMAILJS_TEMPLATE_ID_ADMI
 const EMAILJS_TEMPLATE_ID_CUSTOMER = process.env.REACT_APP_EMAILJS_TEMPLATE_ID_CUSTOMER || 'template_customer';
 const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || 'your_public_key';
 
+// Check if EmailJS is properly configured
+const isEmailJSConfigured = () => {
+  return EMAILJS_SERVICE_ID !== 'service_your_id' && 
+         EMAILJS_PUBLIC_KEY !== 'your_public_key' &&
+         EMAILJS_TEMPLATE_ID_ADMIN !== 'template_admin' &&
+         EMAILJS_TEMPLATE_ID_CUSTOMER !== 'template_customer';
+};
+
 // Initialize EmailJS
 emailjs.init(EMAILJS_PUBLIC_KEY);
 
@@ -27,6 +35,11 @@ export interface EmailOrderData {
 export class EmailService {
   // Send email to admin (company)
   static async sendAdminNotification(orderData: EmailOrderData): Promise<boolean> {
+    if (!isEmailJSConfigured()) {
+      console.warn('📧 EmailJS not configured. Skipping admin email. Please set up environment variables.');
+      return false;
+    }
+    
     try {
       const templateParams = {
         to_name: 'Pakasian Team',
@@ -60,6 +73,11 @@ export class EmailService {
 
   // Send confirmation email to customer
   static async sendCustomerConfirmation(orderData: EmailOrderData): Promise<boolean> {
+    if (!isEmailJSConfigured()) {
+      console.warn('📧 EmailJS not configured. Skipping customer email. Please set up environment variables.');
+      return false;
+    }
+    
     try {
       const templateParams = {
         to_name: orderData.customerName,

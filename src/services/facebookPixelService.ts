@@ -8,6 +8,11 @@ declare global {
 export class FacebookPixelService {
   private static pixelId = '1716548252372656';
   
+  // Convert PKR to USD (approximate rate: 1 USD = 280 PKR)
+  private static convertPKRtoUSD(pkrAmount: number): number {
+    return Math.round((pkrAmount / 280) * 100) / 100; // Round to 2 decimal places
+  }
+  
   // Check if Facebook Pixel is loaded
   static isLoaded(): boolean {
     return typeof window !== 'undefined' && window.fbq;
@@ -27,8 +32,8 @@ export class FacebookPixelService {
       window.fbq('track', 'ViewContent', {
         content_name: contentName,
         content_category: contentCategory,
-        value: value,
-        currency: 'PKR'
+        value: value ? this.convertPKRtoUSD(value) : undefined,
+        currency: 'USD'
       });
       console.log('📊 Facebook Pixel: ViewContent tracked', { contentName, contentCategory, value });
     }
@@ -39,8 +44,8 @@ export class FacebookPixelService {
     if (this.isLoaded()) {
       window.fbq('track', 'AddToCart', {
         content_name: contentName,
-        value: value,
-        currency: 'PKR',
+        value: value ? this.convertPKRtoUSD(value) : undefined,
+        currency: 'USD',
         content_type: 'product',
         contents: [{
           id: 'pakasian-protein-nimko',
@@ -56,8 +61,8 @@ export class FacebookPixelService {
   static trackInitiateCheckout(value: number, numItems: number): void {
     if (this.isLoaded()) {
       window.fbq('track', 'InitiateCheckout', {
-        value: value,
-        currency: 'PKR',
+        value: value ? this.convertPKRtoUSD(value) : undefined,
+        currency: 'USD',
         num_items: numItems,
         content_type: 'product'
       });
@@ -73,8 +78,8 @@ export class FacebookPixelService {
   ): void {
     if (this.isLoaded()) {
       window.fbq('track', 'Purchase', {
-        value: value,
-        currency: 'PKR',
+        value: value ? this.convertPKRtoUSD(value) : undefined,
+        currency: 'USD',
         content_type: 'product',
         content_name: 'Pakasian Protein Nimko Order',
         order_id: orderId,

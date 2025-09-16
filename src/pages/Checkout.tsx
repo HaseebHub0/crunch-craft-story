@@ -8,6 +8,7 @@ import Footer from "@/components/layout/Footer";
 import StickyOfferBar from "@/components/StickyOfferBar";
 import { OrderService } from "../services/orderService";
 import { EmailService } from "../services/emailService";
+import { FallbackEmailService } from "../services/fallbackEmailService";
 import { FacebookPixelService } from "../services/facebookPixelService";
 
 
@@ -196,18 +197,46 @@ export default function Checkout() {
           })
         };
 
-        const emailResults = await EmailService.sendOrderNotifications(emailOrderData);
+        // Try EmailJS first, fallback to simple email if it fails
+        let emailResults = await EmailService.sendOrderNotifications(emailOrderData);
+        
+        // If EmailJS fails, use fallback email service
+        if (!emailResults.adminEmailSent || !emailResults.customerEmailSent) {
+          console.log("📧 EmailJS failed, using fallback email service...");
+          const fallbackResults = FallbackEmailService.sendOrderNotifications({
+            orderId: orderId,
+            customerName: formData.name.trim(),
+            customerEmail: formData.email.trim(),
+            customerPhone: formData.phone.trim(),
+            customerAddress: `${formData.address.trim()}, ${formData.city.trim()}`,
+            items: formattedCartItems.map(item => ({
+              name: item.name,
+              quantity: item.quantity,
+              price: item.price
+            })),
+            totalAmount: getTotalPrice(),
+            orderDate: new Date().toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })
+          });
+          
+          emailResults = fallbackResults;
+        }
         
         if (emailResults.adminEmailSent) {
-          console.log("✅ Admin notification email sent successfully");
+          console.log("✅ Admin notification sent successfully");
         } else {
-          console.warn("⚠️ Failed to send admin notification email");
+          console.warn("⚠️ Failed to send admin notification");
         }
         
         if (emailResults.customerEmailSent) {
-          console.log("✅ Customer confirmation email sent successfully");
+          console.log("✅ Customer confirmation sent successfully");
         } else {
-          console.warn("⚠️ Failed to send customer confirmation email");
+          console.warn("⚠️ Failed to send customer confirmation");
         }
         
       } catch (emailError) {
