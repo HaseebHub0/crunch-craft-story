@@ -16,6 +16,7 @@
     "dev:netlify": "netlify dev"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@formspree/react": "^3.0.0",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "^1.2.11",

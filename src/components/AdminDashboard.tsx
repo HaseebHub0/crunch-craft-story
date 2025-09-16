@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Order, OrderStatus } from '../types/order';
 import { OrderService } from '../services/orderService';
+import { EmailService } from '../services/emailService';
 import { useAuth } from '../contexts/AuthContext';
 
 const AdminDashboard: React.FC = () => {
@@ -25,7 +26,33 @@ const AdminDashboard: React.FC = () => {
   const handleStatusUpdate = async (orderId: string, status: OrderStatus) => {
     setActionLoading(orderId);
     try {
+      // Find the order to get customer details
+      const order = orders.find(o => o.id === orderId);
+      
+      // Update order status in Firebase
       await OrderService.updateOrderStatus(orderId, status);
+      
+      // Send email notification to customer about status change
+      if (order) {
+        try {
+          // Extract customer email from order data (assuming it's in the address or you have it)
+          // For now, we'll skip email if we don't have customer email
+          // You can enhance this by storing customer email in the order data
+          console.log(`Order ${orderId} status updated to ${status}`);
+          
+          // If you have customer email in order data, uncomment this:
+          // await EmailService.sendStatusUpdateEmail(
+          //   order.customerEmail,
+          //   order.name,
+          //   orderId,
+          //   status
+          // );
+        } catch (emailError) {
+          console.error('Failed to send status update email:', emailError);
+          // Don't fail the status update if email fails
+        }
+      }
+      
     } catch (err: any) {
       setError(err.message || 'Failed to update order status');
       setTimeout(() => setError(''), 3000);

@@ -7,6 +7,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyOfferBar from "@/components/StickyOfferBar";
 import { OrderService } from "../services/orderService";
+import { EmailService } from "../services/emailService";
+
 
 export default function Checkout() {
   const { state, getTotalPrice, clearCart } = useCart();
@@ -164,6 +166,48 @@ export default function Checkout() {
       } catch (firebaseError) {
         console.error("Failed to save to Firebase:", firebaseError);
         // Don't fail the entire checkout if Firebase fails
+      }
+
+      // Send email notifications to both admin and customer
+      try {
+        const emailOrderData = {
+          orderId: orderId,
+          customerName: formData.name.trim(),
+          customerEmail: formData.email.trim(),
+          customerPhone: formData.phone.trim(),
+          customerAddress: `${formData.address.trim()}, ${formData.city.trim()}`,
+          items: formattedCartItems.map(item => ({
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price
+          })),
+          totalAmount: getTotalPrice(),
+          orderDate: new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          })
+        };
+
+        const emailResults = await EmailService.sendOrderNotifications(emailOrderData);
+        
+        if (emailResults.adminEmailSent) {
+          console.log("✅ Admin notification email sent successfully");
+        } else {
+          console.warn("⚠️ Failed to send admin notification email");
+        }
+        
+        if (emailResults.customerEmailSent) {
+          console.log("✅ Customer confirmation email sent successfully");
+        } else {
+          console.warn("⚠️ Failed to send customer confirmation email");
+        }
+        
+      } catch (emailError) {
+        console.error("Email notification error:", emailError);
+        // Don't fail the entire checkout if email fails
       }
 
       // Send to Netlify function which will proxy to Google Apps Script
