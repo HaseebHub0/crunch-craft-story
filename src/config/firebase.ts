@@ -3,14 +3,15 @@ import { getDatabase, ref, push, set, get, onValue, off, remove, update } from '
 
 // Firebase configuration - Replace with your actual config
 const firebaseConfig = {
-  apiKey: "AIzaSyDemoKey-ReplaceWithYourActualKey",
-  authDomain: "pakasian-orders.firebaseapp.com",
-  databaseURL: "https://pakasian-orders-default-rtdb.firebaseio.com",
-  projectId: "pakasian-orders",
-  storageBucket: "pakasian-orders.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:abcdef123456789012345678"
-};
+    apiKey: "AIzaSyCKA-KypQTucH01aTJ8WPiM7LYXTQcgL3c",
+    authDomain: "pakasian-protein-nimko.firebaseapp.com",
+    databaseURL: "https://pakasian-protein-nimko-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "pakasian-protein-nimko",
+    storageBucket: "pakasian-protein-nimko.firebasestorage.app",
+    messagingSenderId: "375303378562",
+    appId: "1:375303378562:web:ea7acf7483b2af10cd869b",
+    measurementId: "G-6EZ1B4KWY1"
+  };
 
 // For demo purposes, we'll use a mock configuration
 // In production, replace with your actual Firebase config
@@ -24,8 +25,8 @@ const mockConfig = {
   appId: "1:000000000000:web:demo"
 };
 
-// Initialize Firebase
-const app = initializeApp(process.env.NODE_ENV === 'production' ? firebaseConfig : mockConfig);
+// Initialize Firebase - Always use real config now that it's set up
+const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 export interface Order {
