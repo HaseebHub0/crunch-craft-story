@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Plus, ShoppingCart, Gift } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useFreeOrders } from "@/contexts/FreeOrdersContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyOfferBar from "@/components/StickyOfferBar";
+import { FacebookPixelService } from "../services/facebookPixelService";
 import SEO from "@/components/SEO";
 
 
@@ -27,6 +28,11 @@ export default function Products() {
   const [addedItems, setAddedItems] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
 
+  // Track page view when component mounts
+  useEffect(() => {
+    FacebookPixelService.trackViewContent('Products Page', 'Food & Beverage');
+  }, []);
+
   const products: Product[] = [
     {
       id: "1",
@@ -40,6 +46,9 @@ export default function Products() {
   ];
 
   const handleAddToCart = (product: Product) => {
+    // Track add to cart event
+    FacebookPixelService.trackAddToCart(product.name, product.price, 1);
+    
     addItem({
       ...product,
       quantity: 1

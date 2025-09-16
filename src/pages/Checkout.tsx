@@ -8,6 +8,7 @@ import Footer from "@/components/layout/Footer";
 import StickyOfferBar from "@/components/StickyOfferBar";
 import { OrderService } from "../services/orderService";
 import { EmailService } from "../services/emailService";
+import { FacebookPixelService } from "../services/facebookPixelService";
 
 
 export default function Checkout() {
@@ -107,6 +108,10 @@ export default function Checkout() {
     e.preventDefault();
 
     if (!validateForm()) return;
+    
+    // Track checkout initiation
+    FacebookPixelService.trackInitiateCheckout(getTotalPrice(), state.items.length);
+    
     setIsLoading(true);
 
     try {
@@ -229,6 +234,20 @@ export default function Checkout() {
       if (!result.success) {
         throw new Error(result.message || "Order failed");
       }
+
+      // Track successful purchase
+      FacebookPixelService.trackPurchase(
+        orderId,
+        getTotalPrice(),
+        formattedCartItems.map(item => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price
+        }))
+      );
+
+      // Track order completion
+      FacebookPixelService.trackCompleteRegistration();
 
       // Decrease free orders counter if offer is active
       if (isOfferActive()) {
