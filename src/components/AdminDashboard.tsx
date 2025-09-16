@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Order, OrderStatus } from '../types/order';
 import { OrderService } from '../services/orderService';
-import { EmailService } from '../services/emailService';
+import { WhatsAppService } from '../services/whatsappService';
 import { useAuth } from '../contexts/AuthContext';
 
 const AdminDashboard: React.FC = () => {
@@ -75,6 +75,19 @@ const AdminDashboard: React.FC = () => {
     } finally {
       setActionLoading('');
     }
+  };
+
+  const sendWhatsAppToCustomer = (order: Order) => {
+    const orderData = {
+      orderId: order.id || 'Unknown',
+      customerName: order.name,
+      customerPhone: order.phone,
+      customerAddress: order.address,
+      items: order.items,
+      totalAmount: order.totalPrice
+    };
+    
+    WhatsAppService.sendOrderConfirmation(orderData);
   };
 
   const getStatusBadgeClass = (status: OrderStatus) => {
@@ -239,6 +252,7 @@ const AdminDashboard: React.FC = () => {
                         <div>
                           <h4 className="text-lg font-medium text-gray-900">{order.name}</h4>
                           <p className="text-sm text-gray-600">{order.phone}</p>
+                          {order.email && <p className="text-sm text-gray-600">{order.email}</p>}
                         </div>
                         <div className="flex items-center space-x-2">
                           <span
@@ -309,6 +323,13 @@ const AdminDashboard: React.FC = () => {
                           className="px-3 py-1 rounded text-sm font-medium bg-red-600 text-white hover:bg-red-700 disabled:bg-gray-400"
                         >
                           {actionLoading === order.id ? 'Deleting...' : 'Delete'}
+                        </button>
+                        
+                        <button
+                          onClick={() => sendWhatsAppToCustomer(order)}
+                          className="px-3 py-1 rounded text-sm font-medium bg-green-600 text-white hover:bg-green-700"
+                        >
+                          📱 WhatsApp
                         </button>
                       </div>
                     </div>

@@ -2,6 +2,7 @@ export interface Order {
   id?: string;
   name: string;
   phone: string;
+  email?: string;
   address: string;
   items: OrderItem[];
   totalPrice: number;
@@ -22,6 +23,7 @@ export type OrderStatus = 'pending' | 'completed' | 'canceled';
 export interface OrderFormData {
   name: string;
   phone: string;
+  email?: string;
   address: string;
   items: OrderItem[];
   totalPrice: number;

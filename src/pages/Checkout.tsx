@@ -7,10 +7,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyOfferBar from "@/components/StickyOfferBar";
 import { OrderService } from "../services/orderService";
-import { EmailService } from "../services/emailService";
-import { FallbackEmailService } from "../services/fallbackEmailService";
+import { WhatsAppService } from "../services/whatsappService";
 import { FacebookPixelService } from "../services/facebookPixelService";
-
 
 export default function Checkout() {
   const { state, getTotalPrice, clearCart } = useCart();
@@ -25,16 +23,17 @@ export default function Checkout() {
     city: "",
     pincode: ""
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Redirect if cart is empty
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Check if cart is empty
   if (state.items.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center p-8 bg-white rounded-xl shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Your Cart is Empty</h2>
-          <p className="text-gray-600 mb-6">Please add some items to your cart before checkout.</p>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Your cart is empty</h2>
+          <p className="text-gray-600 mb-6">Add some items to your cart before checkout.</p>
           <button
             onClick={() => navigate("/products")}
             className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
@@ -49,46 +48,20 @@ export default function Checkout() {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    // Name validation
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = "Name must be at least 2 characters long";
-    }
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    if (!formData.address.trim()) newErrors.address = "Address is required";
+    if (!formData.city.trim()) newErrors.city = "City is required";
 
-    // Phone validation
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required";
-    } else if (!/^\d{11}$/.test(formData.phone.trim())) {
-      newErrors.phone = "Please enter a valid 11-digit phone number";
+    // Phone validation (Pakistan format)
+    if (formData.phone.trim() && !/^(\+92|0)?[0-9]{10,11}$/.test(formData.phone.replace(/\s/g, ""))) {
+      newErrors.phone = "Please enter a valid Pakistani phone number";
     }
 
     // Email validation
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email.trim())) {
+    if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
-    }
-
-    // Address validation
-    if (!formData.address.trim()) {
-      newErrors.address = "Address is required";
-    } else if (formData.address.trim().length < 10) {
-      newErrors.address = "Address must be at least 10 characters long";
-    }
-
-    // City validation
-    if (!formData.city.trim()) {
-      newErrors.city = "City is required";
-    } else if (formData.city.trim().length < 2) {
-      newErrors.city = "City must be at least 2 characters long";
-    }
-
-    // Pincode validation
-    if (!formData.pincode.trim()) {
-      newErrors.pincode = "Postal code is required";
-    } else if (!/^\d{5,6}$/.test(formData.pincode.trim())) {
-      newErrors.pincode = "Please enter a valid 5-6 digit postal code";
     }
 
     setErrors(newErrors);
@@ -119,7 +92,7 @@ export default function Checkout() {
       // Generate a unique order ID
       const orderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       
-      // Format cart items to match what the backend expects
+      // Format cart items
       const formattedCartItems = state.items.map(item => ({
         id: item.id,
         name: item.name,
@@ -129,34 +102,12 @@ export default function Checkout() {
         image: item.image
       }));
 
-      const orderData = {
-        orderId: orderId,
-        name: formData.name.trim(),
-        phone: formData.phone.trim(),
-        email: formData.email.trim(),
-        address: formData.address.trim(),
-        city: formData.city.trim(),
-        pincode: formData.pincode.trim(),
-        cart: formattedCartItems,
-        totalAmount: getTotalPrice(),
-        orderDate: new Date().toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        })
-      };
-
-      console.log("Sending order data:", orderData);
-      console.log("Cart items count:", formattedCartItems.length);
-      console.log("Total amount:", getTotalPrice());
-
       // Save to Firebase for admin dashboard
       try {
         const firebaseOrderData = {
           name: formData.name.trim(),
           phone: formData.phone.trim(),
+          email: formData.email.trim(),
           address: `${formData.address.trim()}, ${formData.city.trim()}`,
           items: formattedCartItems.map(item => ({
             id: item.id,
@@ -168,18 +119,17 @@ export default function Checkout() {
         };
         
         const firebaseOrderId = await OrderService.createOrder(firebaseOrderData);
-        console.log("Order saved to Firebase with ID:", firebaseOrderId);
+        console.log("✅ Order saved to Firebase with ID:", firebaseOrderId);
       } catch (firebaseError) {
         console.error("Failed to save to Firebase:", firebaseError);
-        // Don't fail the entire checkout if Firebase fails
+        throw new Error("Failed to save order. Please try again.");
       }
 
-      // Send email notifications to both admin and customer
-      try {
-        const emailOrderData = {
+      // Optional: Send WhatsApp notification
+      if (window.confirm("Send WhatsApp notifications for this order?")) {
+        const whatsappData = {
           orderId: orderId,
           customerName: formData.name.trim(),
-          customerEmail: formData.email.trim(),
           customerPhone: formData.phone.trim(),
           customerAddress: `${formData.address.trim()}, ${formData.city.trim()}`,
           items: formattedCartItems.map(item => ({
@@ -187,81 +137,16 @@ export default function Checkout() {
             quantity: item.quantity,
             price: item.price
           })),
-          totalAmount: getTotalPrice(),
-          orderDate: new Date().toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          })
+          totalAmount: getTotalPrice()
         };
-
-        // Try EmailJS first, fallback to simple email if it fails
-        let emailResults = await EmailService.sendOrderNotifications(emailOrderData);
         
-        // If EmailJS fails, use fallback email service
-        if (!emailResults.adminEmailSent || !emailResults.customerEmailSent) {
-          console.log("📧 EmailJS failed, using fallback email service...");
-          const fallbackResults = FallbackEmailService.sendOrderNotifications({
-            orderId: orderId,
-            customerName: formData.name.trim(),
-            customerEmail: formData.email.trim(),
-            customerPhone: formData.phone.trim(),
-            customerAddress: `${formData.address.trim()}, ${formData.city.trim()}`,
-            items: formattedCartItems.map(item => ({
-              name: item.name,
-              quantity: item.quantity,
-              price: item.price
-            })),
-            totalAmount: getTotalPrice(),
-            orderDate: new Date().toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })
-          });
-          
-          emailResults = fallbackResults;
-        }
+        // Send admin notification
+        WhatsAppService.sendAdminNotification(whatsappData);
         
-        if (emailResults.adminEmailSent) {
-          console.log("✅ Admin notification sent successfully");
-        } else {
-          console.warn("⚠️ Failed to send admin notification");
-        }
-        
-        if (emailResults.customerEmailSent) {
-          console.log("✅ Customer confirmation sent successfully");
-        } else {
-          console.warn("⚠️ Failed to send customer confirmation");
-        }
-        
-      } catch (emailError) {
-        console.error("Email notification error:", emailError);
-        // Don't fail the entire checkout if email fails
-      }
-
-      // Send to Netlify function which will proxy to Google Apps Script
-      const endpoint = "/.netlify/functions/proxy";
-
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log("Backend response:", result);
-
-      if (!result.success) {
-        throw new Error(result.message || "Order failed");
+        // Send customer confirmation
+        setTimeout(() => {
+          WhatsAppService.sendOrderConfirmation(whatsappData);
+        }, 1000);
       }
 
       // Track successful purchase
@@ -287,12 +172,13 @@ export default function Checkout() {
       clearCart();
       toast({
         title: "Order Placed Successfully! 🎉",
-        description: `Your order #${orderId} has been placed. Check your email for confirmation.`,
-        duration: 8000,
+        description: `Your order has been placed and saved to admin dashboard.`,
+        variant: "default",
       });
 
-      // Navigate to success page or home
+      // Navigate to home page
       navigate("/");
+      
     } catch (error: any) {
       console.error("Error placing order:", error);
       
@@ -300,17 +186,14 @@ export default function Checkout() {
       
       if (error.message.includes("Failed to fetch")) {
         errorMessage = "Network error. Please check your internet connection and try again.";
-      } else if (error.message.includes("HTTP error")) {
-        errorMessage = "Server error. Please try again in a few minutes.";
       } else if (error.message) {
         errorMessage = error.message;
       }
 
       toast({
-        title: "Order Failed ❌",
+        title: "Order Failed",
         description: errorMessage,
         variant: "destructive",
-        duration: 8000,
       });
     } finally {
       setIsLoading(false);
@@ -323,69 +206,36 @@ export default function Checkout() {
     <>
       <StickyOfferBar />
       <Header />
-      <div className="min-h-screen bg-gray-50 py-8" style={{ paddingTop: '60px' }}>
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden mt-20">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-red-600 to-red-700 px-6 py-4">
-            <h1 className="text-2xl font-bold text-white">Checkout</h1>
-            <p className="text-red-100">Complete your order</p>
-          </div>
+      <div className="min-h-screen bg-gray-50 py-8 md:py-24" style={{ paddingTop: '60px' }}>
+        <div className="container mx-auto px-4 max-w-3xl mt-20">
+          <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+              Checkout
+            </h1>
 
-          <div className="grid md:grid-cols-2 gap-8 p-6">
             {/* Order Summary */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-800">Order Summary</h2>
-
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="space-y-3">
-                  {state.items.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-12 h-12 object-cover rounded-md"
-                        />
-                        <div>
-                          <p className="font-medium text-gray-800">{item.name}</p>
-                          <p className="text-sm text-gray-600">{item.weight}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-medium text-gray-800">PKR {item.price}</p>
-                        <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="border-t pt-4 mt-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-lg font-semibold text-gray-800">Total:</span>
-                    <span className="text-2xl font-bold text-red-600">PKR {totalPrice}</span>
+            <div className="mb-8 p-4 bg-gray-50 rounded-lg">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Order Summary</h2>
+              {state.items.map((item) => (
+                <div key={item.id} className="flex justify-between items-center py-2 border-b border-gray-200 last:border-b-0">
+                  <div>
+                    <h3 className="font-medium text-gray-900">{item.name}</h3>
+                    <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
                   </div>
-                  {isOfferActive() && (
-                    <div className="mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
-                      <div className="flex items-center gap-2 text-green-700">
-                        <span className="font-semibold">🚚 FREE Delivery Applied!</span>
-                      </div>
-                      <p className="text-sm text-green-600 mt-1">
-                        You saved PKR 200 on delivery charges
-                      </p>
-                    </div>
-                  )}
+                  <p className="font-semibold text-gray-900">PKR {(item.price * item.quantity).toLocaleString()}</p>
                 </div>
+              ))}
+              <div className="flex justify-between items-center pt-4 mt-4 border-t border-gray-300">
+                <span className="text-xl font-bold text-gray-900">Total:</span>
+                <span className="text-xl font-bold text-red-600">PKR {totalPrice.toLocaleString()}</span>
               </div>
             </div>
 
             {/* Checkout Form */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-800">Shipping Information</h2>
-
-              <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                     Full Name *
                   </label>
                   <input
@@ -394,15 +244,16 @@ export default function Checkout() {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.name ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                    placeholder="Enter your full name"
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
+                      errors.name ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    required
                   />
-                  {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                  {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
                     Phone Number *
                   </label>
                   <input
@@ -414,113 +265,97 @@ export default function Checkout() {
                     className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
                       errors.phone ? 'border-red-500' : 'border-gray-300'
                     }`}
-                    placeholder="e.g., 03001234567"
+                    required
                   />
-                  {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
-                  <p className="text-xs text-gray-500 mt-1">Enter 11-digit phone number (e.g., 03001234567)</p>
+                  {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
                 </div>
+              </div>
 
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
+                    errors.email ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  required
+                />
+                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+                  Delivery Address *
+                </label>
+                <textarea
+                  id="address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  rows={3}
+                  className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
+                    errors.address ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  required
+                />
+                {errors.address && <p className="mt-1 text-sm text-red-600">{errors.address}</p>}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                    Email Address *
+                  <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
+                    City *
                   </label>
                   <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
+                    type="text"
+                    id="city"
+                    name="city"
+                    value={formData.city}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                    placeholder="Enter your email address"
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
+                      errors.city ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    required
                   />
-                  {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                  {errors.city && <p className="mt-1 text-sm text-red-600">{errors.city}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
-                    Complete Address *
+                  <label htmlFor="pincode" className="block text-sm font-medium text-gray-700 mb-2">
+                    Postal Code
                   </label>
-                  <textarea
-                    id="address"
-                    name="address"
-                    value={formData.address}
+                  <input
+                    type="text"
+                    id="pincode"
+                    name="pincode"
+                    value={formData.pincode}
                     onChange={handleInputChange}
-                    rows={3}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${
-                      errors.address ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    placeholder="Enter your complete address including street, house number, area, etc."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                   />
-                  {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
-                  <p className="text-xs text-gray-500 mt-1">Please provide your complete address for accurate delivery</p>
                 </div>
+              </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
-                      City *
-                    </label>
-                    <input
-                      type="text"
-                      id="city"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.city ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                      placeholder="Enter city"
-                    />
-                    {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
-                  </div>
-
-                  <div>
-                    <label htmlFor="pincode" className="block text-sm font-medium text-gray-700 mb-1">
-                      Postal Code *
-                    </label>
-                    <input
-                      type="text"
-                      id="pincode"
-                      name="pincode"
-                      value={formData.pincode}
-                      onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.pincode ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                      placeholder="Enter Postal Code"
-                    />
-                    {errors.pincode && <p className="text-red-500 text-sm mt-1">{errors.pincode}</p>}
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-colors ${
-                    isLoading
-                      ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-red-600 hover:bg-red-700'
-                  }`}
-                >
-                  {isLoading ? (
-                    <div className="flex items-center justify-center space-x-2">
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>Processing Order...</span>
-                    </div>
-                  ) : (
-                    `Place Order - PKR ${totalPrice}`
-                  )}
-                </button>
-
-                {isLoading && (
-                  <p className="text-sm text-gray-600 text-center">
-                    Please wait while we process your order...
-                  </p>
-                )}
-              </form>
-            </div>
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={`w-full py-3 px-4 rounded-md font-semibold text-white transition-colors ${
+                  isLoading
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500'
+                }`}
+              >
+                {isLoading ? 'Placing Order...' : `Place Order - PKR ${totalPrice.toLocaleString()}`}
+              </button>
+            </form>
           </div>
         </div>
-      </div>
       </div>
       <Footer />
     </>
