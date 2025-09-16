@@ -174,14 +174,15 @@ export default function AdminDashboard() {
     window.open(mailtoURL, '_blank');
   };
 
-  // Filter orders
-  const filteredOrders = orders.filter(order => {
+  // Filter orders with safe null checks
+  const filteredOrders = (orders || []).filter(order => {
+    if (!order) return false;
     if (filter === 'all') return true;
     return order.status === filter;
   });
 
-  // Calculate statistics using Firebase method
-  const stats = OrderDatabase.getStatistics(orders);
+  // Calculate statistics using Firebase method with safe fallback
+  const stats = OrderDatabase.getStatistics(orders || []);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -263,7 +264,7 @@ export default function AdminDashboard() {
               <Package className="h-8 w-8 text-red-600" />
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Total Orders</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+                <p className="text-2xl font-bold text-gray-900">{stats?.total || 0}</p>
               </div>
             </div>
           </motion.div>
@@ -278,7 +279,7 @@ export default function AdminDashboard() {
               <Clock className="h-8 w-8 text-yellow-600" />
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Pending</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.pending}</p>
+                <p className="text-2xl font-bold text-gray-900">{stats?.pending || 0}</p>
               </div>
             </div>
           </motion.div>
@@ -293,7 +294,7 @@ export default function AdminDashboard() {
               <DollarSign className="h-8 w-8 text-green-600" />
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-                <p className="text-2xl font-bold text-gray-900">PKR {stats.revenue.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-gray-900">PKR {(stats?.totalRevenue || 0).toLocaleString()}</p>
               </div>
             </div>
           </motion.div>
@@ -308,7 +309,7 @@ export default function AdminDashboard() {
               <TrendingUp className="h-8 w-8 text-blue-600" />
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Avg Order Value</p>
-                <p className="text-2xl font-bold text-gray-900">PKR {Math.round(stats.avgOrderValue).toLocaleString()}</p>
+                <p className="text-2xl font-bold text-gray-900">PKR {Math.round(stats?.averageOrderValue || 0).toLocaleString()}</p>
               </div>
             </div>
           </motion.div>
@@ -336,7 +337,7 @@ export default function AdminDashboard() {
                   {status.charAt(0).toUpperCase() + status.slice(1)}
                   {status !== 'all' && (
                     <Badge variant="secondary" className="ml-2">
-                      {orders.filter(o => o.status === status).length}
+                      {(orders || []).filter(o => o?.status === status).length || 0}
                     </Badge>
                   )}
                 </Button>
@@ -388,30 +389,30 @@ export default function AdminDashboard() {
                     <tr key={order.orderId} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">
-                          #{order.orderId}
+                          #{order?.orderId || 'N/A'}
                         </div>
                         <div className="text-sm text-gray-500">
-                          {order.cart.length} item(s)
+                          {(order?.cart?.length || 0)} item(s)
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">
-                          {order.name}
+                          {order?.name || 'N/A'}
                         </div>
                         <div className="text-sm text-gray-500">
-                          {order.phone}
+                          {order?.phone || 'N/A'}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        PKR {order.totalAmount.toLocaleString()}
+                        PKR {(order?.totalAmount || 0).toLocaleString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <Badge className={getStatusColor(order.status)}>
-                          {order.status}
+                        <Badge className={getStatusColor(order?.status || 'pending')}>
+                          {order?.status || 'pending'}
                         </Badge>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(order.orderDate).toLocaleDateString()}
+                        {order?.orderDate ? new Date(order.orderDate).toLocaleDateString() : 'N/A'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex space-x-2">

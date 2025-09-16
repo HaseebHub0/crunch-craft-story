@@ -12,19 +12,6 @@ const firebaseConfig = {
     appId: "1:375303378562:web:ea7acf7483b2af10cd869b",
     measurementId: "G-6EZ1B4KWY1"
   };
-
-// For demo purposes, we'll use a mock configuration
-// In production, replace with your actual Firebase config
-const mockConfig = {
-  apiKey: "demo-key",
-  authDomain: "demo.firebaseapp.com",
-  databaseURL: "https://demo-default-rtdb.firebaseio.com",
-  projectId: "demo",
-  storageBucket: "demo.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "1:000000000000:web:demo"
-};
-
 // Initialize Firebase - Always use real config now that it's set up
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -316,26 +303,32 @@ export class OrderDatabase {
     }
   }
   
-  // Get statistics
-  static getStatistics(orders: Order[]) {
+  // Get statistics with safe null checks
+  static getStatistics(orders: Order[] = []) {
+    const safeOrders = orders || [];
+    
     return {
-      total: orders.length,
-      pending: orders.filter(o => o.status === 'pending').length,
-      processing: orders.filter(o => o.status === 'processing').length,
-      shipped: orders.filter(o => o.status === 'shipped').length,
-      delivered: orders.filter(o => o.status === 'delivered').length,
-      cancelled: orders.filter(o => o.status === 'cancelled').length,
-      totalRevenue: orders.reduce((sum, o) => sum + o.totalAmount, 0),
-      averageOrderValue: orders.length > 0 ? orders.reduce((sum, o) => sum + o.totalAmount, 0) / orders.length : 0,
-      todayOrders: orders.filter(o => {
+      total: safeOrders.length || 0,
+      pending: safeOrders.filter(o => o?.status === 'pending').length || 0,
+      processing: safeOrders.filter(o => o?.status === 'processing').length || 0,
+      shipped: safeOrders.filter(o => o?.status === 'shipped').length || 0,
+      delivered: safeOrders.filter(o => o?.status === 'delivered').length || 0,
+      cancelled: safeOrders.filter(o => o?.status === 'cancelled').length || 0,
+      totalRevenue: safeOrders.reduce((sum, o) => sum + (o?.totalAmount || 0), 0) || 0,
+      averageOrderValue: safeOrders.length > 0 
+        ? (safeOrders.reduce((sum, o) => sum + (o?.totalAmount || 0), 0) / safeOrders.length) || 0
+        : 0,
+      todayOrders: safeOrders.filter(o => {
+        if (!o?.createdAt) return false;
         const today = new Date().toDateString();
         const orderDate = new Date(o.createdAt).toDateString();
         return today === orderDate;
-      }).length,
-      thisWeekRevenue: orders.filter(o => {
+      }).length || 0,
+      thisWeekRevenue: safeOrders.filter(o => {
+        if (!o?.createdAt) return false;
         const weekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
         return o.createdAt > weekAgo;
-      }).reduce((sum, o) => sum + o.totalAmount, 0)
+      }).reduce((sum, o) => sum + (o?.totalAmount || 0), 0) || 0
     };
   }
 }
