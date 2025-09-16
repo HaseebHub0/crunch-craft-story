@@ -21,26 +21,10 @@ import { Badge } from "@/components/ui/badge";
 import AdminLogin from "./AdminLogin";
 import { CloudOrderStorage, URLOrderSharing } from "@/utils/cloudStorage";
 import OrderSync from "@/components/OrderSync";
+import { OrderDatabase, Order as FirebaseOrder } from "@/config/firebase";
 
-interface Order {
-  orderId: string;
-  name: string;
-  phone: string;
-  email: string;
-  address: string;
-  city: string;
-  cart: Array<{
-    id: string;
-    name: string;
-    price: number;
-    quantity: number;
-    weight: string;
-  }>;
-  totalAmount: number;
-  orderDate: string;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-  timestamp: string;
-}
+// Use Firebase Order interface
+type Order = FirebaseOrder;
 
 export default function AdminDashboard() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -48,17 +32,36 @@ export default function AdminDashboard() {
   const [filter, setFilter] = useState<string>('all');
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [lastSyncTime, setLastSyncTime] = useState<string>('');
 
-  // Check authentication and load orders
+  // Check authentication and setup real-time listener
   useEffect(() => {
     const authState = localStorage.getItem('pakasianAdminAuth');
     if (authState === 'true') {
       setIsAuthenticated(true);
-      loadOrders();
+      setupRealTimeListener();
     } else {
       setIsLoading(false);
     }
-  }, []);
+    
+    // Listen for online/offline status
+    const handleOnline = () => {
+      setIsOnline(true);
+      if (isAuthenticated) {
+        syncLocalToFirebase();
+      }
+    };
+    const handleOffline = () => setIsOnline(false);
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, [isAuthenticated]);
 
   const handleLogin = () => {
     setIsAuthenticated(true);
@@ -70,73 +73,92 @@ export default function AdminDashboard() {
     setIsAuthenticated(false);
   };
 
+  // Setup real-time Firebase listener
+  const setupRealTimeListener = () => {
+    setIsLoading(true);
+    
+    // Listen for real-time updates from Firebase
+    const unsubscribe = OrderDatabase.listenForOrders((firebaseOrders) => {
+      setOrders(firebaseOrders);
+      setLastSyncTime(new Date().toLocaleTimeString());
+      setIsLoading(false);
+    });
+    
+    // Cleanup listener on component unmount
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  };
+  
+  // Sync local storage to Firebase
+  const syncLocalToFirebase = async () => {
+    try {
+      await OrderDatabase.syncLocalToFirebase();
+      console.log('Local orders synced to Firebase');
+    } catch (error) {
+      console.error('Sync failed:', error);
+    }
+  };
+  
+  // Manual refresh/sync
   const loadOrders = async () => {
     try {
       setIsLoading(true);
-      
-      // Try to sync with cloud first
-      const syncedOrders = await CloudOrderStorage.syncOrders();
-      setOrders(syncedOrders);
-      
-      // Also check for URL shared data
-      const urlOrders = URLOrderSharing.extractOrdersFromURL();
-      if (urlOrders && urlOrders.length > 0) {
-        // Merge URL orders with existing orders
-        const existingOrders = JSON.parse(localStorage.getItem('pakasianOrders') || '[]');
-        const mergedOrders = [...urlOrders, ...existingOrders];
-        
-        // Remove duplicates by orderId
-        const uniqueOrders = mergedOrders.filter((order, index, self) => 
-          index === self.findIndex(o => o.orderId === order.orderId)
-        );
-        
-        setOrders(uniqueOrders);
-        localStorage.setItem('pakasianOrders', JSON.stringify(uniqueOrders));
-        
-        // Clean URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
-      
+      const allOrders = await OrderDatabase.getAllOrders();
+      setOrders(allOrders);
+      setLastSyncTime(new Date().toLocaleTimeString());
     } catch (error) {
       console.error('Error loading orders:', error);
-      
-      // Fallback to localStorage only
-      const savedOrders = localStorage.getItem('pakasianOrders');
-      if (savedOrders) {
-        setOrders(JSON.parse(savedOrders));
-      }
     } finally {
       setIsLoading(false);
     }
   };
 
   const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
-    const updatedOrders = orders.map(order => 
-      order.orderId === orderId 
-        ? { ...order, status: newStatus, timestamp: new Date().toISOString() }
-        : order
-    );
-    setOrders(updatedOrders);
-    localStorage.setItem('pakasianOrders', JSON.stringify(updatedOrders));
-    
-    // Sync to cloud
     try {
-      await CloudOrderStorage.uploadOrders(updatedOrders);
+      // Update in Firebase (this will trigger real-time update)
+      const success = await OrderDatabase.updateOrderStatus(orderId, newStatus);
+      
+      if (success) {
+        console.log(`Order ${orderId} status updated to ${newStatus}`);
+        
+        // Close modal if order was selected
+        if (selectedOrder?.orderId === orderId) {
+          setSelectedOrder({ ...selectedOrder, status: newStatus });
+        }
+      } else {
+        // Fallback to local update if Firebase fails
+        const updatedOrders = orders.map(order => 
+          order.orderId === orderId 
+            ? { ...order, status: newStatus, updatedAt: Date.now() }
+            : order
+        );
+        setOrders(updatedOrders);
+      }
     } catch (error) {
-      console.error('Failed to sync status update to cloud:', error);
-    }
-    
-    // Close modal if order was selected
-    if (selectedOrder?.orderId === orderId) {
-      setSelectedOrder({ ...selectedOrder, status: newStatus });
+      console.error('Error updating order status:', error);
     }
   };
 
-  const deleteOrder = (orderId: string) => {
-    const updatedOrders = orders.filter(order => order.orderId !== orderId);
-    setOrders(updatedOrders);
-    localStorage.setItem('pakasianOrders', JSON.stringify(updatedOrders));
-    setSelectedOrder(null);
+  const deleteOrder = async (orderId: string) => {
+    try {
+      // Delete from Firebase (this will trigger real-time update)
+      const success = await OrderDatabase.deleteOrder(orderId);
+      
+      if (success) {
+        console.log(`Order ${orderId} deleted`);
+        setSelectedOrder(null);
+      } else {
+        // Fallback to local delete if Firebase fails
+        const updatedOrders = orders.filter(order => order.orderId !== orderId);
+        setOrders(updatedOrders);
+        setSelectedOrder(null);
+      }
+    } catch (error) {
+      console.error('Error deleting order:', error);
+    }
   };
 
   const sendWhatsApp = (phone: string, name: string, orderId: string) => {
@@ -158,16 +180,8 @@ export default function AdminDashboard() {
     return order.status === filter;
   });
 
-  // Calculate statistics
-  const stats = {
-    total: orders.length,
-    pending: orders.filter(o => o.status === 'pending').length,
-    processing: orders.filter(o => o.status === 'processing').length,
-    shipped: orders.filter(o => o.status === 'shipped').length,
-    delivered: orders.filter(o => o.status === 'delivered').length,
-    revenue: orders.reduce((sum, o) => sum + o.totalAmount, 0),
-    avgOrderValue: orders.length > 0 ? orders.reduce((sum, o) => sum + o.totalAmount, 0) / orders.length : 0
-  };
+  // Calculate statistics using Firebase method
+  const stats = OrderDatabase.getStatistics(orders);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -205,21 +219,27 @@ export default function AdminDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-                <p className="text-gray-600">Pakasian Protein Nimko Orders Management</p>
+                <p className="text-gray-600">
+                  Pakasian Protein Nimko Orders Management
+                  {lastSyncTime && (
+                    <span className="ml-2 text-sm">
+                      • Last sync: {lastSyncTime}
+                    </span>
+                  )}
+                </p>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                  <span className="text-xs text-gray-500">
+                    {isOnline ? 'Online - Real-time sync active' : 'Offline - Using local data'}
+                  </span>
+                </div>
               </div>
               <div className="flex space-x-2">
                 <Button onClick={loadOrders} className="bg-red-600 hover:bg-red-700">
-                  Sync Orders
+                  Refresh
                 </Button>
-                <Button 
-                  onClick={() => {
-                    const shareUrl = URLOrderSharing.generateShareURL(orders);
-                    navigator.clipboard.writeText(shareUrl);
-                    alert('Share URL copied to clipboard! Use this to access orders on other devices.');
-                  }}
-                  variant="outline"
-                >
-                  Share Data
+                <Button onClick={syncLocalToFirebase} variant="outline" disabled={!isOnline}>
+                  Force Sync
                 </Button>
                 <Button onClick={handleLogout} variant="outline">
                   <LogOut className="h-4 w-4 mr-2" />
