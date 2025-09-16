@@ -6,7 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { CartProvider } from "./contexts/CartContext";
 import { FreeOrdersProvider } from "./contexts/FreeOrdersContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import Index from "./pages/Index";
+import HomePage from "./pages/HomePage";
+import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -19,39 +22,40 @@ import TermsConditions from "./pages/TermsConditions";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import ReturnPolicy from "./pages/ReturnPolicy";
 import LogoLoopDemoPage from "./pages/LogoLoopDemoPage";
-import AdminDashboard from "./pages/admin/AdminDashboard";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
-      <CartProvider>
-        <FreeOrdersProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/product/:productId" element={<ProductDetail />} />
-              <Route path="/cart" element={<Cart />} />
-              {/* <Route path="/contact" element={<Contact />} /> */}
-              <Route path="/checkout" element={<Checkout />} />   
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/terms-conditions" element={<TermsConditions />} />
-              <Route path="/shipping-policy" element={<ShippingPolicy />} />
-              <Route path="/return-policy" element={<ReturnPolicy />} />
-              <Route path="/logo-loop-demo" element={<LogoLoopDemoPage />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-        </FreeOrdersProvider>
-      </CartProvider>
+      <AuthProvider>
+        <CartProvider>
+          <FreeOrdersProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/product/:productId" element={<ProductDetail />} />
+                <Route path="/cart" element={<Cart />} />
+                {/* <Route path="/contact" element={<Contact />} /> */}
+                <Route path="/checkout" element={<Checkout />} />   
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-conditions" element={<TermsConditions />} />
+                <Route path="/shipping-policy" element={<ShippingPolicy />} />
+                <Route path="/return-policy" element={<ReturnPolicy />} />
+                <Route path="/logo-loop-demo" element={<LogoLoopDemoPage />} />
+                <Route path="/admin" element={<AdminPage />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+          </FreeOrdersProvider>
+        </CartProvider>
+      </AuthProvider>
     </QueryClientProvider>
   </HelmetProvider>
 );

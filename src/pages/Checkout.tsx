@@ -6,7 +6,7 @@ import { toast } from "../hooks/use-toast";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyOfferBar from "@/components/StickyOfferBar";
-import PakasianDatabase from "@/config/database";
+import { OrderService } from "../services/orderService";
 
 export default function Checkout() {
   const { state, getTotalPrice, clearCart } = useCart();
@@ -144,6 +144,28 @@ export default function Checkout() {
       console.log("Cart items count:", formattedCartItems.length);
       console.log("Total amount:", getTotalPrice());
 
+      // Save to Firebase for admin dashboard
+      try {
+        const firebaseOrderData = {
+          name: formData.name.trim(),
+          phone: formData.phone.trim(),
+          address: `${formData.address.trim()}, ${formData.city.trim()}`,
+          items: formattedCartItems.map(item => ({
+            id: item.id,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price
+          })),
+          totalPrice: getTotalPrice()
+        };
+        
+        const firebaseOrderId = await OrderService.createOrder(firebaseOrderData);
+        console.log("Order saved to Firebase with ID:", firebaseOrderId);
+      } catch (firebaseError) {
+        console.error("Failed to save to Firebase:", firebaseError);
+        // Don't fail the entire checkout if Firebase fails
+      }
+
       // Send to Netlify function which will proxy to Google Apps Script
       const endpoint = "/.netlify/functions/proxy";
 
@@ -162,25 +184,6 @@ export default function Checkout() {
 
       if (!result.success) {
         throw new Error(result.message || "Order failed");
-      }
-
-      // Save order to database for admin dashboard
-      try {
-        const databaseOrder = {
-          ...orderData,
-          status: 'pending' as const,
-          timestamp: new Date().toISOString()
-        };
-        
-        const success = await PakasianDatabase.addOrder(databaseOrder);
-        
-        if (success) {
-          console.log('Order saved to database successfully');
-        } else {
-          console.log('Order save failed, but order was processed');
-        }
-      } catch (storageError) {
-        console.error('Failed to save order to database:', storageError);
       }
 
       // Decrease free orders counter if offer is active
