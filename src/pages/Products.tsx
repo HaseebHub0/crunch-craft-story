@@ -74,7 +74,7 @@ export default function Products() {
         title="Best Protein Nimko Products in Pakistan | Pakasian Premium Nimko"
         description="Discover our premium collection of protein nimko snacks in Pakistan. Best protein nimko with 22g protein per 100g serving, crafted with authentic Pakistani flavors."
         keywords="protein nimko products, best protein nimko pakistan, protein nimko snacks, pakistani protein nimko, high protein nimko, protein nimko online, buy protein nimko"
-        url="https://pakasianmart.com/products"
+        url="https://pakasianshop.com/products"
         type="website"
       />
       <StickyOfferBar />

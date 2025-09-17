@@ -15,8 +15,8 @@ const SEO: React.FC<SEOProps> = ({
   title = "Protein Nimko - 22g Protein Pakistani Snack | Pakasian Premium Nimko",
   description = "Best Protein Nimko in Pakistan - 22g protein per 100g serving. Premium Pakistani protein nimko snacks with authentic taste and superior nutrition. Order now!",
   keywords = "protein nimko, protein nimko pakistan, best protein nimko, pakistani protein nimko, high protein nimko, protein nimko snacks, nimko protein, protein rich nimko, healthy nimko, protein nimko online, buy protein nimko, protein nimko delivery, pakistani snacks protein, nimko with protein, protein nimko brand",
-  image = "https://pakasianmart.com/logo.webp",
-  url = "https://pakasianmart.com/",
+  image = "https://pakasianshop.com/logo.webp",
+  url = "https://pakasianshop.com/",
   type = "website",
   structuredData
 }) => {

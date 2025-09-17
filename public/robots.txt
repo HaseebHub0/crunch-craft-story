@@ -10,7 +10,7 @@ Allow: /apple-touch-icon.png
 Allow: /favicon-*.png
 
 # Sitemap location
-Sitemap: https://pakasianmart.com/sitemap.xml
+Sitemap: https://pakasianshop.com/sitemap.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1

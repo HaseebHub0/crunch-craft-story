@@ -87,7 +87,7 @@ const ProductsPage = () => {
         title="Our Products - Pakasian Protein Nimko"
         description="Browse our premium collection of high-protein Pakistani snacks"
         keywords="pakistani snacks, protein nimko, healthy snacks"
-        url="https://pakasianmart.com/products"
+        url="https://pakasianshop.com/products"
         type="website"
       />
       {/* Your page content */}
@@ -122,7 +122,7 @@ const productStructuredData = {
 ## Google Search Console Setup
 
 1. **Verify Domain**: Add your domain to Google Search Console
-2. **Submit Sitemap**: Submit `https://pakasianmart.com/sitemap.xml`
+2. **Submit Sitemap**: Submit `https://pakasianshop.com/sitemap.xml`
 3. **Monitor Performance**: Track indexing and search performance
 4. **Fix Issues**: Address any crawl errors or indexing issues
 
