@@ -67,14 +67,27 @@ command = "npm run build"
 
 [build.services]
 
+# HTTPS and www redirects
+[[redirects]]
+from = "http://pakasianshop.com/*"
+to = "https://pakasianshop.com/:splat"
+status = 301
+force = true
+
+[[redirects]]
+from = "http://www.pakasianshop.com/*"
+to = "https://pakasianshop.com/:splat"
+status = 301
+force = true
+
+[[redirects]]
+from = "https://www.pakasianshop.com/*"
+to = "https://pakasianshop.com/:splat"
+status = 301
+force = true
+
+# SPA fallback
 [[redirects]]
 from = "/*"
 to = "/index.html"
-status = 200.0
-force = false
-
-[redirects.query]
-
-[redirects.conditions]
-
-[redirects.headers]
+status = 200
