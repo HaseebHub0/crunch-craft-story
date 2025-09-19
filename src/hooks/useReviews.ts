@@ -1,6 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 import { API_ENDPOINTS, ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/config/api';
+import { 
+  addReview, 
+  getReviewsByProductId, 
+  validateReviewData,
+  Review as FirebaseReview,
+  ReviewInput 
+} from '@/services/reviewService';
 
 export interface Review {
   id: string;
@@ -34,35 +41,29 @@ export const useReviews = ({ productId }: UseReviewsOptions): UseReviewsReturn =
     ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length 
     : 0;
 
-  // Fetch reviews from API
-  const fetchReviewsFromAPI = useCallback(async () => {
+  // Fetch reviews from Firebase
+  const fetchReviewsFromFirebase = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
       
-      const response = await fetch(API_ENDPOINTS.GET_REVIEWS(productId));
+      const firebaseReviews = await getReviewsByProductId(productId);
       
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      // Convert Firebase reviews to the expected format
+      const formattedReviews: Review[] = firebaseReviews.map(review => ({
+        id: review.id || '',
+        productId: review.productId,
+        name: review.name,
+        rating: review.rating,
+        comment: review.comment,
+        date: review.date
+      }));
       
-      // Check if response is JSON
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('API returned non-JSON response. Function may not be deployed.');
-      }
-      
-      const data = await response.json();
-      
-      if (data.success) {
-        setReviews(data.reviews || []);
-      } else {
-        throw new Error(data.error || 'Failed to fetch reviews');
-      }
+      setReviews(formattedReviews);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch reviews';
       setError(errorMessage);
-      console.error('Error fetching reviews:', err);
+      console.error('Error fetching reviews from Firebase:', err);
       
       // Load demo reviews as fallback
       const demoReviews = [
@@ -90,51 +91,52 @@ export const useReviews = ({ productId }: UseReviewsOptions): UseReviewsReturn =
     }
   }, [productId]);
 
-  // Submit review to API
-  const submitReviewToAPI = useCallback(async (reviewData: Omit<Review, 'id' | 'date'>): Promise<boolean> => {
+  // Submit review to Firebase
+  const submitReviewToFirebase = useCallback(async (reviewData: Omit<Review, 'id' | 'date'>): Promise<boolean> => {
     try {
-      const response = await fetch(API_ENDPOINTS.SUBMIT_REVIEW, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(reviewData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
+      // Validate review data
+      const reviewInput: ReviewInput = {
+        productId: reviewData.productId,
+        name: reviewData.name,
+        rating: reviewData.rating,
+        comment: reviewData.comment
+      };
       
-      if (data.success) {
-        toast.success(SUCCESS_MESSAGES.REVIEW_SUBMITTED);
-        return true;
-      } else {
-        throw new Error(data.error || 'Failed to submit review');
-      }
+      validateReviewData(reviewInput);
+      
+      // Save to Firebase
+      const reviewId = await addReview(reviewInput);
+      console.log('Review saved with ID:', reviewId);
+      
+      toast.success('Review submitted successfully!');
+      return true;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to submit review';
       toast.error(errorMessage);
-      console.error('Error submitting review:', err);
+      console.error('Error submitting review to Firebase:', err);
       return false;
     }
   }, []);
 
   // Main submit review function
   const submitReview = useCallback(async (reviewData: Omit<Review, 'id' | 'date'>): Promise<boolean> => {
-    return submitReviewToAPI(reviewData);
-  }, [submitReviewToAPI]);
+    const success = await submitReviewToFirebase(reviewData);
+    if (success) {
+      // Refresh reviews after successful submission
+      await fetchReviewsFromFirebase();
+    }
+    return success;
+  }, [submitReviewToFirebase, fetchReviewsFromFirebase]);
 
   // Refresh reviews function
   const refreshReviews = useCallback(async () => {
-    await fetchReviewsFromAPI();
-  }, [fetchReviewsFromAPI]);
+    await fetchReviewsFromFirebase();
+  }, [fetchReviewsFromFirebase]);
 
   // Initial load
   useEffect(() => {
-    fetchReviewsFromAPI();
-  }, [productId, fetchReviewsFromAPI]);
+    fetchReviewsFromFirebase();
+  }, [productId, fetchReviewsFromFirebase]);
 
   return {
     reviews,

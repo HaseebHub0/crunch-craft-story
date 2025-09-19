@@ -5,7 +5,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Star, StarHalf } from "lucide-react";
 import { toast } from "sonner";
-import { API_ENDPOINTS, API_CONFIG, ERROR_MESSAGES, SUCCESS_MESSAGES } from "@/config/api";
+import { addReview, validateReviewData, ReviewInput } from "@/services/reviewService";
 
 const reviewSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -18,10 +18,9 @@ type ReviewFormData = z.infer<typeof reviewSchema>;
 interface ReviewFormProps {
   productId: string;
   onSubmitSuccess: () => void;
-  apiEndpoint: string;
 }
 
-export default function ReviewForm({ productId, onSubmitSuccess, apiEndpoint }: ReviewFormProps) {
+export default function ReviewForm({ productId, onSubmitSuccess }: ReviewFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hoverRating, setHoverRating] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
@@ -79,37 +78,31 @@ export default function ReviewForm({ productId, onSubmitSuccess, apiEndpoint }: 
   const onSubmit = async (data: ReviewFormData) => {
     try {
       setIsSubmitting(true);
-      const reviewData = {
+      
+      const reviewData: ReviewInput = {
         productId,
-        name: data.name,
+        name: data.name.trim(),
         rating: data.rating,
-        comment: data.comment,
+        comment: data.comment.trim(),
       };
 
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: API_CONFIG.DEFAULT_HEADERS,
-        body: JSON.stringify(reviewData),
-      });
+      // Validate review data
+      validateReviewData(reviewData);
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          toast.success(SUCCESS_MESSAGES.REVIEW_SUBMITTED);
-          reset();
-          setSelectedRating(0);
-          onSubmitSuccess();
-        } else {
-          toast.error(result.error || ERROR_MESSAGES.SERVER_ERROR);
-        }
-      } else {
-        const errorData = await response.json().catch(() => ({}));
-        console.error('Server error response:', errorData);
-        toast.error(errorData.error || ERROR_MESSAGES.SERVER_ERROR);
-      }
+      // Save to Firebase
+      const reviewId = await addReview(reviewData);
+      console.log('Review saved to Firebase with ID:', reviewId);
+
+      // Success feedback
+      toast.success('Review submitted successfully!');
+      reset();
+      setSelectedRating(0);
+      onSubmitSuccess();
+
     } catch (error) {
       console.error('Error submitting review:', error);
-      toast.error(ERROR_MESSAGES.NETWORK_ERROR);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to submit review';
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

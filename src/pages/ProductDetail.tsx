@@ -254,7 +254,6 @@ export default function ProductDetail() {
           <ReviewForm
             productId={productId || ""}
             onSubmitSuccess={handleReviewSubmitSuccess}
-            apiEndpoint={API_ENDPOINTS.SUBMIT_REVIEW}
           />
 
           {/* Reviews List */}
