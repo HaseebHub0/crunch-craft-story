@@ -7,6 +7,7 @@ export interface Order {
   items: OrderItem[];
   totalPrice: number;
   status: OrderStatus;
+  usedFreeDelivery?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,4 +28,5 @@ export interface OrderFormData {
   address: string;
   items: OrderItem[];
   totalPrice: number;
+  usedFreeDelivery?: boolean;
 }

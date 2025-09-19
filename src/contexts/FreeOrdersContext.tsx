@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
+import { FreeDeliveryService } from '@/services/freeDeliveryService';
 
 interface FreeOrdersState {
   remainingFreeOrders: number;
@@ -9,6 +10,7 @@ interface FreeOrdersState {
 
 type FreeOrdersAction =
   | { type: 'DECREASE_FREE_ORDERS' }
+  | { type: 'INCREASE_FREE_ORDERS' }
   | { type: 'RESET_FREE_ORDERS' }
   | { type: 'SET_EXIT_POPUP_SHOWN' }
   | { type: 'SET_FREE_OFFER_POPUP_SHOWN' }
@@ -28,6 +30,13 @@ const freeOrdersReducer = (state: FreeOrdersState, action: FreeOrdersAction): Fr
       return {
         ...state,
         remainingFreeOrders: newRemaining,
+      };
+    
+    case 'INCREASE_FREE_ORDERS':
+      const increasedRemaining = Math.min(state.totalFreeOrders, state.remainingFreeOrders + 1);
+      return {
+        ...state,
+        remainingFreeOrders: increasedRemaining,
       };
     
     case 'RESET_FREE_ORDERS':
@@ -61,6 +70,7 @@ const freeOrdersReducer = (state: FreeOrdersState, action: FreeOrdersAction): Fr
 interface FreeOrdersContextType {
   state: FreeOrdersState;
   decreaseFreeOrders: () => void;
+  increaseFreeOrders: () => void;
   resetFreeOrders: () => void;
   clearAndReset: () => void;
   setExitPopupShown: () => void;
@@ -117,6 +127,10 @@ export const FreeOrdersProvider: React.FC<FreeOrdersProviderProps> = ({ children
     dispatch({ type: 'DECREASE_FREE_ORDERS' });
   };
 
+  const increaseFreeOrders = () => {
+    dispatch({ type: 'INCREASE_FREE_ORDERS' });
+  };
+
   const resetFreeOrders = () => {
     dispatch({ type: 'RESET_FREE_ORDERS' });
   };
@@ -141,12 +155,22 @@ export const FreeOrdersProvider: React.FC<FreeOrdersProviderProps> = ({ children
   const value: FreeOrdersContextType = {
     state,
     decreaseFreeOrders,
+    increaseFreeOrders,
     resetFreeOrders,
     clearAndReset,
     setExitPopupShown,
     setFreeOfferPopupShown,
     isOfferActive,
   };
+
+  // Register counter manager with FreeDeliveryService
+  useEffect(() => {
+    FreeDeliveryService.registerCounterManager({
+      increaseFreeOrders,
+      decreaseFreeOrders,
+      isOfferActive
+    });
+  }, [increaseFreeOrders, decreaseFreeOrders, isOfferActive]);
 
   return <FreeOrdersContext.Provider value={value}>{children}</FreeOrdersContext.Provider>;
 };

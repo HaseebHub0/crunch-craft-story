@@ -115,7 +115,8 @@ export default function Checkout() {
             quantity: item.quantity,
             price: item.price
           })),
-          totalPrice: getTotalPrice()
+          totalPrice: getTotalPrice(),
+          usedFreeDelivery: isOfferActive()
         };
         
         const firebaseOrderId = await OrderService.createOrder(firebaseOrderData);

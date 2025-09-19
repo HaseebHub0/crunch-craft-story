@@ -9,9 +9,11 @@ import {
   query,
   orderBy,
   Timestamp,
+  getDoc,
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { Order, OrderFormData, OrderStatus } from '../types/order';
+import { FreeDeliveryService } from './freeDeliveryService';
 
 const ORDERS_COLLECTION = 'orders';
 
@@ -68,12 +70,37 @@ export class OrderService {
   // Update order status
   static async updateOrderStatus(orderId: string, status: OrderStatus): Promise<void> {
     try {
+      // Get current order to check if it used free delivery
       const orderRef = doc(db, ORDERS_COLLECTION, orderId);
+      const orderDoc = await getDoc(orderRef);
+      
+      if (!orderDoc.exists()) {
+        throw new Error('Order not found');
+      }
+      
+      const currentOrder = orderDoc.data() as Order;
+      const previousStatus = currentOrder.status;
+      const usedFreeDelivery = currentOrder.usedFreeDelivery || false;
+      
+      // Update order status in Firebase
       await updateDoc(orderRef, {
         status,
         updatedAt: Timestamp.fromDate(new Date()),
       });
-      console.log('Order status updated:', orderId, status);
+      
+      // Handle counter synchronization based on status changes
+      if (usedFreeDelivery) {
+        // If order is being canceled and previously wasn't canceled
+        if (status === 'canceled' && previousStatus !== 'canceled') {
+          FreeDeliveryService.handleOrderCancellation(true);
+        }
+        // If order is being restored from canceled status
+        else if (previousStatus === 'canceled' && status !== 'canceled') {
+          FreeDeliveryService.handleOrderRestoration(true);
+        }
+      }
+      
+      console.log('Order status updated:', orderId, `${previousStatus} → ${status}`, usedFreeDelivery ? '(used free delivery)' : '');
     } catch (error) {
       console.error('Error updating order status:', error);
       throw new Error('Failed to update order status');
@@ -83,8 +110,28 @@ export class OrderService {
   // Delete order
   static async deleteOrder(orderId: string): Promise<void> {
     try {
-      await deleteDoc(doc(db, ORDERS_COLLECTION, orderId));
-      console.log('Order deleted:', orderId);
+      // Get order data before deleting to check if it used free delivery
+      const orderRef = doc(db, ORDERS_COLLECTION, orderId);
+      const orderDoc = await getDoc(orderRef);
+      
+      if (orderDoc.exists()) {
+        const orderData = orderDoc.data() as Order;
+        const usedFreeDelivery = orderData.usedFreeDelivery || false;
+        
+        // Delete the order
+        await deleteDoc(orderRef);
+        
+        // Handle counter synchronization
+        if (usedFreeDelivery) {
+          FreeDeliveryService.handleOrderDeletion(true);
+        }
+        
+        console.log('Order deleted:', orderId, usedFreeDelivery ? '(restored free delivery counter)' : '');
+      } else {
+        // Order doesn't exist, just attempt to delete
+        await deleteDoc(orderRef);
+        console.log('Order deleted:', orderId, '(order not found)');
+      }
     } catch (error) {
       console.error('Error deleting order:', error);
       throw new Error('Failed to delete order');

@@ -275,9 +275,16 @@ const AdminDashboard: React.FC = () => {
                             `${item.name} (${item.quantity}x)`
                           ).join(', ')}
                         </p>
-                        <p className="text-sm text-gray-500">
-                          <strong>Order Date:</strong> {order.createdAt.toLocaleDateString()} at {order.createdAt.toLocaleTimeString()}
-                        </p>
+                        <div className="flex items-center gap-4">
+                          <p className="text-sm text-gray-500">
+                            <strong>Order Date:</strong> {order.createdAt.toLocaleDateString()} at {order.createdAt.toLocaleTimeString()}
+                          </p>
+                          {order.usedFreeDelivery && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                              🚚 Free Delivery
+                            </span>
+                          )}
+                        </div>
                       </div>
                       
                       <div className="mt-4 flex space-x-2">
