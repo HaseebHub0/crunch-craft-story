@@ -9,6 +9,7 @@ import StickyOfferBar from "@/components/StickyOfferBar";
 import { OrderService } from "../services/orderService";
 import { WhatsAppService } from "../services/whatsappService";
 import { FacebookPixelService } from "../services/facebookPixelService";
+import { EmailService, EmailOrderData } from "../services/emailService";
 
 export default function Checkout() {
   const { state, getTotalPrice, clearCart } = useCart();
@@ -126,6 +127,47 @@ export default function Checkout() {
         throw new Error("Failed to save order. Please try again.");
       }
 
+      // Send email notifications
+      const emailOrderData: EmailOrderData = {
+        orderId: orderId,
+        customerName: formData.name.trim(),
+        customerEmail: formData.email.trim(),
+        customerPhone: formData.phone.trim(),
+        customerAddress: `${formData.address.trim()}, ${formData.city.trim()}`,
+        items: formattedCartItems.map(item => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+          weight: item.weight
+        })),
+        totalAmount: getTotalPrice(),
+        orderDate: new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        estimatedDelivery: '3-5 business days'
+      };
+
+      // Send email notifications (both customer and admin)
+      try {
+        const emailResults = await EmailService.sendOrderEmails(emailOrderData);
+        
+        if (emailResults.customerEmailSent && emailResults.adminEmailSent) {
+          console.log('✅ Both customer and admin emails sent successfully');
+        } else if (emailResults.customerEmailSent) {
+          console.log('⚠️ Customer email sent, but admin email failed');
+        } else if (emailResults.adminEmailSent) {
+          console.log('⚠️ Admin email sent, but customer email failed');
+        } else {
+          console.log('❌ Both emails failed to send');
+        }
+      } catch (emailError) {
+        console.error('❌ Email sending error:', emailError);
+      }
+
       // Optional: Send WhatsApp notification
       if (window.confirm("Send WhatsApp notifications for this order?")) {
         const whatsappData = {
@@ -173,8 +215,9 @@ export default function Checkout() {
       clearCart();
       toast({
         title: "Order Placed Successfully! 🎉",
-        description: `Your order has been placed and saved to admin dashboard.`,
+        description: `Your order #${orderId} has been placed. Check your email for confirmation and order details.`,
         variant: "default",
+        duration: 8000,
       });
 
       // Navigate to home page
