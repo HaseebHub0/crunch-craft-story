@@ -4,8 +4,8 @@ import { EMAIL_CONFIG } from '../config/emailTemplates';
 // EmailJS configuration
 const EMAILJS_SERVICE_ID = "service_wkkaz3v";
 const EMAILJS_PUBLIC_KEY = "Lf6JuKXlVJhdGPXFg";
-const ADMIN_EMAIL_TEMPLATE_ID = "template_admin_order";
-const CUSTOMER_EMAIL_TEMPLATE_ID = "template_customer_confirmation";
+  const ADMIN_EMAIL_TEMPLATE_ID = "template_admin_order";
+  const CUSTOMER_EMAIL_TEMPLATE_ID = "template_customer"; // Update this to match your existing template ID
 
 export interface EmailOrderData {
   orderId: string;
@@ -214,6 +214,56 @@ export class EmailService {
     if (typeof window !== 'undefined') {
       // Use type assertion to avoid TypeScript error
       console.log('EmailJS initialized:', !!(window as any).emailjs);
+    }
+
+    console.log('\n📋 Next Steps:');
+    console.log('1. Go to: https://dashboard.emailjs.com/admin/templates');
+    console.log('2. Check if template_customer_confirmation exists');
+    console.log('3. If not, create it or use an existing template ID');
+    console.log('4. Update CUSTOMER_EMAIL_TEMPLATE_ID in the code');
+  }
+
+  // Test with a simple template (for debugging)
+  static async testWithSimpleTemplate(): Promise<boolean> {
+    try {
+      this.initialize();
+      
+      // Try with a very basic template
+      const simpleParams = {
+        to_email: 'test@example.com',
+        message: 'Test email from Pakasian'
+      };
+
+      console.log('🧪 Testing with simple template...');
+      
+      // Try common template IDs
+      const commonTemplateIds = [
+        'template_1',
+        'template_default',
+        'template_basic',
+        'template_customer_confirmation'
+      ];
+
+      for (const templateId of commonTemplateIds) {
+        try {
+          console.log(`Testing template: ${templateId}`);
+          const response = await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            templateId,
+            simpleParams
+          );
+          console.log(`✅ Template ${templateId} works! Status:`, response.status);
+          return true;
+        } catch (error: any) {
+          console.log(`❌ Template ${templateId} failed:`, error.text);
+        }
+      }
+
+      console.log('❌ No working templates found');
+      return false;
+    } catch (error: any) {
+      console.error('❌ Simple template test failed:', error);
+      return false;
     }
   }
 }

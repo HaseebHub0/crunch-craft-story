@@ -153,6 +153,9 @@ export default function Checkout() {
 
       // Debug EmailJS configuration
       EmailService.debugConfiguration();
+      
+      // Test with simple template first
+      await EmailService.testWithSimpleTemplate();
 
       // Send email notifications (both customer and admin)
       try {
