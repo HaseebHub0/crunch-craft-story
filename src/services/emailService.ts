@@ -38,6 +38,7 @@ export class EmailService {
       this.initialize();
 
       const templateParams = {
+        to_email: orderData.customerEmail, // This is crucial - sends to customer
         customer_name: orderData.customerName,
         customer_email: orderData.customerEmail,
         order_id: orderData.orderId,
@@ -84,6 +85,7 @@ export class EmailService {
       this.initialize();
 
       const templateParams = {
+        to_email: 'infopakasian@gmail.com', // This sends to company admin
         order_id: orderData.orderId,
         customer_name: orderData.customerName,
         customer_email: orderData.customerEmail,
