@@ -56,13 +56,19 @@ export class EmailService {
       console.log('🔍 Debug - Sending customer email with params:', {
         serviceId: EMAILJS_SERVICE_ID,
         templateId: CUSTOMER_EMAIL_TEMPLATE_ID,
-        templateParams: templateParams
+        templateParams: templateParams,
+        toEmail: templateParams.to_email,
+        customerEmail: orderData.customerEmail
       });
 
       const response = await emailjs.send(
         EMAILJS_SERVICE_ID,
         CUSTOMER_EMAIL_TEMPLATE_ID,
-        templateParams
+        templateParams,
+        {
+          // This ensures the email goes to the customer
+          publicKey: EMAILJS_PUBLIC_KEY
+        }
       );
 
       console.log('✅ Customer confirmation email sent:', response.status);
@@ -101,7 +107,9 @@ export class EmailService {
       console.log('🔍 Debug - Sending admin email with params:', {
         serviceId: EMAILJS_SERVICE_ID,
         templateId: ADMIN_EMAIL_TEMPLATE_ID,
-        templateParams: templateParams
+        templateParams: templateParams,
+        toEmail: templateParams.to_email,
+        adminEmail: 'infopakasian@gmail.com'
       });
 
       const response = await emailjs.send(
