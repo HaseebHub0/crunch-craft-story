@@ -2,8 +2,8 @@ import emailjs from '@emailjs/browser';
 import { EMAIL_CONFIG } from '../config/emailTemplates';
 
 // EmailJS configuration
-const EMAILJS_SERVICE_ID = EMAIL_CONFIG.SERVICE_ID;
-const EMAILJS_PUBLIC_KEY = EMAIL_CONFIG.PUBLIC_KEY;
+const EMAILJS_SERVICE_ID = "service_27ga57j";
+const EMAILJS_PUBLIC_KEY = "Lf6JuKXlVJhdGPXFg";
 const ADMIN_EMAIL_TEMPLATE_ID = EMAIL_CONFIG.ADMIN_TEMPLATE_ID;
 const CUSTOMER_EMAIL_TEMPLATE_ID = EMAIL_CONFIG.CUSTOMER_TEMPLATE_ID;
 
@@ -47,10 +47,16 @@ export class EmailService {
         delivery_address: orderData.customerAddress,
         estimated_delivery: orderData.estimatedDelivery || '3-5 business days',
         company_name: 'Pakasian Protein Nimko',
-        company_email: 'info@pakasianfoods.com',
+        company_email: 'infopakasian@gmail.com',
         company_phone: '+92 300 1234567',
         website_url: 'https://pakasianshop.com'
       };
+
+      console.log('🔍 Debug - Sending customer email with params:', {
+        serviceId: EMAILJS_SERVICE_ID,
+        templateId: CUSTOMER_EMAIL_TEMPLATE_ID,
+        templateParams: templateParams
+      });
 
       const response = await emailjs.send(
         EMAILJS_SERVICE_ID,
@@ -60,8 +66,14 @@ export class EmailService {
 
       console.log('✅ Customer confirmation email sent:', response.status);
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Failed to send customer email:', error);
+      console.error('❌ Error details:', {
+        status: error.status,
+        text: error.text,
+        serviceId: EMAILJS_SERVICE_ID,
+        templateId: CUSTOMER_EMAIL_TEMPLATE_ID
+      });
       return false;
     }
   }
@@ -80,9 +92,15 @@ export class EmailService {
         order_date: orderData.orderDate,
         items_list: this.formatItemsForEmail(orderData.items),
         total_amount: `PKR ${orderData.totalAmount.toLocaleString()}`,
-        admin_email: 'admin@pakasianfoods.com',
+        admin_email: 'infopakasian@gmail.com',
         company_name: 'Pakasian Protein Nimko'
       };
+
+      console.log('🔍 Debug - Sending admin email with params:', {
+        serviceId: EMAILJS_SERVICE_ID,
+        templateId: ADMIN_EMAIL_TEMPLATE_ID,
+        templateParams: templateParams
+      });
 
       const response = await emailjs.send(
         EMAILJS_SERVICE_ID,
@@ -92,8 +110,14 @@ export class EmailService {
 
       console.log('✅ Admin notification email sent:', response.status);
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Failed to send admin email:', error);
+      console.error('❌ Error details:', {
+        status: error.status,
+        text: error.text,
+        serviceId: EMAILJS_SERVICE_ID,
+        templateId: ADMIN_EMAIL_TEMPLATE_ID
+      });
       return false;
     }
   }
@@ -152,6 +176,12 @@ export class EmailService {
         message: 'This is a test email to verify EmailJS configuration.'
       };
 
+      console.log('🔍 Testing EmailJS configuration:', {
+        serviceId: EMAILJS_SERVICE_ID,
+        publicKey: EMAILJS_PUBLIC_KEY,
+        templateId: 'template_test'
+      });
+
       // You can create a test template or use an existing one
       await emailjs.send(
         EMAILJS_SERVICE_ID,
@@ -161,9 +191,28 @@ export class EmailService {
 
       console.log('✅ Email service test successful');
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Email service test failed:', error);
+      console.error('❌ Test error details:', {
+        status: error.status,
+        text: error.text,
+        serviceId: EMAILJS_SERVICE_ID
+      });
       return false;
+    }
+  }
+
+  // Debug EmailJS configuration
+  static debugConfiguration(): void {
+    console.log('🔍 EmailJS Configuration Debug:');
+    console.log('Service ID:', EMAILJS_SERVICE_ID);
+    console.log('Public Key:', EMAILJS_PUBLIC_KEY);
+    console.log('Customer Template ID:', CUSTOMER_EMAIL_TEMPLATE_ID);
+    console.log('Admin Template ID:', ADMIN_EMAIL_TEMPLATE_ID);
+    
+    // Check if EmailJS is properly initialized
+    if (typeof window !== 'undefined') {
+      console.log('EmailJS initialized:', !!window.emailjs);
     }
   }
 }

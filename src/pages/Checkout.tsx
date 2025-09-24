@@ -151,6 +151,9 @@ export default function Checkout() {
         estimatedDelivery: '3-5 business days'
       };
 
+      // Debug EmailJS configuration
+      EmailService.debugConfiguration();
+
       // Send email notifications (both customer and admin)
       try {
         const emailResults = await EmailService.sendOrderEmails(emailOrderData);
