@@ -2,10 +2,10 @@ import emailjs from '@emailjs/browser';
 import { EMAIL_CONFIG } from '../config/emailTemplates';
 
 // EmailJS configuration
-const EMAILJS_SERVICE_ID = "service_27ga57j";
+const EMAILJS_SERVICE_ID = "service_wkkaz3v";
 const EMAILJS_PUBLIC_KEY = "Lf6JuKXlVJhdGPXFg";
-const ADMIN_EMAIL_TEMPLATE_ID = EMAIL_CONFIG.ADMIN_TEMPLATE_ID;
-const CUSTOMER_EMAIL_TEMPLATE_ID = EMAIL_CONFIG.CUSTOMER_TEMPLATE_ID;
+const ADMIN_EMAIL_TEMPLATE_ID = "template_admin_order";
+const CUSTOMER_EMAIL_TEMPLATE_ID = "template_customer_confirmation";
 
 export interface EmailOrderData {
   orderId: string;
@@ -212,7 +212,8 @@ export class EmailService {
     
     // Check if EmailJS is properly initialized
     if (typeof window !== 'undefined') {
-      console.log('EmailJS initialized:', !!window.emailjs);
+      // Use type assertion to avoid TypeScript error
+      console.log('EmailJS initialized:', !!(window as any).emailjs);
     }
   }
 }
