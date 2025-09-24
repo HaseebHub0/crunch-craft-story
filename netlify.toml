@@ -86,6 +86,17 @@ to = "https://pakasianshop.com/:splat"
 status = 301
 force = true
 
+# Static files that should not be redirected to SPA
+[[redirects]]
+from = "/sitemap.xml"
+to = "/sitemap.xml"
+status = 200
+
+[[redirects]]
+from = "/robots.txt"
+to = "/robots.txt"
+status = 200
+
 # SPA fallback
 [[redirects]]
 from = "/*"
