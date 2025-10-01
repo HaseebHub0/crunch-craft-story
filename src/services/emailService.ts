@@ -40,7 +40,7 @@ export class EmailService {
       const templateParams = {
         to_email: orderData.customerEmail, // This is crucial - sends to customer
         customer_name: orderData.customerName,
-        customer_email: orderData.customerEmail,
+        customer_email: orderData.customerEmail, // This variable will be used in template "To" field
         order_id: orderData.orderId,
         order_date: orderData.orderDate,
         items_list: this.formatItemsForEmail(orderData.items),
@@ -58,7 +58,8 @@ export class EmailService {
         templateId: CUSTOMER_EMAIL_TEMPLATE_ID,
         templateParams: templateParams,
         toEmail: templateParams.to_email,
-        customerEmail: orderData.customerEmail
+        customerEmail: orderData.customerEmail,
+        message: 'Customer email should go to: ' + orderData.customerEmail
       });
 
       const response = await emailjs.send(
@@ -109,7 +110,8 @@ export class EmailService {
         templateId: ADMIN_EMAIL_TEMPLATE_ID,
         templateParams: templateParams,
         toEmail: templateParams.to_email,
-        adminEmail: 'infopakasian@gmail.com'
+        adminEmail: 'infopakasian@gmail.com',
+        message: 'Admin email should go to: infopakasian@gmail.com'
       });
 
       const response = await emailjs.send(
