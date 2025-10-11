@@ -39,7 +39,7 @@ ${orderData.items.map(item =>
 Thank you for choosing Pakasian Protein Nimko! 🙏
 
 For any queries, contact us at:
-📞 +92 300 1234567
+📞 +92 301 9671010
 📧 infopakasian@gmail.com
 
 - Pakasian Team
@@ -66,7 +66,7 @@ For any queries, contact us at:
 
   // Admin notification via WhatsApp (to admin number)
   static sendAdminNotification(orderData: WhatsAppOrderData): void {
-    const adminPhone = '923001234567'; // Replace with your admin WhatsApp number
+  const adminPhone = '923019671010'; // admin WhatsApp number (new)
     
     const message = `
 🛍️ *New Order Received!*

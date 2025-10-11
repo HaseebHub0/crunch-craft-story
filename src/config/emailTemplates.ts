@@ -239,7 +239,7 @@ export const EMAIL_CONFIG = {
   // Email addresses
   ADMIN_EMAIL: 'admin@pakasianfoods.com',
   COMPANY_EMAIL: 'info@pakasianfoods.com',
-  COMPANY_PHONE: '+92 300 1234567',
+  COMPANY_PHONE: '+92 301 9671010',
   WEBSITE_URL: 'https://pakasianshop.com',
   COMPANY_NAME: 'Pakasian Protein Nimko'
 };

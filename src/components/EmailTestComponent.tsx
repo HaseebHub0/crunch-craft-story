@@ -16,7 +16,7 @@ const EmailTestComponent: React.FC = () => {
         orderId: `TEST-${Date.now()}`,
         customerName: 'Test Customer',
         customerEmail: testEmail,
-        customerPhone: '+92 300 1234567',
+  customerPhone: '+92 301 9671010',
         customerAddress: 'Test Address, Karachi, Pakistan',
         items: [
           {
