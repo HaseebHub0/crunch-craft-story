@@ -57,7 +57,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     
-    <!-- Meta Pixel Code -->
+    <!-- Meta Pixel Code - Official Facebook/Meta tracking pixel -->
+    <!-- Using official endpoint: https://connect.facebook.net/en_US/fbevents.js -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -67,7 +68,7 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1716548252372656');
+    fbq('init', '1716548252372656'); // Pakasian Protein Nimko Pixel ID
     fbq('track', 'PageView');
     </script>
     <!-- End Meta Pixel Code -->
@@ -224,7 +225,7 @@
   </head>
 
   <body>
-    <!-- Facebook Pixel noscript -->
+    <!-- Facebook Pixel noscript fallback for users with JavaScript disabled -->
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1716548252372656&ev=PageView&noscript=1"
     /></noscript>

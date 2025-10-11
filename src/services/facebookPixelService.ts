@@ -1,4 +1,6 @@
 // Facebook Pixel Service for tracking events
+// Using official Meta Pixel ID: 1716548252372656 (Pakasian Protein Nimko)
+// Pixel is initialized in index.html with official endpoint: https://connect.facebook.net/en_US/fbevents.js
 declare global {
   interface Window {
     fbq: any;
@@ -6,7 +8,7 @@ declare global {
 }
 
 export class FacebookPixelService {
-  private static pixelId = '1716548252372656';
+  private static pixelId = '1716548252372656'; // Pakasian Protein Nimko official Pixel ID
   
   // Convert PKR to USD (approximate rate: 1 USD = 280 PKR)
   private static convertPKRtoUSD(pkrAmount: number): number {
